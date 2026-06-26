@@ -5,6 +5,7 @@
 [![MCP](https://img.shields.io/badge/MCP-%E2%9C%93-2dd4bf)](https://modelcontextprotocol.io)
 [![GitHub release](https://img.shields.io/github/v/release/p31labs/p31-cli)](https://github.com/p31labs/p31-cli/releases)
 [![CI](https://github.com/p31labs/p31-cli/actions/workflows/ci.yaml/badge.svg)](https://github.com/p31labs/p31-cli/actions/workflows/ci.yaml)
+[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-30363D?logo=github)](https://github.com/sponsors/p31labs)
 
 **p31 chat** is a local-first, post-quantum, spoon-aware AI terminal interface.
 It routes through your own proxy, connects to MCP servers (PHOS Forge, Google Workspace),
