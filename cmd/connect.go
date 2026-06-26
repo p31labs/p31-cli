@@ -11,7 +11,7 @@ var connectCmd = &cobra.Command{
 	Short: "Show CONNECTION spine",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		fmt.Println("CONNECTION SPINE")
-		fmt.Println("================\n")
+		fmt.Println("================")
 
 		fmt.Printf("%-20s %s\n", "PHOS Core", "https://phos.p31ca.org")
 		fmt.Printf("%-20s %s\n", "K4 Cage", "https://k4-cage.trimtab-signal.workers.dev")
