@@ -3,6 +3,8 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Go](https://img.shields.io/badge/Go-1.25.5-00ADD8?logo=go)](https://go.dev)
 [![MCP](https://img.shields.io/badge/MCP-%E2%9C%93-2dd4bf)](https://modelcontextprotocol.io)
+[![GitHub release](https://img.shields.io/github/v/release/p31labs/p31-cli)](https://github.com/p31labs/p31-cli/releases)
+[![CI](https://github.com/p31labs/p31-cli/actions/workflows/ci.yaml/badge.svg)](https://github.com/p31labs/p31-cli/actions/workflows/ci.yaml)
 
 **p31 chat** is a local-first, post-quantum, spoon-aware AI terminal interface.
 It routes through your own proxy, connects to MCP servers (PHOS Forge, Google Workspace),
@@ -95,6 +97,7 @@ MIT — see [LICENSE](LICENSE).
 
 ## Links
 
-- [Website](https://p31-cli.pages.dev)
-- [Documentation](https://p31-cli.pages.dev/docs)
-- [Spatial Oasis](https://p31-cli.pages.dev/docs/spatial-oasis)
+- [Website](https://cli.p31ca.org)
+- [GitHub](https://github.com/p31labs/p31-cli)
+- [Documentation](https://cli.p31ca.org/docs)
+- [Spatial Oasis](https://cli.p31ca.org/docs/spatial-oasis)
