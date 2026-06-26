@@ -1,0 +1,20 @@
+# Binaries
+p31
+p31-cli
+p31-*
+*.test
+*.out
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Go
+vendor/
+dist/
