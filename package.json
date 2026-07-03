@@ -1,0 +1,74 @@
+{
+  "name": "@p31/cli",
+  "version": "2.0.0",
+  "description": "Sovereign AI agent for neurodivergent families",
+  "bin": {
+    "p31": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && cd web && vite build",
+    "build:cli": "tsc",
+    "build:web": "cd web && vite build",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "mcp": "node dist/mcp-bridge.js",
+    "mcp:http": "node dist/mcp-http.js",
+    "stream": "node dist/stream-server.js",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "boxen": "^8.0.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "node-pty": "^1.1.0",
+    "open": "^10.1.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/ws": "^8.5.13",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.3",
+    "tsx": "^4.19.2",
+    "vite": "^6.0.7",
+    "vitest": "^3.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "@xterm/xterm": "^5.5.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.11.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "cli",
+    "ai",
+    "agent",
+    "sovereign",
+    "neurodivergent",
+    "p31",
+    "k4",
+    "mesh",
+    "mcp"
+  ],
+  "author": "P31 Labs, Inc.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/p31labs/p31-cli"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

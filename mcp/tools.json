@@ -1,0 +1,281 @@
+{
+  "tools": [
+    {
+      "name": "passport_create",
+      "description": "Create a new Cognitive Passport",
+      "category": "identity",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "displayName": { "type": "string", "description": "User display name" },
+          "pronouns": { "type": "string", "description": "User pronouns" },
+          "role": { "type": "string", "description": "User role in the mesh" }
+        },
+        "required": ["displayName"]
+      }
+    },
+    {
+      "name": "passport_verify",
+      "description": "Verify a Cognitive Passport DID",
+      "category": "identity",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "did": { "type": "string" } },
+        "required": ["did"]
+      }
+    },
+    {
+      "name": "passport_export",
+      "description": "Export passport as verifiable credential",
+      "category": "identity",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "did": { "type": "string" },
+          "format": { "type": "string", "enum": ["jwt", "jsonld", "cbor"] }
+        },
+        "required": ["did"]
+      }
+    },
+    {
+      "name": "passport_qr",
+      "description": "Generate QR code for passport scanning",
+      "category": "identity",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "did": { "type": "string" },
+          "size": { "type": "number" }
+        },
+        "required": ["did"]
+      }
+    },
+    {
+      "name": "mesh_status",
+      "description": "Get K4 mesh topology status",
+      "category": "mesh"
+    },
+    {
+      "name": "mesh_ping",
+      "description": "Send a LOVE ping between vertices",
+      "category": "mesh",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "emoji": { "type": "string" }
+        },
+        "required": ["from", "to"]
+      }
+    },
+    {
+      "name": "mesh_edges",
+      "description": "List all edges in the K4 mesh",
+      "category": "mesh"
+    },
+    {
+      "name": "mesh_vertices",
+      "description": "List all vertices in the K4 mesh",
+      "category": "mesh"
+    },
+    {
+      "name": "evidence_upload",
+      "description": "Upload evidence to the chain-of-custody",
+      "category": "justice",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "content": { "type": "string" },
+          "submittedBy": { "type": "string" }
+        },
+        "required": ["caseId", "content"]
+      }
+    },
+    {
+      "name": "evidence_verify",
+      "description": "Verify evidence chain-of-custody",
+      "category": "justice",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "evidenceId": { "type": "string" } },
+        "required": ["evidenceId"]
+      }
+    },
+    {
+      "name": "evidence_chain",
+      "description": "View the full chain-of-custody for evidence",
+      "category": "justice",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "evidenceId": { "type": "string" } },
+        "required": ["evidenceId"]
+      }
+    },
+    {
+      "name": "evidence_list",
+      "description": "List all evidence for a case",
+      "category": "justice",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "status": { "type": "string", "enum": ["all", "pending", "verified", "escrowed"] }
+        },
+        "required": ["caseId"]
+      }
+    },
+    {
+      "name": "escrow_deposit",
+      "description": "Deposit funds into escrow",
+      "category": "finance",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "amount": { "type": "number" },
+          "partyA": { "type": "string" },
+          "partyB": { "type": "string" }
+        },
+        "required": ["caseId", "amount", "partyA", "partyB"]
+      }
+    },
+    {
+      "name": "escrow_status",
+      "description": "Check escrow status",
+      "category": "finance",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "escrowId": { "type": "string" } },
+        "required": ["escrowId"]
+      }
+    },
+    {
+      "name": "escrow_release",
+      "description": "Release escrow funds",
+      "category": "finance",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "escrowId": { "type": "string" },
+          "releasedBy": { "type": "string" }
+        },
+        "required": ["escrowId", "releasedBy"]
+      }
+    },
+    {
+      "name": "love_balance",
+      "description": "Get LOVE token balance for a DID",
+      "category": "finance",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "did": { "type": "string" } },
+        "required": ["did"]
+      }
+    },
+    {
+      "name": "love_mint",
+      "description": "Mint LOVE tokens",
+      "category": "finance",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "to": { "type": "string" },
+          "amount": { "type": "number" },
+          "reason": { "type": "string" }
+        },
+        "required": ["to", "amount"]
+      }
+    },
+    {
+      "name": "feedback_submit",
+      "description": "Submit feedback (bug, feature, praise)",
+      "category": "feedback",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["bug", "feature", "praise", "question", "report"] },
+          "title": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "required": ["type", "title", "description"]
+      }
+    },
+    {
+      "name": "feedback_status",
+      "description": "Check feedback status",
+      "category": "feedback",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "feedbackId": { "type": "string" } },
+        "required": ["feedbackId"]
+      }
+    },
+    {
+      "name": "feedback_list",
+      "description": "List all feedback submissions",
+      "category": "feedback",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["bug", "feature", "praise", "question", "report", "all"] },
+          "status": { "type": "string", "enum": ["new", "acknowledged", "in-progress", "resolved", "all"] }
+        }
+      }
+    },
+    {
+      "name": "research_search",
+      "description": "Search research corpus",
+      "category": "research",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" },
+          "topK": { "type": "number" }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "research_document",
+      "description": "Get a specific research document",
+      "category": "research",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "documentId": { "type": "string" } },
+        "required": ["documentId"]
+      }
+    },
+    {
+      "name": "phos_spoons",
+      "description": "Get or set spoon level",
+      "category": "phos",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "level": { "type": "number" } }
+      }
+    },
+    {
+      "name": "phos_theme",
+      "description": "Get or set PHOS theme",
+      "category": "phos",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "theme": { "type": "string", "enum": ["quantum", "bridge", "sanctuary"] }
+        }
+      }
+    },
+    {
+      "name": "system_health",
+      "description": "Check system health",
+      "category": "system"
+    },
+    {
+      "name": "system_version",
+      "description": "Get system version information",
+      "category": "system"
+    }
+  ]
+}
