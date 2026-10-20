@@ -10,25 +10,23 @@
  */
 
 import { emitGuardDecision } from './guard-audit.js';
-import { readFileSync, existsSync } from 'node:fs';
-import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { getPermissionStore } from './permission-store.js';
 
 const POLICY_VERSION = '2026.10.1';
-const SAVED_PERMISSIONS_PATH = join(homedir(), '.p31', 'saved-permissions.json');
-
 /**
  * Has the human already saved an "allow always" rule for this tool? Written by
  * the permission-sync OpenCode plugin (permission.replied → always). A saved
  * allow is an explicit human authorization: the guard skips elicitation but
  * still records the decision.
+ *
+ * Consults the PermissionStore interface (file-backed by default; swappable
+ * for multi-agent or remote deployments).
  */
 function hasSavedAllow(toolName: string): boolean {
   try {
-    if (!existsSync(SAVED_PERMISSIONS_PATH)) return false;
-    const parsed = JSON.parse(readFileSync(SAVED_PERMISSIONS_PATH, 'utf8'));
-    const perms = Array.isArray(parsed?.permissions) ? parsed.permissions : [];
-    return perms.some((p: any) => p.effect === 'allow' && p.type === toolName);
+    const store = getPermissionStore();
+    const rule = store.get(toolName);
+    return rule !== undefined && rule.effect === 'allow';
   } catch {
     return false;
   }
