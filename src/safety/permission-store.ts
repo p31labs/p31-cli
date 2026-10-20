@@ -22,6 +22,82 @@ export interface PermissionStore {
   list(projectId?: string): PermissionRule[];
 }
 
+// ── PermissionQueue — durable multi-agent approval queue ──────────────────
+//
+// A PermissionQueue holds pending permission requests that require human
+// approval. Unlike PermissionStore (which holds saved "allow always" rules),
+// the queue holds in-flight requests that have not yet been decided.
+//
+// Implementations:
+//   - InMemoryPermissionQueue: default for single-process CLI
+//   - DurablePermissionQueue: backed by Cloudflare Durable Objects for
+//     multi-agent, multi-machine deployments (survives process restarts)
+//
+// A pending request must survive a process restart, and a reply must emit a
+// permission.granted / permission.denied record to the guard audit chain.
+
+export interface PermissionRequest {
+  id: string;
+  projectId: string;
+  toolName: string;
+  toolInput?: unknown;
+  requestedAt: string;
+  requestedBy?: string;   // agent DID or session ID
+  status: 'pending' | 'approved' | 'denied' | 'expired';
+  decidedAt?: string;
+  decidedBy?: string;     // human DID or "2fa"
+  reason?: string;
+}
+
+export interface PermissionQueue {
+  enqueue(request: Omit<PermissionRequest, 'id' | 'requestedAt' | 'status'>): PermissionRequest;
+  pending(projectId?: string): PermissionRequest[];
+  decide(id: string, decision: 'approved' | 'denied', decidedBy: string, reason?: string): PermissionRequest | undefined;
+  get(id: string): PermissionRequest | undefined;
+  audit(): PermissionRequest[];
+}
+
+// In-memory default implementation.
+export class InMemoryPermissionQueue implements PermissionQueue {
+  private requests: PermissionRequest[] = [];
+  private counter = 0;
+
+  enqueue(request: Omit<PermissionRequest, 'id' | 'requestedAt' | 'status'>): PermissionRequest {
+    const req: PermissionRequest = {
+      ...request,
+      id: `perm-${++this.counter}-${Date.now()}`,
+      requestedAt: new Date().toISOString(),
+      status: 'pending',
+    };
+    this.requests.push(req);
+    return req;
+  }
+
+  pending(projectId?: string): PermissionRequest[] {
+    return this.requests.filter(r =>
+      r.status === 'pending' && (!projectId || r.projectId === projectId)
+    );
+  }
+
+  decide(id: string, decision: 'approved' | 'denied', decidedBy: string, reason?: string): PermissionRequest | undefined {
+    const req = this.requests.find(r => r.id === id);
+    if (!req || req.status !== 'pending') return undefined;
+    req.status = decision === 'approved' ? 'approved' : 'denied';
+    req.decidedAt = new Date().toISOString();
+    req.decidedBy = decidedBy;
+    req.reason = reason;
+    return req;
+  }
+
+  get(id: string): PermissionRequest | undefined {
+    return this.requests.find(r => r.id === id);
+  }
+
+  audit(): PermissionRequest[] {
+    return [...this.requests];
+  }
+}
+
 // File-backed default implementation.
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { homedir } from 'node:os';
