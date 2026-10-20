@@ -47,10 +47,11 @@ jobs:
       - uses: actions/setup-node@1d0ff469b7b2f02069e5e1777b7c29a401f1b885
         with:
           node-version: 22
-          registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
+      - run: npm install -g npm@^11.5.1
       - run: npm ci
       - run: npm run build
       - run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        # OIDC trusted publishing — no NPM_TOKEN needed (requires npm >= 11.5.1)
+        # Configure trusted publisher on npmjs.com: Package Settings → Trusted Publisher
+        # Organization: p31labs, Repository: p31-cli, Workflow: ci.yml

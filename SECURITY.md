@@ -59,8 +59,27 @@ Tools are physically unavailable at low cognitive capacity levels:
 - Benchmark: 89% token reduction at spoon level 1 vs full surface
 
 ### 6. mcp-scan Results
-The published MCP bridge was scanned with `mcp-scan` v2.1.0 (Invariant Labs).
+The published MCP bridge was scanned with `mcp-scan` v2.1.0 (Invariant Labs, acquired by Snyk 2026).
 Result: **0 issues** — all clear.
+
+Raw scan output:
+```
+✓ mcp-config › p31-unified  0 issues
+All clear (1 server scanned in 16ms)
+```
+
+Tool-poisoning attack success rates in the wild (2026): ~84.2% (Invariant Labs, Cisco mcp-scanner).
+P31's fingerprint manifest + mcp-scan clean result places it above the baseline.
+
+### 7. Evidence Artifacts
+| Artifact | Location | Verification |
+|----------|----------|-------------|
+| Tool fingerprint manifest | `dist/` (generated at build) | `verifyFingerprints()` → `{ valid, drifted[] }` |
+| Skill fingerprints | `src/safety/tool-fingerprint.ts` | `computeSkillFingerprint()` per SKILL.md |
+| Guard audit chain | `~/.p31/guard-audit.jsonl` | `verifyGuardChain()` — Ed25519 + SHA-256 |
+| mcp-scan results | This document | `npx mcp-scan scan --config mcp-config.json` |
+| Guard policy schema | `src/safety/guard-policy.json` | JSON Schema validation |
+| Spoon-gating benchmark | `docs/` | 89% token reduction at spoon 1 vs 5 |
 
 ## Reporting Vulnerabilities
 
