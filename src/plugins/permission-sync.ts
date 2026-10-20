@@ -55,13 +55,14 @@ export const PermissionSyncPlugin: Plugin = async () => {
         const pattern = perm.pattern
           ? (Array.isArray(perm.pattern) ? perm.pattern : [perm.pattern])
           : null;
-        store.set({ type: perm.type, pattern: pattern ?? undefined, effect: 'allow', savedAt: new Date().toISOString() });
+        store.set({ projectId: perm.sessionID ?? 'default', type: perm.type, pattern: pattern ?? undefined, effect: 'allow', savedAt: new Date().toISOString() });
         pending.delete(permissionID);
       }
     },
     'permission.ask': async (permission: any, output: any) => {
       const store = getPermissionStore();
-      const match = store.get(permission.type);
+      const projectId = permission.sessionID ?? 'default';
+      const match = store.get(projectId, permission.type);
       if (match && match.effect === 'allow' && patternMatches(match.pattern ?? null, permission.pattern)) {
         output.status = 'allow';
       }

@@ -22,10 +22,10 @@ const POLICY_VERSION = '2026.10.1';
  * Consults the PermissionStore interface (file-backed by default; swappable
  * for multi-agent or remote deployments).
  */
-function hasSavedAllow(toolName: string): boolean {
+function hasSavedAllow(projectId: string, toolName: string): boolean {
   try {
     const store = getPermissionStore();
-    const rule = store.get(toolName);
+    const rule = store.get(projectId, toolName);
     return rule !== undefined && rule.effect === 'allow';
   } catch {
     return false;
@@ -45,6 +45,7 @@ interface GuardContext {
   userMessage: string;
   toolName: string;
   toolArgs: any;
+  projectId?: string;
 }
 
 export function executionGuard(ctx: GuardContext): { allow: boolean; reason?: string; requireElicitation?: boolean } {
@@ -61,7 +62,7 @@ export function executionGuard(ctx: GuardContext): { allow: boolean; reason?: st
   if (MUTATING_TOOL_PATTERNS.some(p => p.test(ctx.toolName)) && ctx.recentCrisisFlags > 0) {
     // A saved "allow always" rule is an explicit human authorization — do not
     // re-elicit. Still record the decision (non-repudiation).
-    if (hasSavedAllow(ctx.toolName)) {
+    if (hasSavedAllow(ctx.projectId ?? 'default', ctx.toolName)) {
       emitGuardDecision(ctx.toolName, POLICY_VERSION, governedState, 'allowed', 'saved allow (permission-sync)');
       return { allow: true };
     }
@@ -72,7 +73,7 @@ export function executionGuard(ctx: GuardContext): { allow: boolean; reason?: st
 
   // 3. Block on-chain writes at spoons <= 2 unless explicitly confirmed
   if (ctx.toolName === 'love_anchor' && ctx.spoonLevel <= 2) {
-    if (hasSavedAllow(ctx.toolName)) {
+    if (hasSavedAllow(ctx.projectId ?? 'default', ctx.toolName)) {
       emitGuardDecision(ctx.toolName, POLICY_VERSION, governedState, 'allowed', 'saved allow (permission-sync)');
       return { allow: true };
     }

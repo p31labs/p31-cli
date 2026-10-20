@@ -9,16 +9,17 @@
  */
 
 export interface PermissionRule {
-  type: string;   // tool name
+  projectId: string;   // project-scoped (OpenCode binds always to project_id)
+  type: string;        // tool name
   effect: 'allow' | 'deny';
   pattern?: string;
   savedAt?: string;
 }
 
 export interface PermissionStore {
-  get(toolName: string): PermissionRule | undefined;
+  get(projectId: string, toolName: string): PermissionRule | undefined;
   set(rule: PermissionRule): void;
-  list(): PermissionRule[];
+  list(projectId?: string): PermissionRule[];
 }
 
 // File-backed default implementation.
@@ -44,20 +45,22 @@ export class FilePermissionStore implements PermissionStore {
     writeFileSync(SAVED_PERMISSIONS_PATH, JSON.stringify({ permissions: rules }, null, 2));
   }
 
-  get(toolName: string): PermissionRule | undefined {
-    return this.load().find((p) => p.effect === 'allow' && p.type === toolName);
+  get(projectId: string, toolName: string): PermissionRule | undefined {
+    return this.load().find((p) => (p.projectId === projectId || !p.projectId) && p.effect === 'allow' && p.type === toolName);
   }
 
   set(rule: PermissionRule): void {
     const rules = this.load();
-    const idx = rules.findIndex((r) => r.type === rule.type);
+    const idx = rules.findIndex((r) => (r.projectId === rule.projectId || !r.projectId) && r.type === rule.type);
     if (idx >= 0) rules[idx] = rule;
     else rules.push(rule);
     this.save(rules);
   }
 
-  list(): PermissionRule[] {
-    return this.load();
+  list(projectId?: string): PermissionRule[] {
+    const all = this.load();
+    if (!projectId) return all;
+    return all.filter((r) => r.projectId === projectId);
   }
 }
 
