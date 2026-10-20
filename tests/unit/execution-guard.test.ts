@@ -4,8 +4,66 @@
  * and reports which calls were blocked or escalated.
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { executionGuard } from '../../src/safety/execution-guard.js';
+import { writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+
+const STATE_PATH = join(homedir(), '.p31', 'saved-permissions.json');
+const STATE_DIR = join(homedir(), '.p31');
+
+function writeSaved(permissions: unknown[]) {
+  mkdirSync(STATE_DIR, { recursive: true });
+  writeFileSync(STATE_PATH, JSON.stringify({ schema: 'p31.saved-permissions.v1', permissions }, null, 2));
+}
+
+describe('Execution Guard — saved permission sync', () => {
+  beforeAll(() => {
+    if (existsSync(STATE_PATH)) rmSync(STATE_PATH);
+  });
+  afterAll(() => {
+    if (existsSync(STATE_PATH)) rmSync(STATE_PATH);
+  });
+
+  it('re-elicits a mutating tool during crisis with no saved allow', () => {
+    writeSaved([]);
+    const result = executionGuard({
+      spoonLevel: 3,
+      recentCrisisFlags: 1,
+      userMessage: 'anchor',
+      toolName: 'love_anchor',
+      toolArgs: {},
+    });
+    expect(result.requireElicitation).toBe(true);
+  });
+
+  it('skips elicitation when a saved allow exists for the tool', () => {
+    writeSaved([{ type: 'love_anchor', pattern: null, sessionID: 's1', effect: 'allow', savedAt: '2026-10-20T00:00:00Z' }]);
+    const result = executionGuard({
+      spoonLevel: 3,
+      recentCrisisFlags: 1,
+      userMessage: 'anchor',
+      toolName: 'love_anchor',
+      toolArgs: {},
+    });
+    expect(result.allow).toBe(true);
+    expect(result.requireElicitation).toBeUndefined();
+  });
+
+  it('does not let a saved allow bypass the spoon-1 shell block', () => {
+    writeSaved([{ type: 'oasis_execute', pattern: null, sessionID: 's1', effect: 'allow', savedAt: '2026-10-20T00:00:00Z' }]);
+    const result = executionGuard({
+      spoonLevel: 1,
+      recentCrisisFlags: 0,
+      userMessage: 'run',
+      toolName: 'oasis_execute',
+      toolArgs: {},
+    });
+    expect(result.allow).toBe(false);
+  });
+});
+
 
 describe('Execution Guard — Adversarial Sequences', () => {
   it('blocks shell execution at spoon level 1', () => {

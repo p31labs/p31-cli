@@ -9,6 +9,7 @@ export { CareAttestPlugin } from './care-attest.js';
 export { PQCToolsPlugin } from './pqc-tools.js';
 export { MeshVisualizePlugin } from './mesh-visualize.js';
 export { HonestLabelPlugin } from './honest-label.js';
+export { PermissionSyncPlugin } from './permission-sync.js';
 
 export const P31_PLUGINS = [
   'spoon-monitor',
@@ -17,4 +18,5 @@ export const P31_PLUGINS = [
   'pqc-tools',
   'mesh-visualize',
   'honest-label',
+  'permission-sync',
 ] as const;
