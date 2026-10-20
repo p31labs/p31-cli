@@ -1,0 +1,220 @@
+version: "2.0"
+metadata:
+  name: p31-sovereign
+  description: P31 Labs sovereign design system tokens
+  canonical_constants:
+    larmor_hz: 863
+    tetrahedron_vertices: 4
+    ei_number: "42-1888158"
+
+primitive:
+  color:
+    cyan:
+      $value: "#00F0FF"
+      $type: color
+    violet:
+      $value: "#A78BFA"
+      $type: color
+    gold:
+      $value: "#FBBF24"
+      $type: color
+    green:
+      $value: "#34D399"
+      $type: color
+    red:
+      $value: "#FB7185"
+      $type: color
+    iris:
+      $value: "#818CF8"
+      $type: color
+    void_deep:
+      $value: "#050508"
+      $type: color
+    void:
+      $value: "#0A0A0F"
+      $type: color
+    surface:
+      $value: "#12121A"
+      $type: color
+    surface2:
+      $value: "#1C1C2A"
+      $type: color
+    text_primary:
+      $value: "#F5F5F7"
+      $type: color
+    text_secondary:
+      $value: "rgba(245,245,247,0.6)"
+      $type: color
+    text_tertiary:
+      $value: "rgba(245,245,247,0.3)"
+      $type: color
+    glass_surface:
+      $value: "rgba(255,255,255,0.04)"
+      $type: color
+    glass_border:
+      $value: "rgba(255,255,255,0.08)"
+      $type: color
+    glass_border_hover:
+      $value: "rgba(255,255,255,0.15)"
+      $type: color
+    glass_surface_strong:
+      $value: "rgba(255,255,255,0.08)"
+      $type: color
+    glass_surface_subtle:
+      $value: "rgba(255,255,255,0.03)"
+      $type: color
+
+  spacing:
+    xs:
+      $value: "4px"
+      $type: dimension
+    sm:
+      $value: "8px"
+      $type: dimension
+    md:
+      $value: "16px"
+      $type: dimension
+    lg:
+      $value: "24px"
+      $type: dimension
+    xl:
+      $value: "32px"
+      $type: dimension
+    xxl:
+      $value: "64px"
+      $type: dimension
+
+  radius:
+    sm:
+      $value: "8px"
+      $type: dimension
+    md:
+      $value: "12px"
+      $type: dimension
+    lg:
+      $value: "16px"
+      $type: dimension
+    xl:
+      $value: "24px"
+      $type: dimension
+    full:
+      $value: "9999px"
+      $type: dimension
+
+  typography:
+    font_sans:
+      $value: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+      $type: fontFamily
+    font_mono:
+      $value: "ui-monospace, SFMono-Regular, 'Fira Code', 'Fira Mono', 'Roboto Mono', 'JetBrains Mono', Menlo, Monaco, Consolas, monospace"
+      $type: fontFamily
+
+  blur:
+    subtle:
+      $value: "8px"
+      $type: dimension
+    standard:
+      $value: "12px"
+      $type: dimension
+    strong:
+      $value: "24px"
+      $type: dimension
+
+  shadow:
+    glass:
+      $value: "0 8px 32px rgba(0,0,0,0.15)"
+      $type: shadow
+    glow_cyan:
+      $value: "0 0 20px rgba(0,240,255,0.25)"
+      $type: shadow
+    glow_cyan_hover:
+      $value: "0 0 30px rgba(0,240,255,0.4)"
+      $type: shadow
+
+semantic:
+  color:
+    background:
+      default: "{primitive.color.void}"
+      alt: "{primitive.color.surface}"
+    accent:
+      default: "{primitive.color.cyan}"
+      variant: "{primitive.color.violet}"
+      gold: "{primitive.color.gold}"
+      green: "{primitive.color.green}"
+      red: "{primitive.color.red}"
+      iris: "{primitive.color.iris}"
+    text:
+      primary: "{primitive.color.text_primary}"
+      secondary: "{primitive.color.text_secondary}"
+      tertiary: "{primitive.color.text_tertiary}"
+
+component:
+  glass_panel:
+    background: "{primitive.color.glass_surface}"
+    backdrop_filter: "blur({primitive.blur.standard})"
+    webkit_backdrop_filter: "blur({primitive.blur.standard})"
+    border: "1px solid {primitive.color.glass_border}"
+    border_radius: "{primitive.radius.xl}"
+    box_shadow: "{primitive.shadow.glass}"
+
+  glass_card:
+    background: "{primitive.color.glass_surface}"
+    backdrop_filter: "blur({primitive.blur.standard})"
+    webkit_backdrop_filter: "blur({primitive.blur.standard})"
+    border: "1px solid {primitive.color.glass_border}"
+    border_radius: "{primitive.radius.xl}"
+    padding: "{primitive.spacing.lg}"
+    box_shadow: "{primitive.shadow.glass}"
+    border_hover: "{primitive.color.glass_border_hover}"
+
+  glass_strong:
+    background: "{primitive.color.glass_surface_strong}"
+    backdrop_filter: "blur({primitive.blur.strong})"
+    webkit_backdrop_filter: "blur({primitive.blur.strong})"
+    border: "1px solid rgba(255,255,255,0.12)"
+    border_radius: "{primitive.radius.xl}"
+
+  glass_subtle:
+    background: "{primitive.color.glass_surface_subtle}"
+    backdrop_filter: "blur({primitive.blur.subtle})"
+    webkit_backdrop_filter: "blur({primitive.blur.subtle})"
+    border: "1px solid rgba(255,255,255,0.06)"
+    border_radius: "{primitive.radius.xl}"
+
+  btn_primary:
+    background: "{semantic.color.accent.default}"
+    color: "{primitive.color.void}"
+    font_weight: "700"
+    padding: "{primitive.spacing.sm} {primitive.spacing.lg}"
+    border_radius: "{primitive.radius.md}"
+    font_size: "14px"
+    box_shadow: "{primitive.shadow.glow_cyan}"
+
+  btn_secondary:
+    background: "rgba(255,255,255,0.06)"
+    color: "{semantic.color.text.primary}"
+    font_weight: "600"
+    padding: "{primitive.spacing.sm} {primitive.spacing.lg}"
+    border_radius: "{primitive.radius.md}"
+    border: "1px solid rgba(255,255,255,0.1)"
+    font_size: "14px"
+
+  btn_ghost:
+    color: "{semantic.color.text.secondary}"
+    font_weight: "600"
+    padding: "{primitive.spacing.sm} {primitive.spacing.lg}"
+    border_radius: "{primitive.radius.md}"
+    font_size: "14px"
+
+theme:
+  light:
+    background:
+      default: "#F8FAFC"
+      alt: "#FFFFFF"
+    text:
+      primary: "#0F172A"
+      secondary: "rgba(15,23,42,0.6)"
+      tertiary: "rgba(15,23,42,0.3)"
+    glass_surface: "rgba(0,0,0,0.03)"
+    glass_border: "rgba(0,0,0,0.08)"
+    glass_border_hover: "rgba(0,0,0,0.15)"

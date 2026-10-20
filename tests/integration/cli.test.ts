@@ -41,15 +41,14 @@ describe('CLI Integration', () => {
   it('should show version', async () => {
     const result = await runCli(['--version']);
     expect(result.exitCode).toBe(0);
-    expect(result.stdout.trim()).toContain('2.0.0');
+    expect(result.stdout.trim()).toContain('3.1.3');
   });
 
   it('should show spoon controls with no level', async () => {
     const result = await runCli(['spoons']);
-    // spoons command writes to console.log, which goes to stdout
-    expect(result.stdout).toContain('Low');
-    expect(result.stdout).toContain('Med');
-    expect(result.stdout).toContain('High');
+    expect(result.stdout).toContain('Minimal');
+    expect(result.stdout).toContain('Standard');
+    expect(result.stdout).toContain('Full');
   });
 
   it('should set spoon level', async () => {

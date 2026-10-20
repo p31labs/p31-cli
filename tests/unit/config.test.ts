@@ -2,9 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { defaultConfig, SPOON_LEVELS } from '../../src/lib/config.js';
 
 describe('config', () => {
-  it('should return default config with spoon level FULL', () => {
+  it('should return default config with spoon level STANDARD', () => {
     const config = defaultConfig();
-    expect(config.spoonLevel).toBe(SPOON_LEVELS.FULL);
+    expect(config.spoonLevel).toBe(SPOON_LEVELS.STANDARD);
     expect(config.sessionId).toBeDefined();
     expect(config.sessionId.length).toBe(8);
     expect(config.projectRoot).toBeDefined();

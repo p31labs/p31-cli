@@ -1,0 +1,3235 @@
+version: 3.1-willow
+metadata:
+  name: p31-quantum
+  description: P31 Labs Quantum Design System — mathematically perfect, visually
+    breathtaking
+  philosophy: |
+    Everything derives from 16px × (4/3)^n, timed to 863 Hz.
+    One base. One ratio. Infinite scale.
+  canonical_constants:
+    base_unit: 16px
+    tetrahedral_ratio: 1.3333
+    golden_ratio: 1.618
+    larmor_hz: 863
+    sic_povm_overlap: 0.3333
+    k4_vertices: 4
+    beta_squared: 1
+    ei_number: 42-1888158
+theme:
+  light:
+    background:
+      default: "#F8FAFC"
+      alt: "#FFFFFF"
+    text:
+      primary: "#0F172A"
+      secondary: rgba(15,23,42,0.6)
+      tertiary: rgba(15,23,42,0.3)
+    glass_surface: rgba(0,0,0,0.03)
+    glass_border: rgba(0,0,0,0.08)
+    glass_border_hover: rgba(0,0,0,0.15)
+bounding_boxes:
+  icon_xs:
+    width: calc(var(--p31-base) * 1)
+    height: calc(var(--p31-base) * 1)
+    container_display: block
+    container_width: 100%
+    container_height: 100%
+    description: Very small icon (status dots, inline badges)
+    usage: status-indicator, badge
+  icon_sm:
+    width: calc(var(--p31-base) * 1.3333)
+    height: calc(var(--p31-base) * 1.3333)
+    container_display: block
+    container_width: 100%
+    container_height: 100%
+    description: Small icon (inline with text, nav icons)
+    usage: nav-link-icon, button-icon
+  icon_md:
+    width: calc(var(--p31-base) * 2)
+    height: calc(var(--p31-base) * 2)
+    container_display: block
+    container_width: 100%
+    container_height: 100%
+    description: Medium icon (feature cards, section headers)
+    usage: feature-card-icon, section-icon
+  icon_lg:
+    width: calc(var(--p31-base) * 2.5)
+    height: calc(var(--p31-base) * 2.5)
+    container_display: block
+    container_width: 100%
+    container_height: 100%
+    description: Large icon (brand crown in header, hero icons)
+    usage: brand-mark, header-crown
+  icon_xl:
+    width: calc(var(--p31-base) * 4)
+    height: calc(var(--p31-base) * 4)
+    container_display: block
+    container_width: 100%
+    container_height: 100%
+    description: Extra large icon (hero crown, standalone graphic)
+    usage: hero-crown, feature-hero
+  icon_favicon:
+    width: calc(var(--p31-base) * 12)
+    height: calc(var(--p31-base) * 12)
+    container_display: block
+    container_width: 100%
+    container_height: 100%
+    description: Favicon / app icon (browser tabs, mobile home screen)
+    usage: favicon, app-icon, pwa-icon
+spacing_rules:
+  component_forbidden_properties:
+    - marginTop
+    - marginBottom
+    - marginLeft
+    - marginRight
+    - margin
+    - "transform: translateY"
+    - "transform: translateX"
+    - "transform: translate"
+    - "position: relative"
+    - "position: absolute"
+    - top
+    - bottom
+    - left
+    - right
+    - "display: inline-block"
+  component_forbidden_description: Components do not declare external spacing. Only templates do.
+  template_allowed_properties:
+    - gap
+    - padding
+    - paddingTop
+    - paddingBottom
+    - paddingLeft
+    - paddingRight
+    - paddingX
+    - paddingY
+    - align-items
+    - justify-content
+    - "display: flex"
+    - "display: grid"
+    - grid_template_columns
+    - grid_template_rows
+    - max_width
+    - "margin: 0 auto"
+  template_allowed_description: Templates control all external spacing. Components
+    control only internal geometry.
+  component_allowed_internal_properties:
+    - background
+    - backgroundColor
+    - border
+    - borderColor
+    - borderRadius
+    - boxShadow
+    - color
+    - fill
+    - fontFamily
+    - fontSize
+    - fontWeight
+    - height
+    - lineHeight
+    - opacity
+    - overflow
+    - padding
+    - stroke
+    - textAlign
+    - textDecoration
+    - textTransform
+    - transition
+    - width
+    - zIndex
+  component_allowed_description: These properties control internal appearance
+    only. They do not affect layout positioning.
+cascade_layers:
+  order:
+    - reset
+    - tokens
+    - components
+    - templates
+    - overrides
+  description: >
+    Templates always override component styling cleanly without !important
+    specificity wars.
+
+    This eliminates the need for !important hacks in Header.astro and other
+    layout components.
+  layer_definitions:
+    reset:
+      description: Normalize CSS, base resets. Lowest priority.
+      includes: normalize.css, base.css
+    tokens:
+      description: Design tokens (CSS variables). Second lowest priority.
+      includes: tokens.css, all token files
+    components:
+      description: Component-specific styles. Default priority.
+      includes: component CSS, generated component styles
+    templates:
+      description: Template/layout styles. Higher priority than components.
+      includes: Header.astro styles, PageLayout.astro styles
+    overrides:
+      description: Highest priority. One-off overrides for specific pages. Use sparingly.
+      includes: page-specific styles, emergency fixes
+svg_rules:
+  enforce_bounding_box: true
+  description: All SVGs must fit inside a bounding box defined in bounding_boxes section.
+  svgo_transform:
+    removeViewBox: false
+    trimToVisibleContent: true
+    forceContainerAspect: true
+    cleanupAttrs: true
+    removeDoctype: true
+    removeEmptyText: true
+    removeEmptyContainers: true
+    cleanupIDs: true
+    convertShapeToPath: true
+    moveGroupAttrsToElems: true
+    collapseGroups: true
+    sortAttrs: true
+    description: SVGO plugins to run on every SVG import. Automatically trims
+      whitespace, tightens viewBox, and normalizes structure.
+  viewBox_trimming:
+    enabled: true
+    padding: 2px
+    trim_to_visible_bounds: true
+    description: Automatically recalculate viewBox to the visible bounding box of
+      all paths. Removes descender whitespace.
+  container_wrapping:
+    enabled: true
+    wrapper_display: block
+    wrapper_width: 100%
+    wrapper_height: 100%
+    description: All SVGs are wrapped in a container that enforces the bounding box
+      dimensions.
+agent_prompt_injection:
+  description: This section is injected into Claude, Gemini, and Kilo prompts.
+  claude:
+    role: React / Component Developer
+    instruction: >
+      When generating React components:
+
+      1. Read the bounding_boxes section to know the exact dimensions of icons
+      and SVG containers.
+
+      2. NEVER use marginTop, marginBottom, or any forbidden property listed in
+      spacing_rules.component_forbidden_properties.
+
+      3. Always wrap SVGs in a container that matches the bounding box
+      dimensions.
+
+      4. Use internal styling only (component_allowed_internal_properties).
+
+      5. Run your generated code through the SpatialValidator before submission.
+
+      6. Use scale tokens (--p31-scale-*) for sizing. Derive everything from
+      --p31-base.
+
+      7. Use color.quantum tokens for accents, color.surface for backgrounds,
+      color.text for typography.
+  gemini:
+    role: Layout / Template Designer
+    instruction: >
+      When designing page layouts and templates:
+
+      1. Use the layout_containers section to define macro-architecture.
+
+      2. Define slots with explicit bounding box expectations.
+
+      3. Use only template_allowed_properties for external spacing.
+
+      4. Understand that components cannot declare margin; spacing is your job.
+
+      5. Respect the cascade_layers order — templates override components, not
+      the other way around.
+
+      6. Use scale tokens (--p31-scale-*) for spacing. Use spacing tokens
+      (--p31-space-*) for gaps.
+
+      7. Use typography.size tokens for font sizes. All are fluid clamp()
+      values.
+  kilo:
+    role: Implementation / Execution Engine
+    instruction: >
+      When executing the build pipeline:
+
+      1. Read the svg_rules section and run SVGO normalization on all SVG
+      imports.
+
+      2. Validate all components against the spacing_rules section using
+      SpatialValidator.
+
+      3. Fail the build if any component violates the rules.
+
+      4. Ensure all generated code respects the cascade_layers order.
+
+      5. Generate CSS from tokens using the export scripts in cli/tokens/.
+
+      6. Run p31 health before deployment.
+examples:
+  crown_svg:
+    description: Crown.svg — how it should be configured to fit icon_lg bounding box
+    before: |
+      <svg viewBox="0 0 200 200" style={{ marginTop: '-4px' }}>  ← ❌ VIOLATION
+    after: |
+      <svg viewBox="0 18 200 164" className="crown-svg">  ← ✅ CLEAN
+    notes: |
+      - viewBox is trimmed to visible content (top whitespace removed)
+      - No margin, marginTop, or transform hacks
+      - SVG fills its 40×40 container naturally
+  header_example:
+    description: Header.astro — how to use the Header layout container
+    code: |
+      <div class="header-wrapper">
+        <header class="header-container">
+          <div class="header-brand-slot">
+            <Crown />  ← Component with NO external spacing
+          </div>
+          <nav class="header-nav-slot">
+            <a href="/">Home</a>
+          </nav>
+          <div class="header-actions-slot">
+            <SignInButton />  ← Component with NO external spacing
+          </div>
+        </header>
+      </div>
+    notes: |
+      - Header container enforces height: calc(var(--p31-base) * 3) = 48px
+      - All children are centered via align-items: center
+      - Components have no margin, so alignment is perfect
+      - No hacks needed
+version_history:
+  - version: 3.1-willow
+    date: 2026-07-29
+    changes:
+      - Added willow brand to property-overrides (warm palette, child-friendly
+        tokens)
+      - Added touch section (min, recommended, large touch targets)
+      - Added z_index section (starfield, topbar, toast, crisis, skip_link)
+      - Willow portal: Comic Sans, rounded radii, warm amber/terracotta palette
+    author: P31 Labs Engineering
+  - version: 2
+    date: 2026-07-23
+    changes:
+      - Added bounding_boxes section (icon_xs → icon_xl)
+      - Added layout_containers section (header, page_body, section_hero,
+        section_features)
+      - Added spacing_rules section with component_forbidden_properties and
+        template_allowed_properties
+      - Added cascade_layers section with order and layer_definitions
+      - Added svg_rules section with SVGO transform specs and viewBox trimming
+      - Added agent_prompt_injection section for Claude, Gemini, and Kilo
+      - Added examples section with Crown and Header demonstrations
+    author: P31 Labs Engineering
+  - version: 3.0-quantum
+    date: 2026-07-24
+    changes:
+      - Added root constants (base_unit, tetrahedral_ratio, golden_ratio,
+        larmor_hz)
+      - Added scale progression derived from 16px × (4/3)^n
+      - Migrated all colors to OKLCH perceptual color space
+      - Added spacing section with fluid clamp() values
+      - Added typography section with fluid clamp() formulas
+      - Added animation section with Larmor-derived durations
+      - Added border section with derived radius values
+      - Added breakpoints section
+      - Refactored bounding_boxes to use derived scale values
+      - Refactored layout_containers to use derived scale values
+      - Refactored component values to use token references
+      - Added usage metadata to all tokens for AI agent guidance
+      - Expanded agent_prompt_injection with quantum design patterns
+      - Migrated primitive colors to OKLCH for perceptual uniformity
+    author: P31 Labs Engineering
+p31:
+  base:
+    $value:
+      value: 16
+      unit: px
+    $type: dimension
+  radius:
+    sm:
+      $value:
+        value: 8
+        unit: px
+      $type: dimension
+    md:
+      $value:
+        value: 16
+        unit: px
+      $type: dimension
+    lg:
+      $value:
+        value: 24
+        unit: px
+      $type: dimension
+    full:
+      $value:
+        value: 9999
+        unit: px
+      $type: dimension
+    candy:
+      $value:
+        value: 24
+        unit: px
+      $type: dimension
+  font-sans:
+    $value:
+      - Space Grotesk
+      - system-ui
+      - -apple-system
+      - Segoe UI
+      - Roboto
+      - sans-serif
+    $type: fontFamily
+  font-mono:
+    $value:
+      - JetBrains Mono
+      - ui-monospace
+      - SF Mono
+      - Fira Code
+      - monospace
+    $type: fontFamily
+  accent-alt:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.65
+        - 0.18
+        - 285
+    $type: color
+    $deprecated: Superseded by the primary accent token. Removal in v1.0.0.
+  text:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.96
+        - 0.005
+        - 270
+    $type: color
+  glass-border-hover:
+    $value:
+      colorSpace: oklch
+      components:
+        - 1
+        - 0.01
+        - 240
+      alpha: 0.15
+    $type: color
+  glass-bg-strong:
+    $value:
+      colorSpace: oklch
+      components:
+        - 1
+        - 0.01
+        - 75
+      alpha: 0.22
+    $type: color
+  glass-bg-overlay:
+    $value:
+      colorSpace: oklch
+      components:
+        - 1
+        - 0.01
+        - 75
+      alpha: 0.1
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  glass-bg-light:
+    $value:
+      colorSpace: oklch
+      components:
+        - 1
+        - 0.01
+        - 75
+      alpha: 0.1
+    $type: color
+  glass-border-strong:
+    $value:
+      colorSpace: oklch
+      components:
+        - 1
+        - 0.01
+        - 75
+      alpha: 0.16
+    $type: color
+  glass-border-strong-hover:
+    $value:
+      colorSpace: oklch
+      components:
+        - 1
+        - 0.01
+        - 75
+      alpha: 0.25
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  neon:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.905
+        - 0.155
+        - 194.8
+    $type: color
+  neon-dim:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.905
+        - 0.155
+        - 194.8
+      alpha: 0.35
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-faint:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.905
+        - 0.155
+        - 194.8
+      alpha: 0.08
+    $type: color
+  neon-ghost:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.905
+        - 0.155
+        - 194.8
+      alpha: 0.03
+    $type: color
+  neon-cyan:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.905
+        - 0.155
+        - 194.8
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-magenta:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.7020000000000001
+        - 0.322
+        - 328.4
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-violet:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.67
+        - 0.234
+        - 309.1
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-amber:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.887
+        - 0.182
+        - 95.3
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-mint:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.8759999999999999
+        - 0.228
+        - 152.5
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-coral:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.7120000000000001
+        - 0.181
+        - 22.8
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-orange:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.754
+        - 0.164
+        - 50.4
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-blue:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.804
+        - 0.146
+        - 219.5
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-lavender:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.62
+        - 0.279
+        - 290.8
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  neon-pink:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.674
+        - 0.293
+        - 340.4
+    $type: color
+    $deprecated: No consumer. Superseded by the --p31-accent-* palette. Removal in v1.0.0.
+  surface-s1:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0
+        - 0
+        - 0
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  surface-s2:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.049
+        - 0
+        - 0
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  surface-s3:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.069
+        - 0
+        - 0
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  surface-s4:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.105
+        - 0
+        - 0
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  status-online:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.65
+        - 0.18
+        - 105
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  status-offline:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.78
+        - 0.01
+        - 240
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  status:
+    warning:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.65
+          - 0.18
+          - 15
+      $type: color
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    error:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.65
+          - 0.18
+          - 20
+      $type: color
+    info:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.65
+          - 0.18
+          - 195
+      $type: color
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    success:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.65
+          - 0.18
+          - 105
+      $type: color
+  font-display:
+    $value:
+      - system-ui
+      - -apple-system
+      - BlinkMacSystemFont
+      - Segoe UI
+      - Roboto
+      - Helvetica Neue
+      - Arial
+      - sans-serif
+    $type: fontFamily
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  duration-fast:
+    $value:
+      value: 100
+      unit: ms
+    $type: duration
+  duration-normal:
+    $value:
+      value: 300
+      unit: ms
+    $type: duration
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  duration-slow:
+    $value:
+      value: 500
+      unit: ms
+    $type: duration
+  easing-smooth:
+    $value:
+      - 0.4
+      - 0
+      - 0.2
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  easing-snappy:
+    $value:
+      - 0.34
+      - 1.56
+      - 0.64
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  speed-factor:
+    $value: 1
+    $type: number
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-fast-spatial:
+    $value:
+      - 0.42
+      - 1.67
+      - 0.21
+      - 0.9
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-fast-spatial-ms:
+    $value:
+      value: 350
+      unit: ms
+    $type: duration
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-fast-effects:
+    $value:
+      - 0.31
+      - 0.8
+      - 0.34
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-fast-effects-ms:
+    $value:
+      value: 150
+      unit: ms
+    $type: duration
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-default-spatial:
+    $value:
+      - 0.38
+      - 1.21
+      - 0.22
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-default-spatial-ms:
+    $value:
+      value: 500
+      unit: ms
+    $type: duration
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-default-effects:
+    $value:
+      - 0.34
+      - 0.8
+      - 0.34
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-default-effects-ms:
+    $value:
+      value: 200
+      unit: ms
+    $type: duration
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-slow-spatial:
+    $value:
+      - 0.38
+      - 0.86
+      - 0.22
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-slow-spatial-ms:
+    $value:
+      value: 650
+      unit: ms
+    $type: duration
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-slow-effects:
+    $value:
+      - 0.34
+      - 0.8
+      - 0.34
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-expressive-slow-effects-ms:
+    $value:
+      value: 300
+      unit: ms
+    $type: duration
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-standard-spatial:
+    $value:
+      - 0.2
+      - 0
+      - 0
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spring-standard-spatial-ms:
+    $value:
+      value: 300
+      unit: ms
+    $type: duration
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  elevation:
+    level1:
+      tint:
+        $value: 0.05
+        $type: number
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    level2:
+      tint:
+        $value: 0.08
+        $type: number
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    level3:
+      tint:
+        $value: 0.11
+        $type: number
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  starfield:
+    hearth:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.55
+          - 0.15
+          - 35
+      $type: color
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    teal:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.6
+          - 0.08
+          - 185
+      $type: color
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    remembrance:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.95
+          - 0.01
+          - 80
+      $type: color
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  starfield-particle-teal:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.7
+        - 0.12
+        - 185
+      alpha: 0.6
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  starfield-particle-coral:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.65
+        - 0.14
+        - 40
+      alpha: 0.5
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  blur-subtle:
+    $value:
+      value: 8
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  blur-standard:
+    $value:
+      value: 12
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  blur-strong:
+    $value:
+      value: 24
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  space-tiny:
+    $value:
+      value: 2
+      unit: px
+    $type: dimension
+  touch-min:
+    $value:
+      value: 48
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  touch-recommended:
+    $value:
+      value: 56
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  touch-large:
+    $value:
+      value: 64
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  z:
+    starfield:
+      $value: 0
+      $type: number
+    topbar:
+      $value: 10
+      $type: number
+    crisis:
+      $value: 99999
+      $type: number
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    floating:
+      $value: 60
+      $type: number
+    modal:
+      $value: 80
+      $type: number
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  z-toast:
+    $value: 9999
+    $type: number
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  z-skip-link:
+    $value: 100
+    $type: number
+  topbar:
+    height:
+      $value:
+        value: 64
+        unit: px
+      $type: dimension
+  z-content:
+    $value: 1
+    $type: number
+  space-3xl:
+    $value:
+      value: 64
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  glass:
+    surface:
+      $value:
+        colorSpace: oklch
+        components:
+          - 1
+          - 0.01
+          - 240
+        alpha: 0.04
+      $type: color
+    radius:
+      $value:
+        value: 24
+        unit: px
+      $type: dimension
+    background:
+      $value:
+        colorSpace: oklch
+        components:
+          - 1
+          - 0.01
+          - 230
+        alpha: 0.04
+      $type: color
+      $extensions:
+        p31:
+          themes:
+            cipher:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 240
+              alpha: 0.05
+            garden:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 120
+              alpha: 0.04
+            retro:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.02
+                - 60
+              alpha: 0.05
+            sunset:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 30
+              alpha: 0.06
+            mono:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0
+                - 0
+              alpha: 0.05
+            aurora:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.02
+                - 260
+              alpha: 0.05
+            zen:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 75
+              alpha: 0.05
+            volt:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 270
+              alpha: 0.05
+            family:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.02
+                - 60
+              alpha: 0.05
+            sunlight:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.005
+                - 90
+              alpha: 0.6
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    border:
+      $value:
+        colorSpace: oklch
+        components:
+          - 1
+          - 0.01
+          - 230
+        alpha: 0.08
+      $type: color
+      $extensions:
+        p31:
+          themes:
+            cipher:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 240
+              alpha: 0.1
+            garden:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 120
+              alpha: 0.1
+            retro:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.02
+                - 60
+              alpha: 0.12
+            sunset:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 30
+              alpha: 0.1
+            mono:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0
+                - 0
+              alpha: 0.1
+            aurora:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.02
+                - 260
+              alpha: 0.1
+            zen:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 75
+              alpha: 0.1
+            volt:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.01
+                - 270
+              alpha: 0.12
+            family:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.02
+                - 60
+              alpha: 0.12
+            sunlight:
+              colorSpace: oklch
+              components:
+                - 0.8
+                - 0.02
+                - 85
+              alpha: 0.25
+  glass-surface-hover:
+    $value:
+      colorSpace: oklch
+      components:
+        - 1
+        - 0.01
+        - 240
+      alpha: 0.06
+    $type: color
+  spacing-xs:
+    $value:
+      value: 4
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  spacing-sm:
+    $value:
+      value: 8
+      unit: px
+    $type: dimension
+  spacing-md:
+    $value:
+      value: 16
+      unit: px
+    $type: dimension
+  spacing-lg:
+    $value:
+      value: 24
+      unit: px
+    $type: dimension
+  spacing-xl:
+    $value:
+      value: 32
+      unit: px
+    $type: dimension
+  spacing-xxl:
+    $value:
+      value: 64
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  radius-none:
+    $value:
+      value: 0
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  h1:
+    $value:
+      value: 51
+      unit: px
+    $type: dimension
+  h2:
+    $value:
+      value: 38
+      unit: px
+    $type: dimension
+  h3:
+    $value:
+      value: 28
+      unit: px
+    $type: dimension
+  h4:
+    $value:
+      value: 21
+      unit: px
+    $type: dimension
+  body:
+    $value:
+      value: 16
+      unit: px
+    $type: dimension
+  body-sm:
+    $value:
+      value: 14
+      unit: px
+    $type: dimension
+  label:
+    $value:
+      value: 12
+      unit: px
+    $type: dimension
+  caption:
+    $value:
+      value: 7
+      unit: px
+    $type: dimension
+  duration-instant:
+    $value:
+      value: 62.5
+      unit: ms
+    $type: duration
+  duration-standard:
+    $value:
+      value: 250
+      unit: ms
+    $type: duration
+  duration-slower:
+    $value:
+      value: 1000
+      unit: ms
+    $type: duration
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  easing-standard:
+    $value:
+      - 0.4
+      - 0
+      - 0.2
+      - 1
+    $type: cubicBezier
+  easing-decelerate:
+    $value:
+      - 0
+      - 0
+      - 0.2
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  easing-accelerate:
+    $value:
+      - 0.4
+      - 0
+      - 1
+      - 1
+    $type: cubicBezier
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  card-padding:
+    $value:
+      value: 24
+      unit: px
+    $type: dimension
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  duration-base:
+    $value:
+      value: 431
+      unit: ms
+    $type: duration
+  font-base:
+    $value:
+      - 13px
+    $type: fontFamily
+  font-scale:
+    $value:
+      - "1.333"
+    $type: fontFamily
+  glass-bg-dark:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.1
+        - 0.01
+        - 60
+      alpha: 0.6
+    $type: color
+  quantum-cyan:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.87
+        - 0.148
+        - 203
+    $type: color
+  space-base:
+    $value:
+      value: 1
+      unit: rem
+    $type: dimension
+  space-micro:
+    $value:
+      value: 4
+      unit: px
+    $type: dimension
+  space-2xs:
+    $value:
+      value: 6
+      unit: px
+    $type: dimension
+  space-2:
+    $value:
+      value: 8
+      unit: px
+    $type: dimension
+  space-3:
+    $value:
+      value: 12
+      unit: px
+    $type: dimension
+  space-5:
+    $value:
+      value: 32
+      unit: px
+    $type: dimension
+  space-7:
+    $value:
+      value: 48
+      unit: px
+    $type: dimension
+  accent-glow:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.7148399999999999
+        - 0.126
+        - 215.221
+      alpha: 0.15
+    $type: color
+  z-dropdown:
+    $value: 100
+    $type: number
+  color-amber:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.72
+        - 0.15
+        - 50
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  color-emerald:
+    $value:
+      colorSpace: oklch
+      components:
+        - 0.6
+        - 0.13
+        - 155
+    $type: color
+    $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  space-6:
+    $value:
+      value: 24
+      unit: px
+    $type: dimension
+  color:
+    action:
+      primary:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.7
+            - 0.15
+            - 200
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.65
+                  - 0.18
+                  - 195
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.7
+                  - 0.15
+                  - 145
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.18
+                  - 80
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.18
+                  - 40
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.8
+                  - 0
+                  - 0
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.16
+                  - 250
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.1
+                  - 75
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.17
+                  - 190
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.8
+                  - 0.16
+                  - 75
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.15
+                  - 40
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      primary-hover:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.7
+            - 0.15
+            - 200
+          alpha: 0.8
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.65
+                  - 0.18
+                  - 195
+                alpha: 0.8
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.7
+                  - 0.15
+                  - 145
+                alpha: 0.8
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.18
+                  - 80
+                alpha: 0.8
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.18
+                  - 40
+                alpha: 0.8
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.8
+                  - 0
+                  - 0
+                alpha: 0.8
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.16
+                  - 250
+                alpha: 0.8
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.1
+                  - 75
+                alpha: 0.8
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.17
+                  - 190
+                alpha: 0.8
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.8
+                  - 0.16
+                  - 75
+                alpha: 0.8
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.15
+                  - 40
+                alpha: 0.8
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      primary-text:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.95
+            - 0.02
+            - 230
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.96
+                  - 0.005
+                  - 240
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.02
+                  - 120
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.05
+                  - 80
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.03
+                  - 50
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0
+                  - 0
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.03
+                  - 260
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.93
+                  - 0.01
+                  - 75
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.96
+                  - 0.01
+                  - 270
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.97
+                  - 0.02
+                  - 70
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.22
+                  - 0.015
+                  - 80
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      secondary:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.22
+            - 0.045
+            - 240
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.22
+                  - 0.02
+                  - 240
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.25
+                  - 0.03
+                  - 140
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.18
+                  - 0.03
+                  - 60
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.23
+                  - 0.04
+                  - 30
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.2
+                  - 0
+                  - 0
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.2
+                  - 0.04
+                  - 260
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.25
+                  - 0.015
+                  - 75
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.25
+                  - 0.03
+                  - 270
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.29
+                  - 0.045
+                  - 55
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.94
+                  - 0.012
+                  - 85
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      secondary-text:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.95
+            - 0.02
+            - 230
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.96
+                  - 0.005
+                  - 240
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.02
+                  - 120
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.05
+                  - 80
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.03
+                  - 50
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0
+                  - 0
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.03
+                  - 260
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.93
+                  - 0.01
+                  - 75
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.96
+                  - 0.01
+                  - 270
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.97
+                  - 0.02
+                  - 70
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.22
+                  - 0.015
+                  - 80
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      ghost:
+        $value:
+          colorSpace: oklch
+          components:
+            - 1
+            - 0
+            - 0
+          alpha: 0
+        $type: color
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      ghost-hover:
+        $value:
+          colorSpace: oklch
+          components:
+            - 1
+            - 0.01
+            - 230
+          alpha: 0.04
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0.01
+                  - 240
+                alpha: 0.05
+              garden:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0.01
+                  - 120
+                alpha: 0.04
+              retro:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0.02
+                  - 60
+                alpha: 0.05
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0.01
+                  - 30
+                alpha: 0.06
+              mono:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0
+                  - 0
+                alpha: 0.05
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0.02
+                  - 260
+                alpha: 0.05
+              zen:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0.01
+                  - 75
+                alpha: 0.05
+              volt:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0.01
+                  - 270
+                alpha: 0.05
+              family:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0.02
+                  - 60
+                alpha: 0.05
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 1
+                  - 0.005
+                  - 90
+                alpha: 0.6
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    text:
+      primary:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.95
+            - 0.02
+            - 230
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.96
+                  - 0.005
+                  - 240
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.02
+                  - 120
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.05
+                  - 80
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.03
+                  - 50
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0
+                  - 0
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.95
+                  - 0.03
+                  - 260
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.93
+                  - 0.01
+                  - 75
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.96
+                  - 0.01
+                  - 270
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.97
+                  - 0.02
+                  - 70
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.22
+                  - 0.015
+                  - 80
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      secondary:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.78
+            - 0.02
+            - 235
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.01
+                  - 240
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.78
+                  - 0.02
+                  - 130
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.78
+                  - 0.04
+                  - 75
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.78
+                  - 0.03
+                  - 40
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0
+                  - 0
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.78
+                  - 0.03
+                  - 260
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.012
+                  - 75
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.8
+                  - 0.01
+                  - 270
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.82
+                  - 0.03
+                  - 70
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.38
+                  - 0.015
+                  - 80
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      muted:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.55
+            - 0.02
+            - 235
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.01
+                  - 240
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.02
+                  - 130
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.52
+                  - 0.03
+                  - 70
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.03
+                  - 35
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.5
+                  - 0
+                  - 0
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.03
+                  - 260
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.01
+                  - 75
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.58
+                  - 0.01
+                  - 270
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.6
+                  - 0.03
+                  - 65
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.015
+                  - 80
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    accent:
+      default:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.7
+            - 0.15
+            - 200
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.65
+                  - 0.18
+                  - 195
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.7
+                  - 0.15
+                  - 145
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.18
+                  - 80
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.18
+                  - 40
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.8
+                  - 0
+                  - 0
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.16
+                  - 250
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.1
+                  - 75
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.17
+                  - 190
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.8
+                  - 0.16
+                  - 75
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.15
+                  - 40
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      violet:
+        default:
+          $value:
+            colorSpace: oklch
+            components:
+              - 0.65
+              - 0.15
+              - 250
+          $type: color
+          $extensions:
+            p31:
+              themes:
+                cipher:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.18
+                    - 285
+                garden:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.15
+                    - 185
+                retro:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.18
+                    - 320
+                sunset:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.18
+                    - 0
+                mono:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0
+                    - 0
+                aurora:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.16
+                    - 250
+                zen:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.1
+                    - 300
+                volt:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.17
+                    - 300
+                family:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.16
+                    - 20
+                sunlight:
+                  colorSpace: oklch
+                  components:
+                    - 0.55
+                    - 0.15
+                    - 300
+          $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+        muted:
+          $value:
+            colorSpace: oklch
+            components:
+              - 0.65
+              - 0.05
+              - 250
+          $type: color
+          $extensions:
+            p31:
+              themes:
+                cipher:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.05
+                    - 285
+                garden:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.05
+                    - 185
+                retro:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.05
+                    - 320
+                sunset:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.05
+                    - 0
+                mono:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.05
+                    - 0
+                aurora:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.05
+                    - 250
+                zen:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.05
+                    - 300
+                volt:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.05
+                    - 300
+                family:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.05
+                    - 20
+                sunlight:
+                  colorSpace: oklch
+                  components:
+                    - 0.55
+                    - 0.05
+                    - 300
+          $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      gold:
+        default:
+          $value:
+            colorSpace: oklch
+            components:
+              - 0.72
+              - 0.15
+              - 40
+          $type: color
+          $extensions:
+            p31:
+              themes:
+                cipher:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.18
+                    - 15
+                garden:
+                  colorSpace: oklch
+                  components:
+                    - 0.75
+                    - 0.15
+                    - 85
+                retro:
+                  colorSpace: oklch
+                  components:
+                    - 0.78
+                    - 0.18
+                    - 70
+                sunset:
+                  colorSpace: oklch
+                  components:
+                    - 0.75
+                    - 0.18
+                    - 60
+                mono:
+                  colorSpace: oklch
+                  components:
+                    - 0.78
+                    - 0
+                    - 0
+                aurora:
+                  colorSpace: oklch
+                  components:
+                    - 0.75
+                    - 0.16
+                    - 65
+                zen:
+                  colorSpace: oklch
+                  components:
+                    - 0.75
+                    - 0.12
+                    - 75
+                volt:
+                  colorSpace: oklch
+                  components:
+                    - 0.78
+                    - 0.17
+                    - 60
+                family:
+                  colorSpace: oklch
+                  components:
+                    - 0.83
+                    - 0.16
+                    - 65
+                sunlight:
+                  colorSpace: oklch
+                  components:
+                    - 0.62
+                    - 0.14
+                    - 80
+          $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+        muted:
+          $value:
+            colorSpace: oklch
+            components:
+              - 0.72
+              - 0.05
+              - 40
+          $type: color
+          $extensions:
+            p31:
+              themes:
+                cipher:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.05
+                    - 15
+                garden:
+                  colorSpace: oklch
+                  components:
+                    - 0.75
+                    - 0.05
+                    - 85
+                retro:
+                  colorSpace: oklch
+                  components:
+                    - 0.78
+                    - 0.05
+                    - 70
+                sunset:
+                  colorSpace: oklch
+                  components:
+                    - 0.75
+                    - 0.05
+                    - 60
+                mono:
+                  colorSpace: oklch
+                  components:
+                    - 0.78
+                    - 0.05
+                    - 0
+                aurora:
+                  colorSpace: oklch
+                  components:
+                    - 0.75
+                    - 0.05
+                    - 65
+                zen:
+                  colorSpace: oklch
+                  components:
+                    - 0.75
+                    - 0.05
+                    - 75
+                volt:
+                  colorSpace: oklch
+                  components:
+                    - 0.78
+                    - 0.05
+                    - 60
+                family:
+                  colorSpace: oklch
+                  components:
+                    - 0.83
+                    - 0.05
+                    - 65
+                sunlight:
+                  colorSpace: oklch
+                  components:
+                    - 0.62
+                    - 0.05
+                    - 80
+          $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      green:
+        default:
+          $value:
+            colorSpace: oklch
+            components:
+              - 0.7
+              - 0.15
+              - 160
+          $type: color
+          $extensions:
+            p31:
+              themes:
+                cipher:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.18
+                    - 105
+                garden:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.15
+                    - 145
+                retro:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.18
+                    - 140
+                sunset:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.18
+                    - 140
+                mono:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0
+                    - 0
+                aurora:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.16
+                    - 160
+                zen:
+                  colorSpace: oklch
+                  components:
+                    - 0.68
+                    - 0.1
+                    - 140
+                volt:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.17
+                    - 150
+                family:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.16
+                    - 145
+                sunlight:
+                  colorSpace: oklch
+                  components:
+                    - 0.55
+                    - 0.13
+                    - 150
+          $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+        muted:
+          $value:
+            colorSpace: oklch
+            components:
+              - 0.7
+              - 0.05
+              - 160
+          $type: color
+          $extensions:
+            p31:
+              themes:
+                cipher:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.05
+                    - 105
+                garden:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.05
+                    - 145
+                retro:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.05
+                    - 140
+                sunset:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.05
+                    - 140
+                mono:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.05
+                    - 0
+                zen:
+                  colorSpace: oklch
+                  components:
+                    - 0.68
+                    - 0.05
+                    - 140
+                volt:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.05
+                    - 150
+                family:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.05
+                    - 145
+                sunlight:
+                  colorSpace: oklch
+                  components:
+                    - 0.55
+                    - 0.05
+                    - 150
+          $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      red:
+        default:
+          $value:
+            colorSpace: oklch
+            components:
+              - 0.7
+              - 0.15
+              - 20
+          $type: color
+          $extensions:
+            p31:
+              themes:
+                cipher:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.18
+                    - 30
+                garden:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.15
+                    - 30
+                retro:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.18
+                    - 30
+                sunset:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.18
+                    - 25
+                mono:
+                  colorSpace: oklch
+                  components:
+                    - 0.68
+                    - 0
+                    - 0
+                aurora:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.16
+                    - 25
+                zen:
+                  colorSpace: oklch
+                  components:
+                    - 0.68
+                    - 0.12
+                    - 25
+                volt:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.17
+                    - 20
+                family:
+                  colorSpace: oklch
+                  components:
+                    - 0.68
+                    - 0.16
+                    - 25
+                sunlight:
+                  colorSpace: oklch
+                  components:
+                    - 0.55
+                    - 0.15
+                    - 25
+          $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+        muted:
+          $value:
+            colorSpace: oklch
+            components:
+              - 0.7
+              - 0.05
+              - 20
+          $type: color
+          $extensions:
+            p31:
+              themes:
+                cipher:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.05
+                    - 30
+                garden:
+                  colorSpace: oklch
+                  components:
+                    - 0.65
+                    - 0.05
+                    - 30
+                retro:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.05
+                    - 30
+                sunset:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.05
+                    - 25
+                mono:
+                  colorSpace: oklch
+                  components:
+                    - 0.68
+                    - 0.05
+                    - 0
+                aurora:
+                  colorSpace: oklch
+                  components:
+                    - 0.7
+                    - 0.05
+                    - 25
+                zen:
+                  colorSpace: oklch
+                  components:
+                    - 0.68
+                    - 0.05
+                    - 25
+                volt:
+                  colorSpace: oklch
+                  components:
+                    - 0.72
+                    - 0.05
+                    - 20
+                family:
+                  colorSpace: oklch
+                  components:
+                    - 0.68
+                    - 0.05
+                    - 25
+                sunlight:
+                  colorSpace: oklch
+                  components:
+                    - 0.55
+                    - 0.05
+                    - 25
+          $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      muted:
+        $value:
+          colorSpace: oklch
+          components:
+            - 0.7
+            - 0.05
+            - 200
+        $type: color
+        $extensions:
+          p31:
+            themes:
+              cipher:
+                colorSpace: oklch
+                components:
+                  - 0.65
+                  - 0.05
+                  - 195
+              garden:
+                colorSpace: oklch
+                components:
+                  - 0.7
+                  - 0.05
+                  - 145
+              retro:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.05
+                  - 80
+              sunset:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.05
+                  - 40
+              mono:
+                colorSpace: oklch
+                components:
+                  - 0.8
+                  - 0.05
+                  - 0
+              aurora:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.05
+                  - 250
+              zen:
+                colorSpace: oklch
+                components:
+                  - 0.72
+                  - 0.05
+                  - 75
+              volt:
+                colorSpace: oklch
+                components:
+                  - 0.75
+                  - 0.05
+                  - 190
+              family:
+                colorSpace: oklch
+                components:
+                  - 0.8
+                  - 0.05
+                  - 75
+              sunlight:
+                colorSpace: oklch
+                components:
+                  - 0.55
+                  - 0.05
+                  - 40
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  space:
+    inline:
+      sm:
+        $value:
+          value: 8
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      md:
+        $value:
+          value: 16
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      lg:
+        $value:
+          value: 24
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  surface:
+    background:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.1
+          - 0.03
+          - 240
+      $type: color
+      $extensions:
+        p31:
+          themes:
+            cipher:
+              colorSpace: oklch
+              components:
+                - 0.1
+                - 0.01
+                - 240
+            garden:
+              colorSpace: oklch
+              components:
+                - 0.12
+                - 0.02
+                - 140
+            retro:
+              colorSpace: oklch
+              components:
+                - 0.08
+                - 0.02
+                - 60
+            sunset:
+              colorSpace: oklch
+              components:
+                - 0.12
+                - 0.03
+                - 30
+            mono:
+              colorSpace: oklch
+              components:
+                - 0.08
+                - 0
+                - 0
+            aurora:
+              colorSpace: oklch
+              components:
+                - 0.09
+                - 0.03
+                - 260
+            zen:
+              colorSpace: oklch
+              components:
+                - 0.14
+                - 0.01
+                - 75
+            volt:
+              colorSpace: oklch
+              components:
+                - 0.12
+                - 0.02
+                - 270
+            family:
+              colorSpace: oklch
+              components:
+                - 0.17
+                - 0.03
+                - 55
+            sunlight:
+              colorSpace: oklch
+              components:
+                - 0.97
+                - 0.01
+                - 85
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    raised:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.15
+          - 0.04
+          - 240
+      $type: color
+      $extensions:
+        p31:
+          themes:
+            cipher:
+              colorSpace: oklch
+              components:
+                - 0.15
+                - 0.015
+                - 240
+            garden:
+              colorSpace: oklch
+              components:
+                - 0.18
+                - 0.025
+                - 140
+            retro:
+              colorSpace: oklch
+              components:
+                - 0.12
+                - 0.025
+                - 60
+            sunset:
+              colorSpace: oklch
+              components:
+                - 0.17
+                - 0.035
+                - 30
+            mono:
+              colorSpace: oklch
+              components:
+                - 0.14
+                - 0
+                - 0
+            aurora:
+              colorSpace: oklch
+              components:
+                - 0.14
+                - 0.035
+                - 260
+            zen:
+              colorSpace: oklch
+              components:
+                - 0.19
+                - 0.012
+                - 75
+            volt:
+              colorSpace: oklch
+              components:
+                - 0.18
+                - 0.025
+                - 270
+            family:
+              colorSpace: oklch
+              components:
+                - 0.23
+                - 0.04
+                - 55
+            sunlight:
+              colorSpace: oklch
+              components:
+                - 1
+                - 0.005
+                - 90
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    overlay:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.22
+          - 0.045
+          - 240
+      $type: color
+      $extensions:
+        p31:
+          themes:
+            cipher:
+              colorSpace: oklch
+              components:
+                - 0.22
+                - 0.02
+                - 240
+            garden:
+              colorSpace: oklch
+              components:
+                - 0.25
+                - 0.03
+                - 140
+            retro:
+              colorSpace: oklch
+              components:
+                - 0.18
+                - 0.03
+                - 60
+            sunset:
+              colorSpace: oklch
+              components:
+                - 0.23
+                - 0.04
+                - 30
+            mono:
+              colorSpace: oklch
+              components:
+                - 0.2
+                - 0
+                - 0
+            aurora:
+              colorSpace: oklch
+              components:
+                - 0.2
+                - 0.04
+                - 260
+            zen:
+              colorSpace: oklch
+              components:
+                - 0.25
+                - 0.015
+                - 75
+            volt:
+              colorSpace: oklch
+              components:
+                - 0.25
+                - 0.03
+                - 270
+            family:
+              colorSpace: oklch
+              components:
+                - 0.29
+                - 0.045
+                - 55
+            sunlight:
+              colorSpace: oklch
+              components:
+                - 0.94
+                - 0.012
+                - 85
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  font:
+    size:
+      sm:
+        $value:
+          value: 14
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      md:
+        $value:
+          value: 16
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      lg:
+        $value:
+          value: 20
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    family:
+      sans:
+        $value:
+          - Space Grotesk
+          - system-ui
+          - -apple-system
+          - Segoe UI
+          - Roboto
+          - sans-serif
+        $type: fontFamily
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      mono:
+        $value:
+          - JetBrains Mono
+          - ui-monospace
+          - SF Mono
+          - Fira Code
+          - monospace
+        $type: fontFamily
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  motion:
+    duration:
+      fast:
+        $value:
+          value: 150
+          unit: ms
+        $type: duration
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    easing:
+      standard:
+        $value:
+          - 0.4
+          - 0
+          - 0.2
+          - 1
+        $type: cubicBezier
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    spring:
+      expressive:
+        fast:
+          spatial:
+            $value:
+              - 0.42
+              - 1.67
+              - 0.21
+              - 0.9
+            $type: cubicBezier
+            $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+          effects:
+            $value:
+              - 0.31
+              - 0.8
+              - 0.34
+              - 1
+            $type: cubicBezier
+            $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+        default:
+          spatial:
+            $value:
+              - 0.38
+              - 1.21
+              - 0.22
+              - 1
+            $type: cubicBezier
+            $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+          effects:
+            $value:
+              - 0.34
+              - 0.8
+              - 0.34
+              - 1
+            $type: cubicBezier
+            $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+        slow:
+          spatial:
+            $value:
+              - 0.38
+              - 0.86
+              - 0.22
+              - 1
+            $type: cubicBezier
+            $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+          effects:
+            $value:
+              - 0.34
+              - 0.8
+              - 0.34
+              - 1
+            $type: cubicBezier
+            $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      standard:
+        spatial:
+          $value:
+            - 0.2
+            - 0
+            - 0
+            - 1
+          $type: cubicBezier
+          $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    shapeMorph:
+      duration:
+        $value:
+          value: 300
+          unit: ms
+        $type: duration
+  frame:
+    structure:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.735
+          - 0.117
+          - 236.2
+      $type: color
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    connection:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.753
+          - 0.158
+          - 76.8
+      $type: color
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    rhythm:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.679
+          - 0.118
+          - 346.3
+      $type: color
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    creation:
+      $value:
+        colorSpace: oklch
+        components:
+          - 0.62
+          - 0.13
+          - 165.5
+      $type: color
+      $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  layout:
+    spacing:
+      xs:
+        $value:
+          value: 4
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      sm:
+        $value:
+          value: 8
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      md-tight:
+        $value:
+          value: 12
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      md:
+        $value:
+          value: 16
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      lg-tight:
+        $value:
+          value: 20
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      lg:
+        $value:
+          value: 24
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+      xl:
+        $value:
+          value: 32
+          unit: px
+        $type: dimension
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+    density:
+      factor:
+        $value: 1
+        $type: number
+        $deprecated: "Deprecated: no consumer. Removal in v1.0.0."
+  scale:
+    xs:
+      $value:
+        value: 12
+        unit: px
+      $type: dimension

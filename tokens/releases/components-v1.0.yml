@@ -1,0 +1,168 @@
+# P31 Sovereign Design System — Component Registry
+# Single source of truth for all component definitions.
+# Consumed by: design-mcp-server.js, build-sovereign.mjs, export-a2ui.mjs, design dashboard
+
+version: "1.0"
+
+components:
+  GlassPanel:
+    description: Glassmorphic elevated surface with backdrop blur.
+    css_class: glass-panel
+    props:
+      padding:
+        type: string
+        default: md
+        options: [sm, md, lg]
+    slots: [default]
+    tokens:
+      - primitive.color.glass_surface
+      - primitive.color.glass_border
+      - primitive.radius.xl
+      - primitive.shadow.glass
+
+  GlassCard:
+    description: Compact glassmorphic card with padding.
+    css_class: glass-card
+    props:
+      color:
+        type: string
+        default: accent
+        options: [accent, violet, gold, green, red]
+      padding:
+        type: string
+        default: lg
+        options: [sm, md, lg]
+      interactive:
+        type: boolean
+        default: true
+    slots: [default, header]
+    tokens:
+      - primitive.color.glass_surface
+      - primitive.color.glass_border
+      - primitive.color.glass_border_hover
+      - primitive.radius.xl
+
+  GlassStrong:
+    description: High-opacity glass surface with strong blur.
+    css_class: glass-strong
+    props: {}
+    slots: [default]
+    tokens:
+      - primitive.color.glass_surface_strong
+      - primitive.blur.strong
+      - primitive.radius.xl
+
+  GlassSubtle:
+    description: Low-opacity glass surface with subtle blur.
+    css_class: glass-subtle
+    props: {}
+    slots: [default]
+    tokens:
+      - primitive.color.glass_surface_subtle
+      - primitive.blur.subtle
+      - primitive.radius.xl
+
+  Button:
+    description: Button component with primary, secondary, and ghost variants.
+    css_class: btn-primary
+    variants: [btn-primary, btn-secondary, btn-ghost]
+    props:
+      variant:
+        type: string
+        default: primary
+        options: [primary, secondary, ghost]
+      size:
+        type: string
+        default: md
+        options: [sm, md, lg]
+    slots: [default]
+    tokens:
+      - semantic.color.accent.default
+      - primitive.color.void
+      - primitive.spacing.sm
+      - primitive.spacing.lg
+      - primitive.radius.md
+      - primitive.shadow.glow_cyan
+
+  SpoonMeter:
+    description: Real-time cognitive load indicator (0-5 scale).
+    css_class: spoon-meter
+    props:
+      current:
+        type: number
+        default: 3
+        range: [0, 5]
+      interactive:
+        type: boolean
+        default: true
+    slots: []
+    tokens:
+      - semantic.color.accent.default
+      - semantic.color.text.tertiary
+
+  TetraGrid:
+    description: 4-column responsive grid for tetrahedral content layouts.
+    css_class: tetra-grid
+    props: {}
+    slots: [default]
+    tokens: []
+
+  HonestLabel:
+    description: Disclaimer badge for contested-science content.
+    css_class: honest-label
+    props: {}
+    slots: [default]
+    tokens:
+      - primitive.typography.font_mono
+      - semantic.color.text.tertiary
+
+  StatusBadge:
+    description: Status indicator badge with Live/Beta/Research variants.
+    css_class: status-badge
+    variants: [status-badge-live, status-badge-beta, status-badge-research]
+    props:
+      status:
+        type: string
+        default: live
+        options: [live, beta, research]
+    slots: [default]
+    tokens:
+      - semantic.color.accent.green
+      - semantic.color.accent.default
+      - semantic.color.accent.variant
+
+  CrisisOverlay:
+    description: Full-screen breathing overlay shown when spoons=0.
+    css_class: crisis-overlay
+    props:
+      message:
+        type: string
+        default: Rest. Breathe. The mesh holds.
+      buttonLabel:
+        type: string
+        default: "I'm Ready"
+    slots: []
+    tokens:
+      - semantic.color.background.default
+
+  Starfield:
+    description: 200-star twinkling canvas background with animation loop.
+    css_class: starfield
+    props:
+      count:
+        type: number
+        default: 200
+      speed:
+        type: number
+        default: 0.08
+    slots: []
+    tokens: []
+
+  ThemeToggle:
+    description: Dark/light theme toggle button. Persists to localStorage under p31:theme.
+    css_class: theme-toggle
+    props: {}
+    slots: []
+    tokens:
+      - semantic.color.background.default
+      - theme.light.background.default

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://p31ca.org/schemas/guard-policy.v1.json",
+  "version": "1.0.0",
+  "description": "Execution guard policy for P31 governed agent CLI",
+  "rules": [
+    {
+      "id": "G-001",
+      "name": "shell-block-at-low-spoons",
+      "description": "Never execute shell commands at spoon level 1 or below",
+      "toolPattern": "^oasis_execute$",
+      "condition": { "spoonLevel": { "lte": 1 } },
+      "action": "block",
+      "reason": "Shell execution blocked at spoon level 1. Use a read-only tool or rest."
+    },
+    {
+      "id": "G-002",
+      "name": "mutating-escalation-on-crisis",
+      "description": "Escalate mutating tools to elicitation when crisis signals are active",
+      "toolPattern": "^(oasis_execute|love_anchor|truth_register_fact|design_expert_ephemeralize)$",
+      "condition": { "recentCrisisFlags": { "gt": 0 } },
+      "action": "require_elicitation",
+      "reason": "Crisis signals detected. Confirm you want to proceed with this action."
+    },
+    {
+      "id": "G-003",
+      "name": "onchain-write-confirmation",
+      "description": "Require confirmation for on-chain writes at spoon level 2 or below",
+      "toolPattern": "^love_anchor$",
+      "condition": { "spoonLevel": { "lte": 2 } },
+      "action": "require_elicitation",
+      "reason": "Low spoon level. Confirm on-chain write."
+    }
+  ],
+  "mutatingTools": [
+    "oasis_execute",
+    "love_anchor",
+    "truth_register_fact",
+    "design_expert_ephemeralize"
+  ],
+  "readOnlyTools": [
+    "oasis_status", "truth_lookup", "truth_facts", "love_balance",
+    "dome_structure", "design_expert_check_contrast", "truth_health",
+    "soulsafe_protocol_info", "component_list", "component_get",
+    "component_props", "component_tokens", "search_tools", "get_tool_details"
+  ],
+  "crisisTools": ["grounding_54321", "support_ping"]
+}

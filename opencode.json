@@ -1,0 +1,134 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "p31": {
+    "version": "3.0.0",
+    "defaultSpoonLevel": 3,
+    "themes": {
+      "available": ["p31ca", "phosphorus31", "crisis"],
+      "default": "p31ca"
+    },
+    "brand": "sovereign",
+    "accessibility": {
+      "font": "Atkinson Hyperlegible",
+      "touchTarget": "48px",
+      "wcagLevel": "AAA"
+    },
+    "identity": {
+      "didMethod": "did:key",
+      "signing": "Ed25519",
+      "pqc": ["ML-KEM-768", "ML-DSA-65", "SLH-DSA-128s"]
+    }
+  },
+  "provider": {
+    "anthropic": {
+      "models": {
+        "claude-sonnet-4-6": { "alias": "sonnet" },
+        "claude-opus-4": { "alias": "opus" },
+        "claude-haiku-3-5": { "alias": "haiku" }
+      }
+    },
+    "google": {
+      "models": {
+        "gemini-2.5-pro": { "alias": "gemini-pro" },
+        "gemini-2.5-flash": { "alias": "gemini-flash" },
+        "gemini-2.0-flash": { "alias": "gemini-2" }
+      }
+    },
+    "openrouter": {
+      "models": {
+        "deepseek-v4-flash": { "alias": "ds-flash" },
+        "deepseek-v4": { "alias": "ds-v4" },
+        "qwen3-coder": { "alias": "qwen" },
+        "llama-4-maverick": { "alias": "llama" }
+      }
+    }
+  },
+  "model": "anthropic/claude-sonnet-4-6",
+  "mcp": {
+    "phos-forge": {
+      "type": "local",
+      "command": ["node", "/home/p31/P31-local-workspace/tools/phos-forge/mcp-server.mjs"]
+    },
+    "p31-crypto": {
+      "type": "remote",
+      "url": "https://p31-crypto-mcp.trimtab-signal.workers.dev/mcp"
+    },
+    "p31-justice-hub": {
+      "type": "remote",
+      "url": "https://p31-justice-hub.trimtab-signal.workers.dev/mcp"
+    },
+    "bros": {
+      "type": "remote",
+      "url": "https://bros.trimtab-signal.workers.dev/mcp"
+    },
+    "dads": {
+      "type": "remote",
+      "url": "https://dads.trimtab-signal.workers.dev/mcp"
+    },
+    "x402-gateway": {
+      "type": "remote",
+      "url": "https://mcp-x402-gateway.trimtab-signal.workers.dev/mcp"
+    },
+    "federation-bridge": {
+      "type": "remote",
+      "url": "https://federation.p31ca.org/mcp"
+    },
+    "ledger-bridge": {
+      "type": "remote",
+      "url": "https://ledger-bridge.trimtab-signal.workers.dev/mcp"
+    },
+    "care-mesh": {
+      "type": "remote",
+      "url": "https://care-mesh.trimtab-signal.workers.dev/mcp"
+    },
+    "soulsafe": {
+      "type": "local",
+      "command": ["node", "/home/p31/P31-local-workspace/cli/soulsafe-server.js"]
+    }
+  },
+  "plugin": [
+    "spoon-monitor",
+    "sovereign-id",
+    "care-attest",
+    "pqc-tools",
+    "mesh-visualize",
+    "honest-label"
+  ],
+  "session": {
+    "autoCompact": true,
+    "maxContextTokens": 128000,
+    "compactThreshold": 0.8
+  },
+  "tools": {
+    "bash": true,
+    "read": true,
+    "write": true,
+    "edit": true,
+    "glob": true,
+    "grep": true,
+    "webfetch": true,
+    "websearch": true
+  },
+  "agent": {
+    "default": "build",
+    "available": ["build", "plan", "general", "explore", "scout"],
+    "p31-sovereign": {
+      "description": "Sovereign AI agent with full P31 mesh access",
+      "tools": {
+        "bash": true,
+        "read": true,
+        "write": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "webfetch": true,
+        "websearch": true,
+        "mcp__p31-unified__oasis_*": true,
+        "mcp__p31-unified__cognitive_*": true,
+        "mcp__p31-unified__soulsafe_*": true,
+        "mcp__p31-unified__*": false
+      },
+      "mcp": ["phos-forge", "p31-crypto", "p31-justice-hub", "bros", "dads"]
+    }
+  }
+}
