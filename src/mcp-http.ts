@@ -18,6 +18,28 @@ app.use('*', cors({
 // Health check
 app.get('/health', (c) => c.json({ status: 'ok', tools: TOTAL_TOOL_COUNT }));
 
+// Smithery Static Server Card (fallback for scan failures)
+app.get('/.well-known/mcp/server-card.json', (c) => {
+  return c.json({
+    serverInfo: { name: 'P31 Governed Agent CLI', version: '3.1.3' },
+    authentication: { required: false, schemes: [] },
+    tools: ALL_TOOLS.map(t => ({
+      name: t.name,
+      description: t.description,
+      inputSchema: t.inputSchema,
+    })),
+  });
+});
+
+// MCP Streamable HTTP endpoint (for Smithery URL method)
+app.all('/mcp', async (c) => {
+  return c.json({
+    jsonrpc: '2.0',
+    id: null,
+    error: { code: -32601, message: 'Streamable HTTP transport not yet implemented. Use stdio via npx @p31ca/cli.' },
+  });
+});
+
 // RFC 9728 — Protected Resource Metadata
 // MCP servers MUST implement this to indicate authorization server locations
 app.get('/.well-known/oauth-protected-resource', (c) => {
