@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.p31ca/governed-agent-cli",
-  "description": "A governed AI agent CLI that gates tool execution by cognitive capacity (spoon theory) and enforces runtime safety policies at the protocol boundary. 135 hardened tools across 12 categories with progressive discovery, compound orchestrators, and execution guard. Unlike general-purpose coding CLIs that compete on benchmark scores, P31 competes on governance that is structural, not advisory.",
+  "description": "A governed AI CLI that gates tool execution by cognitive capacity (spoon theory).",
   "repository": {
     "url": "https://github.com/p31labs/p31-cli",
     "source": "github"

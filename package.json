@@ -132,5 +132,6 @@
     "neurodivergent"
   ],
   "author": "P31 Labs",
-  "license": "MIT"
+  "license": "MIT",
+  "mcpName": "com.p31ca/governed-agent-cli"
 }
