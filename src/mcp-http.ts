@@ -32,7 +32,12 @@ app.get('/.well-known/mcp/server-card.json', (c) => {
 });
 
 // MCP Streamable HTTP endpoint (for Smithery URL method)
+// Returns 401 for unauthenticated requests to trigger OAuth discovery (RFC 9728)
 app.all('/mcp', async (c) => {
+  const auth = c.req.header('Authorization');
+  if (!auth) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
   return c.json({
     jsonrpc: '2.0',
     id: null,

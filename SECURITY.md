@@ -1,5 +1,16 @@
 # Security Policy — @p31ca/cli
 
+## Market Context: The Governance Gap
+
+The MCP ecosystem has a documented security crisis:
+
+- **91.8% of 414 audited production MCP servers lacked OAuth authentication** (July 2026, Pomerium assessment)
+- **84.2% tool-poisoning attack success rate** against MCP-connected agents with auto-approval enabled (Invariant Labs, 2026)
+- **42,753 servers** in the MCP Registry as of October 2026, but **zero governance-category servers approved** (issue #978 still open)
+- The A2A Registry specification stalled in August 2026; development redirected to the Agent Registry Definition (ARD)
+
+P31's execution guard, SHA-256 tool fingerprinting, and hash-chained audit trail are direct countermeasures to these documented failure modes.
+
 ## What Provenance Does (and Does Not) Prove
 
 npm provenance (via OIDC Trusted Publishing) provides a cryptographically
@@ -15,6 +26,10 @@ It does NOT prove:
 ## Complementary Trust Artifacts
 
 ### 1. Tool Description Fingerprinting (OWASP MCP03 Defense)
+
+OWASP MCP Top 10 entered Phase 3 (Beta) in 2026. MCP03 Tool Poisoning is the dedicated entry for inference-time poisoning originating from tool definitions. The recommended defenses — schema quarantine, SHA-256 tool pinning at first approval, and rejection of any hash change — are implemented in `computeFingerprint()` and `verifyFingerprints()`.
+
+The 84.2% attack success rate (Invariant Labs, 2026) applies specifically to MCP-connected agents with auto-approval enabled. P31 eliminates auto-approval entirely: every mutating tool call passes through the execution guard before execution.
 Every tool's canonical `{name, description, inputSchema}` is hashed with SHA-256.
 The manifest is committed to the repository and verified at startup. Any drift
 in a tool description is detected before the agent acts on it.
