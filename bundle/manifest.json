@@ -106,7 +106,7 @@
       },
       {
         "path": "../package.json",
-        "sha256": "34f675f88083eee4d8cc0b877abeb088d3da82cd5d32a6cc65187e737939f643",
+        "sha256": "493ba4a5d7a636841359a90878e87d6f305bebe2089f12669239140506a23530",
         "role": "npm-package-manifest"
       },
       {
