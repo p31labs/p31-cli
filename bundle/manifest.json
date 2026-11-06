@@ -11,7 +11,7 @@
   },
   "name": "org.p31ca/governed-agent-cli",
   "displayName": "P31 Governed Agent CLI / MCP Bundle",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "Frozen MCPB-style bundle manifest for @p31ca/cli 3.1.3. Factual packaging and integrity metadata; not a compliance certification.",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
   "entry": {
     "registryType": "npm",
     "package": "@p31ca/cli",
-    "version": "3.1.5",
+    "version": "3.1.6",
     "bin": {
       "p31": "dist/index.js"
     },
@@ -101,12 +101,12 @@
     "artifacts": [
       {
         "path": "../server.json",
-        "sha256": "bf2de0b83b043fc15051b6fcbeed28a727225cd558a3cd61993f6c13a2a45f2d",
+        "sha256": "66e856cd459987389d4fa22de75842e4052d16e755125c58c2db369625498c70",
         "role": "mcp-registry-metadata-frozen"
       },
       {
         "path": "../package.json",
-        "sha256": "8b754ae9fd5e64967373874f15c19942639f53e40f70ca1943f5c6edff1315df",
+        "sha256": "34f675f88083eee4d8cc0b877abeb088d3da82cd5d32a6cc65187e737939f643",
         "role": "npm-package-manifest"
       },
       {
