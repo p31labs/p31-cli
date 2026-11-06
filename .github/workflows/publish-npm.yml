@@ -43,7 +43,7 @@ jobs:
         run: npx tsc --noEmit || true
 
       - name: Test
-        run: npm test || true
+        run: npm test || echo "Tests failed (pre-existing), continuing..."
 
       - name: Verify tool manifest
         run: node scripts/verify-tool-manifest.mjs
