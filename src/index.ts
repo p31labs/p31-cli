@@ -17,6 +17,9 @@ import { createPhosCommand } from './commands/phos.js';
 import { createShellCommand } from './commands/shell.js';
 import { createServeCommand } from './commands/serve.js';
 import { createSyncCommand } from './commands/sync.js';
+import { createAuditCommand } from './commands/audit.js';
+import { createVerifyCommand } from './commands/verify.js';
+import { createThemesCommand } from './commands/themes.js';
 
 dotenv.config();
 
@@ -378,6 +381,9 @@ program.addCommand(createPhosCommand());
 program.addCommand(createShellCommand());
 program.addCommand(createServeCommand());
 program.addCommand(createSyncCommand());
+program.addCommand(createAuditCommand());
+program.addCommand(createVerifyCommand());
+program.addCommand(createThemesCommand());
 
 // ── TUI ───────────────────────────────────────────────────────────────────
 
@@ -413,6 +419,8 @@ async function main() {
     console.log(chalk.gray('    phos        Phos-forge file classification'));
     console.log(chalk.gray('    shell       Connect to P31 production shell'));
     console.log(chalk.gray('    sync        Cross-app state sync'));
+    console.log(chalk.gray('    audit       Guard audit/provenance verification'));
+    console.log(chalk.gray('    verify      Verify bundle integrity (SHA-256/signature)'));
     console.log(chalk.gray('    tui        Launch spoon-aware TUI'));
     console.log(chalk.gray('    init       Initialize CLI'));
     console.log(chalk.gray('\n  Example:'));
@@ -424,7 +432,7 @@ async function main() {
   try {
     program.parse(process.argv);
   } catch (err: any) {
-    if (err.code === 'commander.help' || err.code === 'commander.version') {
+    if (err.code === 'commander.help' || err.code === 'commander.helpDisplayed' || err.code === 'commander.version') {
       process.exit(0);
     }
     throw err;

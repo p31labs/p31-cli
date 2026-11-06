@@ -12,6 +12,127 @@ export interface ProviderAdapter {
   chat(params: ChatParams): Promise<ChatResult>;
 }
 
+export interface RoutableAdapter extends ProviderAdapter {
+  routeBucket?: string;
+  fallbackDepth?: number;
+}
+
+/**
+ * createRoutedProvider(model, provider) — wraps ProviderAdapter.chat with
+ * automatic fallback across the bucket's ordered candidate list.
+ *
+ * On retryable failure (429, timeout, quota, 401, 403), tries the next model
+ * in the bucket. Records fallbackDepth on the result. Does not modify the
+ * existing ProviderAdapter interface — returns a new adapter.
+ */
+export function createRoutedProvider(model: string, provider: string): RoutableAdapter {
+  const base = createProvider({ id: provider, name: provider, apiKey: '', baseURL: '', models: [], defaultModel: model });
+
+  // Build candidate list: this model first, then bucket fallbacks
+  const bucketForModel = bucketFor(model, provider);
+  const candidates = buildCandidates(model, provider, bucketForModel);
+
+  return {
+    id: provider,
+    name: provider,
+    routeBucket: bucketForModel,
+    fallbackDepth: 0,
+    async chat(params: ChatParams): Promise<ChatResult> {
+      let lastError: Error | null = null;
+      let depth = 0;
+
+      for (let i = 0; i < candidates.length; i++) {
+        const cand = candidates[i];
+        const adapter = createProvider({
+          id: cand.provider,
+          name: cand.provider,
+          apiKey: '',
+          baseURL: cand.provider === 'anthropic' ? '' :
+            cand.provider === 'google' ? 'https://generativelanguage.googleapis.com/v1beta' :
+            cand.provider === 'groq' ? 'https://api.groq.com/openai/v1' :
+            'https://openrouter.ai/api/v1',
+          models: [],
+          defaultModel: cand.model,
+        });
+
+        try {
+          const result = await adapter.chat({ ...params, model: cand.model });
+          return {
+            ...result,
+            model: cand.model,
+            fallbackDepth: depth,
+          };
+        } catch (err) {
+          lastError = err as Error;
+          depth = i + 1;
+          const cls = classifyError(lastError);
+          if (cls === 'none') throw lastError;
+          // retryable: continue to next candidate
+        }
+      }
+
+      throw lastError ?? new Error(`All candidates exhausted for ${provider}/${model}`);
+    },
+  };
+}
+
+function bucketFor(model: string, provider: string): string | undefined {
+  const lower = (provider + '/' + model).toLowerCase();
+  if (lower.includes('deepseek-v4-flash') || lower.includes('llama-3.1-8b') || lower.includes('gemini-2.0-flash') || lower.includes('qwen3-coder')) return 'fast-code';
+  if (lower.includes('claude-sonnet-4-6') || lower.includes('gemini-2.5-pro') || lower.includes('deepseek-coder-v2') || lower.includes('gemini-1.5-pro')) return 'deep-reasoning';
+  if (lower.includes('qwen3-coder') || lower.includes('deepseek-v4')) return 'structured-json';
+  if (lower.includes('gemini-2.0-flash') || lower.includes('nemotron') || lower.includes('llama-3.1-8b')) return 'summarize';
+  if (lower.includes('gemini-2.5-flash') || lower.includes('gemini-1.5-flash')) return 'vision';
+  if (lower.includes('ollama')) return 'local-sovereign';
+  return undefined;
+}
+
+function buildCandidates(model: string, provider: string, bucket: string | undefined): Array<{ model: string; provider: string }> {
+  if (!bucket) return [{ model, provider }];
+  const map: Record<string, Array<{ model: string; provider: string }>> = {
+    'fast-code': [
+      { model: 'openrouter/deepseek/deepseek-v4-flash', provider: 'openrouter' },
+      { model: 'groq/llama-3.1-8b-instant', provider: 'groq' },
+      { model: 'openrouter/google/gemini-2.0-flash', provider: 'openrouter' },
+    ],
+    'deep-reasoning': [
+      { model: 'openrouter/anthropic/claude-sonnet-4-6', provider: 'anthropic' },
+      { model: 'openrouter/google/gemini-2.5-pro', provider: 'openrouter' },
+      { model: 'openrouter/deepseek/deepseek-coder-v2', provider: 'openrouter' },
+    ],
+    'structured-json': [
+      { model: 'openrouter/qwen/qwen3-coder', provider: 'openrouter' },
+      { model: 'openrouter/deepseek/deepseek-v4', provider: 'openrouter' },
+      { model: 'groq/llama-3.1-8b-instant', provider: 'groq' },
+    ],
+    summarize: [
+      { model: 'openrouter/google/gemini-2.0-flash', provider: 'openrouter' },
+      { model: 'groq/llama-3.1-8b-instant', provider: 'groq' },
+      { model: 'openrouter/nvidia/nemotron-3-super:free', provider: 'openrouter' },
+    ],
+    vision: [
+      { model: 'openrouter/google/gemini-2.5-flash', provider: 'openrouter' },
+      { model: 'openrouter/google/gemini-1.5-flash', provider: 'openrouter' },
+      { model: 'groq/llama-3.1-8b-instant', provider: 'groq' },
+    ],
+    'local-sovereign': [
+      { model: 'ollama/llama4-maverick', provider: 'ollama' },
+      { model: 'ollama/llama-3.3-70b', provider: 'ollama' },
+    ],
+  };
+  return map[bucket] ?? [{ model, provider }];
+}
+
+function classifyError(err: Error): '429' | 'timeout' | 'quota' | '401' | '403' | 'none' {
+  const msg = err.message.toLowerCase();
+  if (msg.includes('429') || msg.includes('rate limit') || msg.includes('too many requests')) return '429';
+  if (msg.includes('timeout') || msg.includes('timed out') || msg.includes('hang')) return 'timeout';
+  if (msg.includes('quota') || msg.includes('exhausted') || msg.includes('daily')) return 'quota';
+  if (msg.includes('401') || msg.includes('invalid api key')) return '401';
+  if (msg.includes('403') || msg.includes('permission denied') || msg.includes('forbidden')) return '403';
+  return 'none';
+}
+
 export interface StreamChunk {
   delta: string;
   done: boolean;

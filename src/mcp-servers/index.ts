@@ -16,7 +16,7 @@ export { DESIGN_TOOLS, executeDesignTool } from './design-mcp-server.js';
 export { DISCOVERY_TOOLS, executeDiscoveryTool } from './progressive-discovery.js';
 export { COMPOUND_TOOLS, executeCompoundTool } from './compound-tools.js';
 export { executionGuard } from '../safety/execution-guard.js';
-export { emitGuardDecision, verifyGuardChain, readAuditLog, getPublicKey } from '../safety/guard-audit.js';
+export { emitGuardDecision, verifyGuardChain, readAuditLog, getPublicKey, markRetrievedSources, traceContext, exportCOSE, verifyCOSE, verifyProofFile } from '../safety/guard-audit.js';
 export { getAvailableTools, isToolAllowed } from '../safety/spoon-gating.js';
 export { computeFingerprint, generateFingerprintManifest, verifyFingerprints, computeSkillFingerprint, generateSkillFingerprints } from '../safety/tool-fingerprint.js';
 
@@ -32,8 +32,9 @@ import { COMPONENT_TOOLS, executeComponentTool } from './component-registry.js';
 import { DESIGN_TOOLS, executeDesignTool } from './design-mcp-server.js';
 import { DISCOVERY_TOOLS, executeDiscoveryTool } from './progressive-discovery.js';
 import { COMPOUND_TOOLS, executeCompoundTool } from './compound-tools.js';
+import { createHash, randomUUID } from 'node:crypto';
 import { executionGuard } from '../safety/execution-guard.js';
-import { emitGuardDecision, verifyGuardChain, readAuditLog, getPublicKey } from '../safety/guard-audit.js';
+import { emitGuardDecision, verifyGuardChain, readAuditLog, getPublicKey, markRetrievedSources } from '../safety/guard-audit.js';
 import { getAvailableTools, isToolAllowed } from '../safety/spoon-gating.js';
 import { computeFingerprint, generateFingerprintManifest, verifyFingerprints, computeSkillFingerprint, generateSkillFingerprints } from '../safety/tool-fingerprint.js';
 
@@ -119,28 +120,139 @@ const HANDLERS: Record<string, ToolHandler> = {
   compound: executeCompoundTool,
 };
 
-export function executeUnifiedTool(name: string, args: any, context?: { spoonLevel?: number; recentCrisisFlags?: number; userMessage?: string }) {
+function sha256Hex(data: string): string {
+  return createHash('sha256').update(data).digest('hex');
+}
+
+/**
+ * L7-J: heuristic tool-description inspection (governance signal, NOT a complete
+ * tool-description-poisoning defense). Flags Unicode control/zero-width chars and
+ * common instruction-override patterns.
+ */
+function assessDescriptionPoisoningRisk(description: string): 'none' | 'suspicious' | 'high' {
+  const text = String(description || '');
+  if (!text) return 'none';
+  // Zero-width / bidi / many Cc controls (exclude common whitespace \t \n \r)
+  const hasControlOrInvisible = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u202A-\u202E\u2060-\u206F\uFEFF]/.test(text);
+  const lower = text.toLowerCase();
+  const overridePatterns = [
+    /ignore\s+(all\s+)?(previous|prior|above)\s+instructions?/,
+    /\bsystem\s*:\s*(you|ignore|override|forget)/,
+    /\byou\s+must\s+(ignore|override|disregard|forget)\b/,
+    /\bdo\s+not\s+follow\s+(previous|prior|safety|policy)\b/,
+    /\bexfiltrat|\bsteal\b|\bhidden\s+instruction/,
+  ];
+  const overrideHits = overridePatterns.filter((re) => re.test(lower)).length;
+  if (overrideHits >= 2 || (hasControlOrInvisible && overrideHits >= 1)) return 'high';
+  if (hasControlOrInvisible || overrideHits >= 1) return 'suspicious';
+  return 'none';
+}
+
+/**
+ * L7-H/J: build the retrieved-source record for a real MCP tool result.
+ * sourceId = <serverUrl>:<toolName>; contentHash = sha256(JSON.stringify(result)).
+ * Content that cannot be serialized (or a tool-level error result) is marked
+ * INCOMPLETE rather than silently claiming VALID.
+ * L7-J adds descriptionHash + descriptionPoisoningRisk (heuristic).
+ */
+function buildToolAttribution(tool: ToolDefinition, result: any, toolCallId: string) {
+  const serverUrl = `p31://mcp/${(tool as any).category || 'unknown'}`;
+  const retrievedAt = new Date().toISOString();
+  let contentHash: string;
+  let validity: 'VALID' | 'INCOMPLETE' = 'VALID';
+
+  try {
+    if (result === undefined) {
+      contentHash = sha256Hex('');
+      validity = 'INCOMPLETE';
+    } else {
+      const serialized = JSON.stringify(result);
+      if (serialized === undefined) {
+        contentHash = sha256Hex(String(result));
+        validity = 'INCOMPLETE';
+      } else {
+        contentHash = sha256Hex(serialized);
+        if (result && typeof result === 'object' && (result as any).status === 'error') {
+          validity = 'INCOMPLETE';
+        }
+      }
+    }
+  } catch {
+    // Circular/BigInt result: still record a stable marker, but do not claim VALID.
+    contentHash = sha256Hex(String(result));
+    validity = 'INCOMPLETE';
+  }
+
+  const desc = String((tool as any).description || '');
+  const descriptionHash = sha256Hex(desc);
+  const descriptionPoisoningRisk = assessDescriptionPoisoningRisk(desc);
+
+  return markRetrievedSources([{
+    sourceId: `${serverUrl}:${tool.name}`,
+    contentHash,
+    freshness: 'FRESH',
+    validity,
+    retrievedAt,
+    serverUrl,
+    toolCallId,
+    descriptionHash,
+    descriptionPoisoningRisk,
+  }])[0];
+}
+
+export function executeUnifiedTool(
+  name: string,
+  args: any,
+  context?: { spoonLevel?: number; recentCrisisFlags?: number; userMessage?: string; sessionId?: string },
+) {
   const tool = ALL_TOOLS.find(t => t.name === name);
   if (!tool) return { error: `Unknown tool: ${name}`, status: 'error' };
   const handler = HANDLERS[tool.category];
   if (!handler) return { error: `No handler for category: ${tool.category}`, status: 'error' };
 
-  // Execution guard — SOULSAFE at the tool-call boundary
+  const sessionId = context?.sessionId || process.env.P31_SESSION_ID || undefined;
+  const toolCallId = randomUUID();
+  const attributionContext = {
+    sessionId,
+    instructionSource: 'mcp',
+    instructionHash: sha256Hex(JSON.stringify(args ?? {})),
+  };
+
+  // Execution guard — SOULSAFE at the tool-call boundary.
+  // Suppress the guard's own emission and record exactly one event below,
+  // enriched with session correlation and the real tool-result hash.
   const guard = executionGuard({
     spoonLevel: context?.spoonLevel ?? 3,
     recentCrisisFlags: context?.recentCrisisFlags ?? 0,
     userMessage: context?.userMessage ?? '',
     toolName: name,
     toolArgs: args,
-  });
+  }, { audit: false });
+
   if (!guard.allow) {
+    emitGuardDecision(name, guard.policyVersion, guard.governedState, 'blocked', guard.reason, attributionContext);
     return { status: 'blocked', error: guard.reason };
   }
   if (guard.requireElicitation) {
+    emitGuardDecision(name, guard.policyVersion, guard.governedState, 'elicitation_required', guard.reason, attributionContext);
     return { status: 'elicitation_required', reason: guard.reason, tool: name, args };
   }
 
-  return handler(name, args);
+  try {
+    const result = handler(name, args);
+    emitGuardDecision(name, guard.policyVersion, guard.governedState, 'allowed', undefined, {
+      ...attributionContext,
+      retrievedSources: [buildToolAttribution(tool, result, toolCallId)],
+    });
+    return result;
+  } catch (err: any) {
+    emitGuardDecision(name, guard.policyVersion, guard.governedState, 'allowed',
+      `tool execution error: ${err?.message ?? String(err)}`, {
+        ...attributionContext,
+        errorClass: 'tool_execution_error',
+      });
+    throw err;
+  }
 }
 
 export const TOOL_CATEGORIES = [

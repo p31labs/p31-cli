@@ -8,11 +8,11 @@
  * Total tools: 132+
  */
 
-import { ALL_TOOLS, executeUnifiedTool, TOOL_CATEGORIES, TOTAL_TOOL_COUNT, getAvailableTools, isToolAllowed, computeFingerprint, generateFingerprintManifest, verifyFingerprints, computeSkillFingerprint, generateSkillFingerprints, emitGuardDecision, verifyGuardChain, readAuditLog, getPublicKey } from './mcp-servers/index.js';
+import { ALL_TOOLS, executeUnifiedTool, TOOL_CATEGORIES, TOTAL_TOOL_COUNT, getAvailableTools, isToolAllowed, computeFingerprint, generateFingerprintManifest, verifyFingerprints, computeSkillFingerprint, generateSkillFingerprints, emitGuardDecision, verifyGuardChain, readAuditLog, getPublicKey, markRetrievedSources, traceContext, exportCOSE, verifyCOSE, verifyProofFile } from './mcp-servers/index.js';
 import { getAvailableTools as spoonGetAvailable } from './safety/spoon-gating.js';
 
 // Re-export for convenience
-export { ALL_TOOLS, executeUnifiedTool, TOOL_CATEGORIES, TOTAL_TOOL_COUNT, getAvailableTools, isToolAllowed, computeFingerprint, generateFingerprintManifest, verifyFingerprints, computeSkillFingerprint, generateSkillFingerprints, emitGuardDecision, verifyGuardChain, readAuditLog, getPublicKey };
+export { ALL_TOOLS, executeUnifiedTool, TOOL_CATEGORIES, TOTAL_TOOL_COUNT, getAvailableTools, isToolAllowed, computeFingerprint, generateFingerprintManifest, verifyFingerprints, computeSkillFingerprint, generateSkillFingerprints, emitGuardDecision, verifyGuardChain, readAuditLog, getPublicKey, markRetrievedSources, traceContext, exportCOSE, verifyCOSE, verifyProofFile };
 
 // Backward compatibility alias
 export const TOOLS = ALL_TOOLS;

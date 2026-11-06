@@ -145,7 +145,10 @@ export function createMcpHttpServer(port: number): void {
       }
 
       try {
-        const result = executeUnifiedTool(toolName, toolArgs);
+        // L7-H: MCP clients may pass a session id via params._meta.
+        const meta = (params?._meta || {}) as any;
+        const sessionId = meta.sessionId || meta.session_id || undefined;
+        const result = executeUnifiedTool(toolName, toolArgs, { sessionId });
         return c.json(createJsonRpcResponse(id, {
           content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
         }));

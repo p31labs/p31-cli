@@ -95,7 +95,9 @@ app.get('/tools/:category/:name', (c) => {
 app.post('/tools/:name', async (c) => {
   const name = c.req.param('name');
   const args = await c.req.json().catch(() => ({}));
-  const result = executeUnifiedTool(name, args);
+  // L7-H: optional session correlation for audit provenance.
+  const sessionId = c.req.header('x-p31-session-id') || c.req.header('x-session-id') || undefined;
+  const result = executeUnifiedTool(name, args, { sessionId });
   return c.json(result);
 });
 
@@ -111,9 +113,10 @@ app.post('/tasks', async (c) => {
   // Execute the tool asynchronously
   const name = body.name;
   const args = body.arguments || {};
+  const sessionId = body.sessionId || c.req.header('x-p31-session-id') || c.req.header('x-session-id') || undefined;
   setTimeout(() => {
     try {
-      const result = executeUnifiedTool(name, args);
+      const result = executeUnifiedTool(name, args, { sessionId });
       tasks.set(taskId, { status: 'completed', result, createdAt: tasks.get(taskId)!.createdAt });
     } catch (e: any) {
       tasks.set(taskId, { status: 'failed', result: { error: e.message }, createdAt: tasks.get(taskId)!.createdAt });
