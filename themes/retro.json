@@ -1,0 +1,37 @@
+{
+  "name": "retro",
+  "version": "1.0.0",
+  "tokens": {
+    "accent": "#f97316",
+    "background": "#0a0a0f",
+    "foreground": "#f5f5f7",
+    "surface": "#1e1e2e",
+    "border": "#333333",
+    "muted": "#9ca3af",
+    "error": "#ef4444",
+    "success": "#10b981",
+    "warning": "#fbbf24"
+  },
+  "contrastTargets": {
+    "textBackground": "AA",
+    "uiComponents": "AA"
+  },
+  "environmentSignals": {
+    "production": "#ff0000",
+    "staging": "#ffa500",
+    "regulated": "#ffff00",
+    "crisis": "#ff00ff"
+  },
+  "colors": {
+    "bg": "#0a0a0f",
+    "fg": "#f5f5f7",
+    "accent": "#f97316",
+    "accentDim": "#9ca3af",
+    "surface": "#1e1e2e",
+    "border": "#333333",
+    "muted": "#9ca3af",
+    "error": "#ef4444",
+    "success": "#10b981",
+    "warning": "#fbbf24"
+  }
+}

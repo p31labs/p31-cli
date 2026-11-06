@@ -2,7 +2,10 @@
  * src/tui/themes.ts
  * P31 brand themes for the TUI.
  * Cyan cockpit (p31ca) and warm garden (phosphorus31).
+ * Deployment mode (airgap/onprem) can imply regulated environment signaling (L8.4, G6).
  */
+
+import { getDeploymentThemeEnv } from '../lib/deployment.js';
 
 export interface P31Theme {
   name: string;
@@ -26,84 +29,42 @@ export interface P31Theme {
     care: string;
     sovereign: string;
   };
+  /** Optional environment signal — maps to accent color for the given env */
+  environment?: 'production' | 'staging' | 'regulated' | 'crisis';
 }
 
-export const p31caTheme: P31Theme = {
-  name: 'Cyan Cockpit',
-  brand: 'p31ca',
-  colors: {
-    bg: '#030712',
-    fg: '#F5F5F7',
-    accent: '#00F0FF',
-    accentDim: '#00F0FF80',
-    surface: '#0A0A0F',
-    border: '#1E1E2E',
-    muted: '#6B7280',
-    error: '#EF4444',
-    success: '#10B981',
-    warning: '#FBBF24',
-  },
-  symbols: {
-    crown: '♛',
-    spoon: '🥄',
-    mesh: '◇',
-    care: '♥',
-    sovereign: '⚡',
-  },
+const envAccentMap: Record<'production' | 'staging' | 'regulated' | 'crisis', string> = {
+  production: '#ff0000',
+  staging: '#ffa500',
+  regulated: '#ffff00',
+  crisis: '#ff00ff',
 };
 
-export const gardenTheme: P31Theme = {
-  name: 'Warm Garden',
-  brand: 'phosphorus31',
-  colors: {
-    bg: '#FAF9F6',
-    fg: '#1A1A1A',
-    accent: '#10B981',
-    accentDim: '#10B98180',
-    surface: '#FFFFFF',
-    border: '#E5E7EB',
-    muted: '#6B7280',
-    error: '#EF4444',
-    success: '#059669',
-    warning: '#D97706',
-  },
-  symbols: {
-    crown: '♛',
-    spoon: '🥄',
-    mesh: '◇',
-    care: '♥',
-    sovereign: '⚡',
-  },
-};
+export function getTheme(brand: 'p31ca' | 'phosphorus31', spoonLevel: number, env?: 'production' | 'staging' | 'regulated' | 'crisis'): P31Theme {
+  const effectiveEnv = env ?? getDeploymentThemeEnv();
+  if (spoonLevel <= 1) {
+    const theme = { ...crisisTheme, environment: effectiveEnv };
+    return effectiveEnv ? { ...theme, colors: { ...theme.colors, accent: envAccentMap[effectiveEnv] } } : theme;
+  }
+  if (brand === 'phosphorus31') {
+    const theme = { ...gardenTheme, environment: effectiveEnv };
+    return effectiveEnv ? { ...theme, colors: { ...theme.colors, accent: envAccentMap[effectiveEnv] } } : theme;
+  }
+  const theme = { ...p31caTheme, environment: effectiveEnv };
+  return effectiveEnv ? { ...theme, colors: { ...theme.colors, accent: envAccentMap[effectiveEnv] } } : theme;
+}
 
-export const crisisTheme: P31Theme = {
-  name: 'Crisis Minimal',
-  brand: 'p31ca',
-  colors: {
-    bg: '#000000',
-    fg: '#FFFFFF',
-    accent: '#FFFFFF',
-    accentDim: '#FFFFFF80',
-    surface: '#000000',
-    border: '#333333',
-    muted: '#666666',
-    error: '#FF0000',
-    success: '#00FF00',
-    warning: '#FFFF00',
-  },
-  symbols: {
-    crown: '♛',
-    spoon: '🥄',
-    mesh: '◇',
-    care: '♥',
-    sovereign: '⚡',
-  },
-};
-
-export function getTheme(brand: 'p31ca' | 'phosphorus31', spoonLevel: number): P31Theme {
-  if (spoonLevel <= 1) return crisisTheme;
-  if (brand === 'phosphorus31') return gardenTheme;
-  return p31caTheme;
+export function getThemeForEnvironment(theme: P31Theme, env: 'production' | 'staging' | 'regulated' | 'crisis'): P31Theme {
+  const accent = envAccentMap[env];
+  return {
+    ...theme,
+    environment: env,
+    colors: {
+      ...theme.colors,
+      accent,
+      accentDim: theme.colors.accentDim || `${accent}80`,
+    },
+  };
 }
 
 export function getSpoonLabel(level: number): string {
@@ -114,4 +75,14 @@ export function getSpoonLabel(level: number): string {
 
 export function getSpoonEmoji(level: number): string {
   return '🥄'.repeat(Math.max(1, level / 2));
+}
+
+// Default export for environment-aware theme resolution
+export function resolveThemeForEnv(brand: 'p31ca' | 'phosphorus31', spoonLevel: number, env: 'production' | 'staging' | 'regulated' | 'crisis'): P31Theme {
+  return getTheme(brand, spoonLevel, env);
+}
+
+/** Resolve theme using deployment mode defaults when explicit env is omitted (L8.4). */
+export function resolveThemeForDeployment(brand: 'p31ca' | 'phosphorus31', spoonLevel: number, env?: 'production' | 'staging' | 'regulated' | 'crisis'): P31Theme {
+  return getTheme(brand, spoonLevel, env ?? getDeploymentThemeEnv());
 }

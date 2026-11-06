@@ -1,0 +1,37 @@
+{
+  "name": "enterprise-production",
+  "version": "1.0.0",
+  "tokens": {
+    "accent": "#dc2626",
+    "background": "#120a0a",
+    "foreground": "#fef2f2",
+    "surface": "#1f1111",
+    "border": "#7f1d1d",
+    "muted": "#9ca3af",
+    "error": "#ef4444",
+    "success": "#10b981",
+    "warning": "#f59e0b"
+  },
+  "contrastTargets": {
+    "textBackground": "AA",
+    "uiComponents": "AA"
+  },
+  "environmentSignals": {
+    "production": "#dc2626",
+    "staging": "#f59e0b",
+    "regulated": "#2563eb",
+    "crisis": "#d946ef"
+  },
+  "colors": {
+    "bg": "#120a0a",
+    "fg": "#fef2f2",
+    "accent": "#dc2626",
+    "accentDim": "#9ca3af",
+    "surface": "#1f1111",
+    "border": "#7f1d1d",
+    "muted": "#9ca3af",
+    "error": "#ef4444",
+    "success": "#10b981",
+    "warning": "#f59e0b"
+  }
+}
