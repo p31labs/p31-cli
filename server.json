@@ -1,20 +1,19 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "com.p31ca/governed-agent-cli",
+  "name": "org.p31ca/governed-agent-cli",
   "title": "P31 Governed Agent CLI",
   "description": "Capability-routed CLI/MCP: signed provenance exports, WCAG-validated themes, sovereign deploy modes.",
   "repository": {
     "url": "https://github.com/p31labs/p31-cli",
     "source": "github"
   },
-  "version": "3.1.3",
+  "version": "3.1.6",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@p31ca/cli",
-      "version": "3.1.3",
-      "fileSha256": "87402b0b1b90f177a07620caa651a8bd33f1575361397b72288061f1b4c5f1c7",
+      "version": "3.1.6",
       "transport": {
         "type": "stdio"
       }
@@ -22,7 +21,7 @@
     {
       "registryType": "mcpb",
       "identifier": "https://github.com/p31labs/p31-cli/releases/download/mcp-v3.1.3/p31-mcp-governed-agent-cli-3.1.3.mcpb",
-      "version": "3.1.3",
+      "version": "3.1.6",
       "fileSha256": "87402b0b1b90f177a07620caa651a8bd33f1575361397b72288061f1b4c5f1c7",
       "transport": {
         "type": "stdio"

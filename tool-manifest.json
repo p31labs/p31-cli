@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-11-06T10:00:00Z",
+  "baseline": "d9a838e15bf3600af054d8bf93fd45bae6f6a0192164278a302df1a055829971",
+  "tools": [
+    { "name": "oasis_execute", "hash": "" },
+    { "name": "phos_adopt", "hash": "" },
+    { "name": "jitterbug_run", "hash": "" },
+    { "name": "phos_learn", "hash": "" },
+    { "name": "phos_deploy", "hash": "" },
+    { "name": "phos_watch", "hash": "" },
+    { "name": "healer_remediate", "hash": "" },
+    { "name": "bus_emit", "hash": "" },
+    { "name": "phos_rollback", "hash": "" }
+  ]
+}
