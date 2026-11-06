@@ -12,7 +12,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 const MANIFEST_PATH = 'tool-manifest.json';
 
-function computeHash(tool: { name: string; description: string; inputSchema: unknown }): string {
+function computeHash(tool) {
   const canonical = JSON.stringify(
     { name: tool.name, description: tool.description, inputSchema: tool.inputSchema },
     Object.keys({ name: 0, description: 0, inputSchema: 0 }).sort(),
