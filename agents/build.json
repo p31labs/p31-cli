@@ -1,0 +1,13 @@
+{
+  "agentId": "build",
+  "capabilities": ["tool-calling", "structured-json", "code-generation"],
+  "bucket": "fast-code",
+  "constraints": {
+    "maxLatencyMs": 2000,
+    "requireToolCalling": true,
+    "minContextWindow": 128000,
+    "maxCostTier": "free"
+  },
+  "toolPermissions": ["read", "write", "edit", "shell", "glob", "grep"],
+  "mcpAllowlist": ["bob", "design-parity", "ground-truth", "phos-forge"]
+}
