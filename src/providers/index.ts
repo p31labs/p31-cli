@@ -1,0 +1,8 @@
+/**
+ * src/providers/index.ts
+ * LLM provider adapters barrel export.
+ */
+
+export { AnthropicProvider, GoogleProvider, OpenRouterProvider, createProvider, createRoutedProvider, detectProviderFromAPIKey } from './llm.js';
+export type { ProviderAdapter, RoutableAdapter } from './llm.js';
+export type { ChatParams, ChatResult, StreamChunk, ToolDefinition } from '../types.js';

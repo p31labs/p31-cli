@@ -1,0 +1,2634 @@
+# P31 Design System — Component Registry (DERIVED ARTIFACT)
+# Generated from packages/design-core/src/componentDefs.ts by
+# packages/design-core/scripts/generate-components-yml.mjs — do not edit.
+# Canonical vocabulary: p31.* DTCG token paths (matches canon tokens.dtc.json).
+version: "2.0"
+components:
+  GlassPanel:
+    description: Elevated glassmorphic surface with backdrop blur. Use for modals, drawers, and elevated content areas.
+    css_class: glass-panel
+    tool: renderGlassPanel
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Elevated content above other UI
+        - Modal/dialog backgrounds
+        - Dropdown menus
+      avoidWhen:
+        - Inline content within a flow
+        - Background surfaces
+      examples:
+        - <div class="glass-panel">...</div>
+        - <GlassPanel padding="lg">...</GlassPanel>
+    props:
+      children:
+        type: ReactNode
+        description: Content to render inside the panel
+      padding:
+        type: '"sm" | "md" | "lg"'
+        default: md
+        description: Padding size
+      className:
+        type: string
+        description: Additional CSS classes
+    slots:
+      - default
+    variants:
+      - default
+      - hover
+    tokens:
+      - p31.glass.background
+      - p31.glass.border
+      - p31.glass.radius
+    accessibility:
+      - Uses semantic glass tokens for contrast
+      - Focus styles inherit from global :focus-visible
+    status: stable
+    tier: core
+    version: 1.0.0
+    importPath: "@p31ca/design-core/compositions"
+  GlassCard:
+    description: Padded glassmorphic card for content grouping. Use for feature cards, paper listings, and content tiles.
+    css_class: glass-card
+    tool: renderGlassCard
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Content grouping in grids
+        - Feature cards
+        - Paper/research listings
+        - Dashboard tiles
+      avoidWhen:
+        - Navigation elements
+        - Form inputs
+        - Full-width backgrounds
+      examples:
+        - <div class="glass-card">...</div>
+        - <GlassCard strong>...</GlassCard>
+    props:
+      children:
+        type: ReactNode
+        description: Card content
+      strong:
+        type: boolean
+        default: false
+        description: Use stronger glass opacity
+      className:
+        type: string
+        description: Additional CSS classes
+    slots:
+      - default
+    variants:
+      - default
+      - strong
+    tokens:
+      - p31.glass.background
+      - p31.glass.border
+      - p31.glass.radius
+      - p31.layout.spacing.lg
+    accessibility:
+      - Minimum padding ensures touch target compliance
+    status: stable
+    tier: core
+    version: 1.0.0
+    importPath: "@p31ca/design-core/compositions"
+  Topbar:
+    description: Unified app-chrome shell — slot-based three-region layout. Brand / center / statusCluster / mode / trailing / identity, with variant (app|marketing|game) and mobile overrides. The identity slot is auth-agnostic (SignInLink / IdentityChip / AccountMenu fills).
+    css_class: topbar
+    tool: renderTopbar
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Authenticated app chrome
+        - Site-wide navigation
+        - Brand header
+        - Persistent status (spoons/mode)
+      avoidWhen:
+        - Inline headers within content
+        - Modal headers
+      examples:
+        - <Topbar brand={<Crown/>} center={<CommandTrigger/>} statusCluster={<StatusCluster><SpoonCluster level={3}/></StatusCluster>} mode={<ModePill mode="spark"/>} trailing={<Avatar/>}/>
+    props:
+      brand:
+        type: ReactNode
+        description: "Left cluster: app mark + wordmark"
+      left:
+        type: ReactNode
+        description: Legacy alias for brand
+      center:
+        type: ReactNode
+        description: "Center region: command trigger, nav, or context"
+      right:
+        type: ReactNode
+        description: Legacy right cluster (renders into trailing)
+      statusCluster:
+        type: ReactNode
+        description: Read-only status segments
+      mode:
+        type: ReactNode
+        description: Primary mode control (ModePill)
+      trailing:
+        type: ReactNode
+        description: Pinned trailing actions (utility cluster)
+      identity:
+        type: ReactNode
+        description: Identity region — fenced from trailing; SignInLink / IdentityChip / AccountMenu fill
+      mobileLeading:
+        type: ReactNode
+        description: Mobile-only leading override
+      mobileTrailing:
+        type: ReactNode
+        description: Mobile-only trailing override
+      variant:
+        type: "'app' | 'marketing' | 'game'"
+        default: app
+        description: Visual variant
+      sticky:
+        type: boolean
+        default: true
+        description: Sticky at top
+    slots:
+      - brand
+      - center
+      - status
+      - mode
+      - trailing
+      - identity
+    variants:
+      - app
+      - marketing
+      - game
+    tokens:
+      - p31.topbar.height
+      - p31.glass.background
+      - p31.glass.border
+      - p31.layout.spacing.sm
+      - p31.radius.candy
+      - p31.color.accent.default
+      - p31.color.accent.gold.default
+      - p31.color.accent.green.default
+    accessibility:
+      - role=banner
+      - aria-label on header
+      - Center collapses on mobile with mobileLeading/Trailing
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  PosnerTopbar:
+    description: Posner glass-bar topbar — named + typed slots (brandLeading / brandMark / brandName / absolute-centered center / chips / overflow) compiled from the ONE TOPBAR_SPEC (canon-parts chrome.mjs) over the §6.3 profile model (full|compact|mini), capability flags, and mobileOverflow policy. The bar every portal composes (hub/workspace/marketplace/capital).
+    css_class: posner-topbar
+    tool: renderPosnerTopbar
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Authenticated app chrome
+        - The posner glass-bar language (hub/workspace/marketplace/capital)
+        - Brand + absolutely-centered command + chips + overflow
+      avoidWhen:
+        - Inline headers within content
+        - Modal headers
+        - Non-posner legacy surfaces (use the older Topbar)
+      examples:
+        - <PosnerTopbar brandName="P31 WORKSPACE" center={<CommandTrigger/>} chips={<IdentityChip/>} overflow={<NotificationStack/>} />
+    props:
+      brandLeading:
+        type: ReactNode
+        description: Left-of-brand node (drawer toggle, back control)
+      brandMark:
+        type: ReactNode
+        description: Brand mark glyph (the "31" tile)
+      brandName:
+        type: ReactNode
+        description: Brand wordmark text
+      brandLabel:
+        type: string
+        default: Home. Click to cycle theme.
+        description: Brand button aria-label + title (theme-cycle target)
+      onBrandClick:
+        type: () => void
+        description: Brand click handler (theme cycle)
+      showThemeDot:
+        type: boolean
+        default: true
+        description: Render the SSR-safe theme dot
+      center:
+        type: ReactNode
+        description: Absolute-centered search/command slot
+      chips:
+        type: ReactNode
+        description: Minimal right chip cluster
+      overflow:
+        type: ReactNode
+        description: Overflow menu slot (enterprise controls)
+      overflowLabel:
+        type: string
+        default: More
+        description: Overflow menu group aria-label
+      overflowTriggerLabel:
+        type: string
+        default: More
+        description: Overflow trigger aria-label + title
+      className:
+        type: string
+        description: Extra classes on the root header
+      aria-label:
+        type: string
+        default: Application top bar
+        description: Banner accessible name
+    slots:
+      - brandLeading
+      - brandMark
+      - brandName
+      - center
+      - chips
+      - overflow
+    variants:
+      - full
+      - compact
+      - mini
+    tokens:
+      - p31.topbar.height
+      - p31.header-height
+      - p31.glass.background
+      - p31.glass.border
+      - p31.radius.candy
+      - p31.color.accent.default
+      - p31.color.accent.gold.default
+      - p31.color.accent.green.default
+    accessibility:
+      - role=banner + aria-label
+      - "Disclosure trigger: aria-expanded + aria-controls"
+      - SSR-safe theme dot (no hydration mismatch)
+      - Spoons-0/1 + prefers-reduced-motion guards in CSS
+    status: stable
+    tier: core
+    version: 3.0.2
+    importPath: "@p31ca/design-core/compositions"
+  BottomNav:
+    description: Fixed bottom navigation bar for mobile-first apps. Use for primary app navigation.
+    css_class: bottom-nav
+    tool: renderBottomNav
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Mobile app navigation
+        - Primary navigation on small screens
+        - Tab-based navigation
+      avoidWhen:
+        - Desktop-only navigation
+        - Secondary navigation
+        - More than 5 items
+      examples:
+        - <nav class="bottom-nav">...</nav>
+        - <BottomNav items={navItems} />
+    props:
+      items:
+        type: NavItem[]
+        description: Navigation items with icon, label, and href
+      activeIndex:
+        type: number
+        description: Currently active item index
+    slots:
+      - default
+    variants:
+      - default
+      - mobile
+      - tablet
+    tokens:
+      - p31.topbar.height
+      - p31.glass.background
+      - p31.glass.border
+      - p31.layout.spacing.sm
+    accessibility:
+      - Minimum 48px touch targets
+      - Active state clearly indicated
+      - aria-selected on active item
+    status: stable
+    tier: core
+    version: 1.0.0
+    importPath: "@p31ca/design-core/compositions"
+  SpoonDial:
+    description: Cognitive load selector (0-5 spoons). Use for neurodivergent-first accessibility control.
+    css_class: spoon-dial
+    tool: renderSpoonDial
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Accessibility controls
+        - Cognitive load adjustment
+        - Neurodivergent-first UX
+      avoidWhen:
+        - Primary navigation
+        - Form inputs
+        - Settings pages without context
+      examples:
+        - <div class="spoon-dial">...</div>
+        - <SpoonDial level={3} onChange={setSpoons} />
+    props:
+      level:
+        type: number
+        min: 0
+        max: 5
+        description: Current spoon level (0-5)
+      onChange:
+        type: "(level: number) => void"
+        description: Callback when level changes
+    slots:
+      - default
+    variants:
+      - default
+      - crisis
+    tokens:
+      - p31.radius.full
+      - p31.glass.background
+      - p31.glass.border
+      - p31.color.accent.default
+      - p31.color.text.muted
+    accessibility:
+      - "Role: radiogroup"
+      - aria-checked on each button
+      - Labels for each level
+    status: stable
+    tier: core
+    version: 1.0.0
+    importPath: "@p31ca/design-core/compositions"
+  Button:
+    description: Primary action button. Use for CTAs, form submissions, and key actions.
+    css_class: btn
+    tool: renderButton
+    category: action
+    aiGuidance:
+      useWhen:
+        - Primary CTAs
+        - Form submissions
+        - Key actions requiring emphasis
+      avoidWhen:
+        - Secondary actions
+        - Destructive actions without confirmation
+        - Inline links
+      examples:
+        - <button class="btn btn-primary">...</button>
+        - <Button variant="primary">...</Button>
+    props:
+      children:
+        type: ReactNode
+        description: Button content
+      variant:
+        type: '"primary" | "secondary" | "ghost"'
+        default: primary
+        description: Visual variant
+      disabled:
+        type: boolean
+        default: false
+        description: Disabled state
+      onClick:
+        type: () => void
+        description: Click handler
+    slots:
+      - default
+    variants:
+      - primary
+      - secondary
+      - ghost
+    tokens:
+      - p31.color.accent.default
+      - p31.radius.md
+      - p31.layout.spacing.sm
+      - p31.layout.spacing.lg
+    accessibility:
+      - Minimum 48px height
+      - Disabled state clearly indicated
+      - Focus ring visible
+    status: stable
+    tier: core
+    version: 1.0.0
+    importPath: "@p31ca/design-core/compositions"
+  StatusBadge:
+    description: Status indicator badge. Use for system status, health indicators, and state labels.
+    css_class: badge
+    tool: renderStatusBadge
+    category: feedback
+    aiGuidance:
+      useWhen:
+        - System health indicators
+        - Feature flags
+        - Beta/alpha labels
+        - Connection status
+      avoidWhen:
+        - Primary content
+        - Long text
+        - Interactive elements
+      examples:
+        - <span class="badge badge-success">Live</span>
+        - <StatusBadge status="online" />
+    props:
+      status:
+        type: '"online" | "offline" | "busy" | "away"'
+        description: Status type
+      label:
+        type: string
+        description: Badge text
+    slots:
+      - default
+    variants:
+      - success
+      - warning
+      - error
+      - info
+    tokens:
+      - p31.radius.full
+      - p31.scale.xs
+      - p31.color.accent.green.default
+      - p31.color.accent.red.default
+      - p31.color.accent.gold.default
+    accessibility:
+      - Color + icon for colorblind users
+      - Screen reader text included
+    status: stable
+    tier: core
+    version: 1.0.0
+    importPath: "@p31ca/design-core/compositions"
+  MetricBadge:
+    description: Compact metric display with icon. Use for dashboard KPIs and telemetry.
+    css_class: metric-badge
+    tool: renderMetricBadge
+    category: feedback
+    aiGuidance:
+      useWhen:
+        - Dashboard KPIs
+        - Telemetry displays
+        - Compact metrics in navbars
+      avoidWhen:
+        - Primary content
+        - Long values
+        - Interactive controls
+      examples:
+        - <div class="metric-badge"><span class="status-dot"></span> Online</div>
+    props:
+      icon:
+        type: ReactNode
+        description: Icon or indicator
+      value:
+        type: string | number
+        description: Metric value
+      label:
+        type: string
+        description: Metric label
+      clickable:
+        type: boolean
+        default: false
+        description: Enable hover state
+    slots:
+      - default
+    variants:
+      - default
+      - clickable
+    tokens:
+      - p31.glass.background
+      - p31.glass.border
+      - p31.radius.sm
+      - p31.scale.xs
+      - p31.color.text.secondary
+    accessibility:
+      - Icon has aria-hidden or accessible name
+      - Value is screen-reader accessible
+    status: stable
+    tier: core
+    version: 1.0.0
+    importPath: "@p31ca/design-core/compositions"
+  Starfield:
+    description: Animated starfield background. Use for ambient backgrounds in shell and marketing.
+    css_class: starfield-bg
+    tool: renderStarfield
+    category: ambient
+    aiGuidance:
+      useWhen:
+        - Page backgrounds
+        - Ambient effects
+        - Shell backgrounds
+      avoidWhen:
+        - Content areas
+        - Overlays on top of text
+        - Crisis mode (spoons=0)
+      examples:
+        - <div class="starfield-bg" aria-hidden="true"></div>
+        - <Starfield spoons={3} />
+    props:
+      spoons:
+        type: number
+        description: Current spoon level for density/speed
+      warmStars:
+        type: boolean
+        description: Use warm color palette
+      reduceMotion:
+        type: boolean
+        description: Disable animations
+    slots:
+      - default
+    variants:
+      - default
+      - warm
+      - reduced-motion
+    tokens:
+      - p31.z.starfield
+      - p31.starfield.hearth
+      - p31.starfield.teal
+      - p31.starfield.remembrance
+    accessibility:
+      - aria-hidden="true"
+      - Respects prefers-reduced-motion
+      - Disabled at spoons=0
+    status: stable
+    tier: core
+    version: 1.0.0
+    importPath: "@p31ca/design-core/starfield"
+  CrisisOverlay:
+    description: Full-screen crisis mode overlay. Shown when spoons=0. Only exit control visible.
+    css_class: crisis-overlay
+    tool: renderCrisisOverlay
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Cognitive overload protection
+        - Spoons=0 state
+        - Emergency break glass
+      avoidWhen:
+        - Normal operation
+        - Informational overlays
+        - Non-critical warnings
+      examples:
+        - <div class="crisis-overlay" data-spoons="0">...</div>
+        - <CrisisOverlay onReady={exitCrisis} />
+    props:
+      onReady:
+        type: () => void
+        description: Callback when user dismisses overlay
+      message:
+        type: string
+        description: Custom crisis message
+    slots:
+      - default
+    variants:
+      - default
+    tokens:
+      - p31.surface.background
+      - p31.color.text.primary
+      - p31.color.accent.default
+      - p31.z.crisis
+    accessibility:
+      - Full screen focus trap
+      - Escape key exits
+      - High contrast text
+    status: stable
+    tier: core
+    version: 1.0.0
+    importPath: "@p31ca/design-core/crisis-overlay"
+  SectionStrip:
+    description: Desktop pill navigation strip. Use for primary section navigation on wide viewports.
+    css_class: section-strip
+    tool: renderSectionStrip
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Desktop primary navigation
+        - Section switching
+        - Router-agnostic nav
+      avoidWhen:
+        - Mobile navigation (use BottomNav)
+        - More than 7 items
+        - Modal contexts
+      examples:
+        - <SectionStrip items={sections} onSelect={navigate} />
+    props:
+      items:
+        type: SectionItem[]
+        description: "Nav items: { id, label, icon?, active? }"
+      onSelect:
+        type: "(id: string) => void"
+        description: Called with the selected section id
+      className:
+        type: string
+        description: Additional CSS classes
+      style:
+        type: CSSProperties
+        description: Inline styles
+    slots:
+      - default
+    variants:
+      - default
+    tokens:
+      - p31.glass.background
+      - p31.glass.border
+      - p31.radius.candy
+      - p31.color.accent.default
+      - p31.color.text.secondary
+    accessibility:
+      - aria-current="page" on active tab
+      - Minimum 48px targets
+      - Keyboard navigable buttons
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  CommandPalette:
+    description: Keyboard-friendly command palette (⌘K). Use for site-wide search and command invocation.
+    css_class: cmdk
+    tool: renderCommandPalette
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Site-wide search
+        - Command invocation
+        - Keyboard-first power users
+      avoidWhen:
+        - Inline search within forms
+        - Primary navigation
+        - Mobile-first (native) flows
+      examples:
+        - <CommandPalette open={open} onClose={close} items={commands} onSelect={run} />
+    props:
+      open:
+        type: boolean
+        required: true
+        description: Controlled open state
+      onClose:
+        type: () => void
+        required: true
+        description: Close callback
+      items:
+        type: CommandItem[]
+        required: true
+        description: "Searchable items: { id, label, description?, icon?, keywords? }"
+      onSelect:
+        type: "(id: string) => void"
+        required: true
+        description: Called with the selected item id
+      placeholder:
+        type: string
+        default: Search…
+        description: Input placeholder
+      leadingIcon:
+        type: ReactNode
+        description: Optional leading icon
+    slots:
+      - default
+    variants:
+      - default
+    tokens:
+      - p31.glass.background
+      - p31.glass.border
+      - p31.color.accent.default
+      - p31.radius.md
+      - p31.z.modal
+    accessibility:
+      - role=dialog + aria-modal
+      - role=listbox / option
+      - ArrowUp/Down + Enter + Escape keys
+      - Arrow keys cycle results
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  Chameleon:
+    description: "Adaptive theme controls: brand × world × age × sensory modes. Zero-reload token swaps."
+    css_class: chameleon
+    tool: renderChameleon
+    category: ambient
+    aiGuidance:
+      useWhen:
+        - Theme switching
+        - Brand switching
+        - Accessibility (muted/dusk) controls
+      avoidWhen:
+        - Inline content panels
+        - Nested dialog contexts
+        - Restricted UI shells
+      examples:
+        - <Chameleon />
+        - <Chameleon className="topbar-right" />
+    props:
+      className:
+        type: string
+        description: Additional CSS classes
+      style:
+        type: CSSProperties
+        description: Inline styles
+    slots:
+      - default
+    variants:
+      - default
+    tokens:
+      - p31.color.accent.default
+    accessibility:
+      - aria-haspopup=dialog
+      - aria-expanded
+      - aria-pressed on chips
+      - Escape closes panel
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  PageHeader:
+    description: "Inner-page hero: mono eyebrow, gradient title, and lede. Use at the top of content routes."
+    css_class: page-header-route
+    tool: renderPageHeader
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Route/page headers
+        - Content hero sections
+        - Documentation pages
+      avoidWhen:
+        - Topbar/brand headers
+        - Modal headers
+        - List item headers
+      examples:
+        - <PageHeader eyebrow="System" title="Tokens" lede="..." />
+    props:
+      eyebrow:
+        type: string
+        required: true
+        description: Mono eyebrow label
+      title:
+        type: string
+        required: true
+        description: Page title
+      lede:
+        type: string
+        description: Supporting lede paragraph
+      children:
+        type: ReactNode
+        description: Optional action cluster (rendered in .page-actions)
+      className:
+        type: string
+        description: Additional CSS classes
+      style:
+        type: CSSProperties
+        description: Inline styles
+    slots:
+      - default
+    variants:
+      - default
+      - actions
+    tokens:
+      - p31.color.text.secondary
+      - p31.layout.spacing.lg
+    accessibility:
+      - Semantic <header> + <h1>
+      - Visual gradient paired with text
+      - Actions are keyboard reachable
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  Footer:
+    description: Site footer with configurable columns, branding, and legal text.
+    css_class: site-footer
+    tool: renderFooter
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Page footers
+        - Site-wide navigation
+        - Legal/copyright notices
+      avoidWhen:
+        - Inline content areas
+        - Modal footers
+        - Inline content separators
+      examples:
+        - <Footer columns={systemColumns} />
+    props:
+      columns:
+        type: FooterColumn[]
+        description: Footer column groups with title and links
+      brandLabel:
+        type: string
+        default: P31
+        description: Brand label text
+      brandIcon:
+        type: ReactNode
+        description: Optional brand icon
+      tagline:
+        type: string
+        default: Sovereign, neuroinclusive interface foundation.
+        description: Tagline text
+      copyright:
+        type: string
+        description: Optional copyright year/owner
+      legalText:
+        type: string
+        default: MIT · built on DTCG tokens
+        description: Legal/license text
+      className:
+        type: string
+        description: Additional CSS classes
+      style:
+        type: CSSProperties
+        description: Inline styles
+    slots:
+      - default
+    variants:
+      - default
+    tokens:
+      - p31.surface.background
+      - p31.color.text.primary
+      - p31.color.text.secondary
+      - p31.layout.spacing.lg
+    accessibility:
+      - Semantic <footer> element
+      - ARIA labels on navigation sections
+      - Link text is descriptive
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  SidebarNav:
+    description: Flat suite navigation rail (emoji + label), active state per route. Store-agnostic — items/activePath/onNavigate are props.
+    css_class: sidebar-nav
+    tool: renderSidebarNav
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Persistent side navigation
+        - Flat suite nav (many sections)
+        - Route-aware active state
+      avoidWhen:
+        - Mobile-only chrome
+        - Hierarchical trees needing nesting
+      examples:
+        - <SidebarNav items={navSections} activePath={pathname} onNavigate={go} />
+    props:
+      items:
+        type: SidebarNavItem[]
+        required: true
+        description: "Nav items: { path, label, emoji?, flagship? }"
+      activePath:
+        type: string
+        description: Currently active route path
+      onNavigate:
+        type: "(path: string) => void"
+        description: Route handler (consumer owns routing)
+      className:
+        type: string
+        description: Additional CSS classes
+      ariaLabel:
+        type: string
+        default: Main navigation
+        description: nav aria-label
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.glass.surface
+      - p31.glass.border
+      - p31.color.accent.default
+      - p31.color.text.secondary
+      - p31.radius.full
+      - p31.font.family.sans
+    accessibility:
+      - Semantic <nav> element
+      - aria-current=page on active item
+      - Focus-visible ring on items
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  SidebarDrawer:
+    description: Canon drawer composition (M5 killer) — in-flow spacer + fixed aside + collapse control + mobile backdrop, wrapping the ONE DRAWER_SPEC chrome tree (canon-parts chrome.mjs). nav is the SidebarNav tree; id/collapsed/mobile/mobileOpen are the rail states.
+    css_class: sidebar-drawer
+    tool: renderSidebarDrawer
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Desktop side-rail chrome
+        - Persistent nav drawers
+        - Replacing the per-portal drawer wrappers (the ×5–6 duplicate)
+      avoidWhen:
+        - Overlay-only panels (use Sheet)
+        - The nav content itself (use SidebarNav)
+        - A drawer key/id that is not portal-namespaced (A18)
+      examples:
+        - <SidebarDrawer id="p31.sidebar.v2.workspace" nav={<SidebarNav items={nav} activePath={path} onNavigate={go} />} />
+    props:
+      nav:
+        type: ReactNode
+        required: true
+        description: The SidebarNav tree (or nav content)
+      id:
+        type: string
+        default: p31-sidebar-drawer
+        description: Drawer DOM id + collapse aria-controls target (portal-namespaced, A18)
+      collapsed:
+        type: boolean
+        default: false
+        description: Desktop collapsed rail state
+      mobile:
+        type: boolean
+        default: false
+        description: Render the mobile overlay mode (with backdrop)
+      mobileOpen:
+        type: boolean
+        default: false
+        description: Mobile overlay open state
+      collapseLabel:
+        type: string
+        description: Collapse button accessible label (derived from collapsed when omitted)
+      ariaLabel:
+        type: string
+        default: Main navigation
+        description: aside aria-label
+      className:
+        type: string
+        description: Extra classes on the aside
+    slots:
+      - nav
+      - collapse
+      - backdrop
+    variants:
+      - desktop-rail
+      - mobile-overlay
+    tokens:
+      - p31.glass.surface
+      - p31.glass.border
+      - p31.color.text.secondary
+      - p31.radius.candy
+    accessibility:
+      - aside with aria-label + tabIndex=-1
+      - "Collapse button: aria-expanded + aria-controls (points at the drawer id)"
+      - Backdrop aria-hidden
+      - Drawer key/id portal-namespaced + unique (A18)
+    status: beta
+    tier: experimental
+    version: 3.0.2
+    importPath: "@p31ca/design-core/compositions"
+  MobileBottomNav:
+    description: Mobile bottom navigation bar — flagship items only (suite pattern). Store-agnostic.
+    css_class: mobile-bottom-nav
+    tool: renderMobileBottomNav
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Mobile bottom tab bars
+        - Flagship item shortcuts
+        - Compact nav under 768px
+      avoidWhen:
+        - Desktop primary nav
+        - Nav with text labels needed
+      examples:
+        - <MobileBottomNav items={flagships} activePath={pathname} onNavigate={go} />
+    props:
+      items:
+        type: SidebarNavItem[]
+        required: true
+        description: Nav items; flagships shown
+      activePath:
+        type: string
+        description: Currently active route path
+      onNavigate:
+        type: "(path: string) => void"
+        description: Route handler (consumer owns routing)
+      className:
+        type: string
+        description: Additional CSS classes
+      ariaLabel:
+        type: string
+        default: Mobile navigation
+        description: nav aria-label
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.glass.surface
+      - p31.glass.border
+      - p31.color.accent.default
+      - p31.color.text.secondary
+      - p31.radius.full
+    accessibility:
+      - Semantic <nav> element
+      - aria-current=page on active item
+      - Touch targets 48px
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  CalmOverlay:
+    description: Calm mode — the regulation instrument (CALM-MODE.md). Renders nothing; drives data-calm on <html> to hide chrome and keep the ambient. Store-agnostic — spoons/onExit are props.
+    css_class: calm-overlay
+    tool: renderCalmOverlay
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Spoon level 0 / calm floor
+        - Chrome-hiding calm mode (ambient stays)
+        - LED/haptic-driven breathing guidance
+      avoidWhen:
+        - Normal navigation
+        - Any non-crisis state
+      examples:
+        - <CalmOverlay spoons={spoons} onExit={() => setSpoons(1)} onEnterCalm={applyLedCalmPreset} />
+    props:
+      spoons:
+        type: number
+        required: true
+        description: Current spoon level; calm activates at 0
+      onExit:
+        type: () => void
+        required: true
+        description: Exit handler (Esc / tap LED chip / spoon-restore)
+      onEnterCalm:
+        type: () => void
+        description: Entry hook — consumer applies the LED calm preset + haptic pattern
+      sighFirst:
+        type: boolean
+        description: Physiological sigh for 60s before coherence (default true)
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.color.accent.default
+      - p31.color.text.primary
+      - p31.z.floating
+    accessibility:
+      - role=dialog aria-modal=true
+      - aria-label="Calm mode"
+      - Return button is keyboard reachable
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  NotificationStack:
+    description: Stacked, severity-tinted notification toasts (bottom-right). Store-agnostic — items/onDismiss are props; colors via data-kind.
+    css_class: notif-stack
+    tool: renderNotificationStack
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Stacked toast notifications
+        - Severity-tinted status (info/success/milestone/error)
+        - Auto-dismiss queues
+      avoidWhen:
+        - Inline alerts
+        - Modal-confirmation flows
+      examples:
+        - <NotificationStack items={notifs} onDismiss={dismiss} onClearAll={clearAll} />
+    props:
+      items:
+        type: Notification[]
+        required: true
+        description: "Notifications: { id, kind, title, body? }"
+      onDismiss:
+        type: "(id: string) => void"
+        description: Dismiss one by id
+      onClearAll:
+        type: () => void
+        description: Clear all (optional)
+      className:
+        type: string
+        description: Additional CSS classes
+      ariaLabel:
+        type: string
+        default: Notifications
+        description: region aria-label
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.glass.surface
+      - p31.glass.border
+      - p31.color.accent.default
+      - p31.color.accent.green.default
+      - p31.color.accent.gold.default
+      - p31.color.accent.red.default
+      - p31.color.text.primary
+      - p31.color.text.secondary
+      - p31.z.floating
+    accessibility:
+      - role=region aria-label="Notifications"
+      - role=status per toast
+      - Dismiss buttons are keyboard reachable
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  Badge:
+    description: Compact status label. Crisis mode keeps colors but forces opaque surfaces.
+    css_class: badge
+    tool: renderBadge
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Status labels
+        - Tone tags (success/warning/error/info/neutral)
+      avoidWhen:
+        - Interactive controls
+        - Primary call-to-action
+      examples:
+        - <Badge tone="success" label="online" />
+    props:
+      tone:
+        type: "'success' | 'warning' | 'error' | 'info' | 'neutral'"
+        default: neutral
+        description: Status tone
+      label:
+        type: string
+        description: Label text
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.color.accent.default
+      - p31.color.accent.green.default
+      - p31.color.accent.gold.default
+      - p31.color.accent.red.default
+      - p31.radius.full
+      - p31.font.family.sans
+    accessibility:
+      - Small text with sufficient contrast
+      - Not interactive
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  CandyHeader:
+    description: Candy-rounded glass header for the sovereign stack.
+    css_class: candy-header
+    tool: renderCandyHeader
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Rounded glass section headers
+        - Branded page headers
+      avoidWhen:
+        - Standard top bars
+        - Inline headings
+      examples:
+        - <CandyHeader eyebrow="System" title="Candy Header" lede="A candy-rounded glass header" />
+    props:
+      eyebrow:
+        type: string
+        description: Small kicker text
+      title:
+        type: string
+        description: Header title
+      lede:
+        type: string
+        description: Supporting lead text
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.glass.surface
+      - p31.glass.border
+      - p31.radius.candy
+      - p31.color.text.primary
+      - p31.color.accent.default
+    accessibility:
+      - Semantic header
+      - Title present
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  Card:
+    description: Elevated surface with an optional interactive affordance.
+    css_class: card
+    tool: renderCard
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Content tiles
+        - Feature cards
+        - Interactive rows
+      avoidWhen:
+        - Modal containers
+        - Primary chrome
+      examples:
+        - <Card title="Glass card" description="Elevated surface" interactive />
+    props:
+      title:
+        type: string
+        description: Card title
+      description:
+        type: string
+        description: Card description
+      padding:
+        type: '"sm" | "md" | "lg"'
+        default: md
+        description: Padding size
+      interactive:
+        type: boolean
+        default: false
+        description: Show interactive affordance
+      text:
+        type: string
+        description: Body text
+    slots:
+      - default
+    variants:
+      - default
+      - interactive
+    tokens:
+      - p31.surface.background
+      - p31.glass.border
+      - p31.color.text.primary
+      - p31.color.text.secondary
+      - p31.radius.md
+    accessibility:
+      - Semantic article/card
+      - Interactive state has affordance
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  ChatShell:
+    description: Conversational shell with a header, drawer, and chat surface.
+    css_class: chat-shell
+    tool: renderChatShell
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Chat interfaces
+        - Conversational AI surfaces
+        - Message threads
+      avoidWhen:
+        - Static content
+        - Document readers
+      examples:
+        - <ChatShell header={header} drawerOpen={open} onCloseDrawer={close} />
+    props:
+      header:
+        type: ReactNode
+        description: Shell header
+      drawerLabel:
+        type: string
+        description: Drawer accessible label
+      drawerOpen:
+        type: boolean
+        required: true
+        description: Drawer open state
+      onCloseDrawer:
+        type: () => void
+        required: true
+        description: Close drawer handler
+      drawer:
+        type: ReactNode
+        description: Drawer content
+      height:
+        type: string
+        description: Shell height
+    slots:
+      - default
+      - drawer
+    variants:
+      - default
+    tokens:
+      - p31.surface.background
+      - p31.glass.border
+      - p31.color.text.primary
+      - p31.color.text.secondary
+      - p31.radius.lg
+    accessibility:
+      - Semantic region
+      - Drawer focus management
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  Checkbox:
+    description: Tri-state checkbox (checked / unchecked / indeterminate).
+    css_class: checkbox
+    tool: renderCheckbox
+    category: action
+    aiGuidance:
+      useWhen:
+        - Form toggles
+        - Multi-select lists
+        - Indeterminate parent states
+      avoidWhen:
+        - Single binary actions that need a switch
+        - Non-form UI
+      examples:
+        - <Checkbox label="Subscribe to care digests" checked />
+    props:
+      label:
+        type: string
+        description: Accessible label
+      checked:
+        type: boolean
+        description: Checked state
+      indeterminate:
+        type: boolean
+        description: Indeterminate state
+      disabled:
+        type: boolean
+        description: Disabled
+      onChange:
+        type: "(checked: boolean) => void"
+        description: Change handler
+    slots:
+      []
+    variants:
+      - default
+      - indeterminate
+    tokens:
+      - p31.color.accent.default
+      - p31.color.text.primary
+      - p31.color.text.secondary
+      - p31.radius.sm
+      - p31.glass.border
+    accessibility:
+      - Label associated with input
+      - Keyboard reachable
+      - Indeterminate announced
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  Crown:
+    description: Compact brand crown mark with a label.
+    css_class: crown
+    tool: renderCrown
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Brand marks
+        - Topbar brand slot
+        - Logo identifiers
+      avoidWhen:
+        - Standalone decorative marks
+        - Icon buttons
+      examples:
+        - <Crown label="P31" />
+    props:
+      label:
+        type: string
+        default: P31
+        description: Brand label
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.color.accent.default
+      - p31.color.text.primary
+      - p31.font.family.sans
+    accessibility:
+      - Text alternative present
+      - Non-interactive
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  Dropdown:
+    description: Selectable dropdown menu with options.
+    css_class: dropdown
+    tool: renderDropdown
+    category: action
+    aiGuidance:
+      useWhen:
+        - Form selects
+        - Menu pickers
+        - Filter controls
+      avoidWhen:
+        - Multi-select trees
+        - Command palettes
+      examples:
+        - <Dropdown label="Action" options={[...]} onChange={fn} />
+    props:
+      label:
+        type: string
+        description: Field label
+      value:
+        type: string
+        description: Selected value
+      options:
+        type: DropdownOption[]
+        description: Options list
+      onChange:
+        type: "(value: string) => void"
+        description: Selection handler
+      ariaLabel:
+        type: string
+        description: Accessible label
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.surface.background
+      - p31.glass.border
+      - p31.color.text.primary
+      - p31.color.text.secondary
+      - p31.color.accent.default
+      - p31.radius.md
+    accessibility:
+      - Label associated
+      - Keyboard reachable
+      - Options announced
+    status: stable
+    tier: core
+    version: 2.2.0
+    importPath: "@p31ca/design-core/compositions"
+  TopbarSection:
+    description: Vertically-centered, gap-consistent slot group inside a Topbar. Owns internal spacing; the Topbar owns arrangement.
+    css_class: topbar-section
+    tool: renderTopbarSection
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Building a custom Topbar region
+        - Slot content grouping
+      avoidWhen:
+        - Standalone layout (use Topbar)
+        - Page sections
+      examples:
+        - <TopbarSection slot="status"><SpoonCluster level={3}/></TopbarSection>
+    props:
+      slot:
+        type: "'leading' | 'brand' | 'center' | 'status' | 'mode' | 'trailing' | 'mobile-trailing'"
+        required: true
+        description: Slot identity
+      className:
+        type: string
+        description: Additional CSS classes
+    slots:
+      - default
+    variants:
+      - default
+    tokens:
+      - p31.layout.spacing.xs
+      - p31.glass.background
+    accessibility:
+      - data-slot attribute for consumer styling
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  CommandTrigger:
+    description: Topbar search affordance — a button with a keyboard hint that opens the command palette.
+    css_class: command-trigger
+    tool: renderCommandTrigger
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Topbar center slot search
+        - Command palette trigger
+      avoidWhen:
+        - Actual search input
+        - Non-global search
+      examples:
+        - <CommandTrigger placeholder="Search or jump to…" shortcut="⌘K" onOpen={openPalette}/>
+    props:
+      placeholder:
+        type: string
+        default: Search or jump to…
+        description: Placeholder text
+      shortcut:
+        type: string
+        default: ⌘K
+        description: OS-correct modifier hint
+      onOpen:
+        type: () => void
+        description: Open the command palette
+      compact:
+        type: boolean
+        description: Icon-only for narrow bars
+    slots:
+      []
+    variants:
+      - default
+      - compact
+    tokens:
+      - p31.glass.background
+      - p31.glass.border
+      - p31.radius.full
+      - p31.color.text.secondary
+      - p31.font.family.mono
+    accessibility:
+      - Rendered as a button
+      - aria-label = placeholder
+      - Keyboard hint is visual only
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  StatusCluster:
+    description: Read-only status row in the topbar right region. Scrolls horizontally with edge fades when it outgrows the bar.
+    css_class: status-cluster
+    tool: renderStatusCluster
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Multiple status pills (mode, spoons, calm, chips)
+        - Overflowing status segments
+      avoidWhen:
+        - Interactive action buttons (those pin in trailing)
+        - Fewer than 2 status segments
+      examples:
+        - <StatusCluster><ModePill mode="spark"/><SpoonCluster level={3}/><CalmIndicator spoons={3}/></StatusCluster>
+    props:
+      className:
+        type: string
+        description: Additional CSS classes
+    slots:
+      - default
+    variants:
+      - default
+    tokens:
+      - p31.glass.background
+      - p31.layout.spacing.xs
+    accessibility:
+      - Hidden scrollbar
+      - Edge fades only on overflowing side
+      - Children must not open in-flow absolute panels
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  ModePill:
+    description: Primary mode control (SPARK / MAKER / WORKSHOP) with a tone dot.
+    css_class: mode-pill
+    tool: renderModePill
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Mode indicator (spark/maker/workshop)
+        - Primary state control
+      avoidWhen:
+        - Read-only status (use a plain chip)
+        - Non-mode toggles
+      examples:
+        - <ModePill mode="spark" onCycle={cycleMode}/>
+    props:
+      mode:
+        type: "'spark' | 'maker' | 'workshop'"
+        required: true
+        description: Current mode
+      onCycle:
+        type: () => void
+        description: Cycle or open a picker
+    slots:
+      []
+    variants:
+      - spark
+      - maker
+      - workshop
+    tokens:
+      - p31.color.accent.default
+      - p31.color.accent.gold.default
+      - p31.color.accent.green.default
+      - p31.glass.background
+      - p31.radius.full
+    accessibility:
+      - aria-label includes current mode
+      - Keyboard reachable
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  CalmIndicator:
+    description: Calm pill in the status cluster — reads spoon level and opens the calm overlay.
+    css_class: calm-indicator
+    tool: renderCalmIndicator
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Spoon-level status in the topbar
+        - Calm overlay affordance
+      avoidWhen:
+        - Full calm overlay (use CalmOverlay)
+        - Non-calm status
+      examples:
+        - <CalmIndicator spoons={2} onOpen={openCalm}/>
+    props:
+      spoons:
+        type: number
+        required: true
+        description: Current spoon level (0–5)
+      onOpen:
+        type: () => void
+        description: Open calm overlay
+    slots:
+      []
+    variants:
+      - is-calm
+      - is-alert
+    tokens:
+      - p31.color.accent.green.default
+      - p31.color.accent.red.default
+      - p31.glass.background
+      - p31.radius.full
+    accessibility:
+      - aria-label reflects calm state
+      - Keyboard reachable
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  SpoonCluster:
+    description: Spoon dots in the status cluster — read-only metabolic status.
+    css_class: spoon-cluster
+    tool: renderSpoonCluster
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - Spoon-level visual in the topbar
+        - Metabolic status
+      avoidWhen:
+        - Interactive spoon control
+        - Non-status indicator
+      examples:
+        - <SpoonCluster level={3} total={5}/>
+    props:
+      level:
+        type: number
+        required: true
+        description: Current spoon level (0–5)
+      total:
+        type: number
+        default: 5
+        description: Total dots
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.color.accent.default
+      - p31.glass.border
+      - p31.radius.full
+    accessibility:
+      - role=img with aria-label "N of 5 spoons remaining"
+    status: stable
+    tier: core
+    version: 3.0.0
+    importPath: "@p31ca/design-core/compositions"
+  Shell:
+    description: "Canon v2 app frame — attribute-scoped grid: top / (sidebar) / main areas. Sidebar collapses at the mobile breakpoint; a fill-mode Page inside pins the shell to the viewport."
+    css_class: '[data-p31="shell"]'
+    tool: renderShell
+    category: chrome
+    aiGuidance:
+      useWhen:
+        - The outer frame of any face
+        - Topbar + optional sidebar + main regions
+        - Skip-link keyboard entry
+      avoidWhen:
+        - Nested inside another shell
+        - Flow-only marketing pages
+      examples:
+        - <Shell topbar={<Topbar/>} sidebar={<SidebarNav/>}><Page mode="flow">…</Page></Shell>
+    props:
+      topbar:
+        type: ReactNode
+        description: Sticky top chrome
+      sidebar:
+        type: ReactNode
+        description: Side rail (desktop only)
+      children:
+        type: ReactNode
+        required: true
+        description: Main content
+      mainId:
+        type: string
+        description: Skip-link target id
+      skipLabel:
+        type: string
+        default: Skip to content
+        description: Skip link text
+    slots:
+      - topbar
+      - sidebar
+      - default
+    variants:
+      - default
+      - has-sidebar
+    tokens:
+      - p31.shell-sidebar-w
+      - p31.z.topbar
+      - p31.z.skip-link
+    accessibility:
+      - Skip link to main region
+      - Semantic <main>
+      - Sidebar collapses under 47.99rem
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Page:
+    description: "Canon v2 page with four modes: flow (document scroll), fill (viewport app), panel-scroll (document page + one internal scrolling panel), fit (alias of fill). The fill/flow conflation was the root cause of the 560px select bug."
+    css_class: '[data-p31="page"]'
+    tool: renderPage
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Every route surface
+        - fill for viewport apps with a [data-p31-grow] region
+        - panel-scroll for the Sandbox split pattern
+      avoidWhen:
+        - Nesting a fill page inside a flow page
+        - Setting global html/body height on flow routes
+      examples:
+        - <Page mode="flow"><PageHeader …/><Grid>…</Grid></Page>
+        - <Page mode="fill"><div data-p31-grow>…</div></Page>
+    props:
+      mode:
+        type: "'flow' | 'fill' | 'panel-scroll' | 'fit'"
+        default: flow
+        description: Page mode
+      children:
+        type: ReactNode
+        required: true
+        description: Page content
+    slots:
+      - default
+    variants:
+      - flow
+      - fill
+      - panel-scroll
+      - fit
+    tokens:
+      - p31.page-max
+      - p31.page-pad-x
+      - p31.gap-md
+      - p31.prose-max
+    accessibility:
+      - One scrolling region per page
+      - No double scrollbars (fill pins the shell to 100dvh)
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  PageHeaderV2:
+    description: Canon v2 page header — title / subtitle / actions on the attribute-scoped contract. Successor to the legacy `.page-header-route` PageHeader.
+    css_class: '[data-p31="page-header"]'
+    tool: renderPageHeaderV2
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Route/page headers in canon v2 faces
+        - Title + subtitle + pinned actions
+      avoidWhen:
+        - Topbar/brand headers
+        - Modal headers
+      examples:
+        - <PageHeaderV2 title="Servers" subtitle="…" actions={<Button>New</Button>} />
+    props:
+      title:
+        type: ReactNode
+        required: true
+        description: Page title
+      subtitle:
+        type: ReactNode
+        description: Supporting line
+      actions:
+        type: ReactNode
+        description: Pinned action cluster
+    slots:
+      - title
+      - subtitle
+      - actions
+    variants:
+      - default
+      - actions
+    tokens:
+      - p31.page-title-size
+      - p31.gap-md
+      - p31.text
+      - p31.text-secondary
+      - p31.prose-max
+    accessibility:
+      - Semantic <header> + <h1>
+      - Actions are keyboard reachable
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Stack:
+    description: Canon v2 one-axis flex — data-driven dir (row/column), gap (xs–xl), align, justify.
+    css_class: '[data-p31="stack"]'
+    tool: renderStack
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Inline clusters and vertical rhythm
+        - Replacing one-off flex divs
+      avoidWhen:
+        - Two-dimensional arrangements (use Grid)
+        - Card grids (use Grid)
+      examples:
+        - <Stack dir="row" gap="sm"><Badge/><Badge/></Stack>
+    props:
+      dir:
+        type: "'row' | 'column'"
+        default: column
+        description: Flex direction
+      gap:
+        type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+        default: md
+        description: Gap scale
+      align:
+        type: "'start' | 'center' | 'end' | 'stretch'"
+        description: Align items
+      justify:
+        type: "'start' | 'center' | 'end' | 'between'"
+        description: Justify content
+      children:
+        type: ReactNode
+        required: true
+        description: Stacked content
+    slots:
+      - default
+    variants:
+      - row
+      - column
+    tokens:
+      - p31.gap-xs
+      - p31.gap-sm
+      - p31.gap-md
+      - p31.gap-lg
+      - p31.gap-xl
+    accessibility:
+      []
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Grid:
+    description: Canon v2 card grid — auto-fill minmax; data-min picks the card floor (sm 15rem / md 17.5rem / lg 22.5rem).
+    css_class: '[data-p31="grid"]'
+    tool: renderGrid
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Card lists and dashboards
+        - Feature grids
+      avoidWhen:
+        - Single-axis layouts (use Stack)
+        - Inline toolbars
+      examples:
+        - <Grid min="md">{cards.map(c => <GlassCard …/>)}</Grid>
+    props:
+      min:
+        type: "'sm' | 'md' | 'lg'"
+        default: md
+        description: Card floor width
+      children:
+        type: ReactNode
+        required: true
+        description: Grid items
+    slots:
+      - default
+    variants:
+      - sm
+      - md
+      - lg
+    tokens:
+      - p31.grid-min-sm
+      - p31.grid-min-md
+      - p31.grid-min-lg
+      - p31.gap-md
+    accessibility:
+      - Cards ≥240px floor (render gate)
+      - No horizontal overflow at 375px
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Split:
+    description: "Canon v2 two-pane layout with a draggable handle — pointer-resized via capture; keyboard fallback (WCAG 2.5.7): arrows ±5%, Home/End snap, Enter/Space toggle + double-click collapse when collapsible (the handle stays rendered as the restore affordance); collapses to stacked panes under 47.99rem."
+    css_class: '[data-p31="split"]'
+    tool: renderSplit
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Master–detail layouts
+        - Sandbox-style split surfaces (page mode panel-scroll/fill)
+      avoidWhen:
+        - Content that must never be hidden
+        - Mobile-first flows (it stacks anyway)
+      examples:
+        - <Split a={<Tree/>} b={<Canvas/>} defaultRatio={0.35} />
+        - <Split a={<Tree/>} b={<Canvas/>} collapsible />
+    props:
+      a:
+        type: ReactNode
+        required: true
+        description: First pane
+      b:
+        type: ReactNode
+        required: true
+        description: Second pane
+      collapsed:
+        type: boolean
+        default: false
+        description: Collapse pane B + handle
+      collapsible:
+        type: boolean
+        default: false
+        description: Enables Enter/Space toggle + double-click collapse; the handle stays rendered while collapsed as the restore affordance (WCAG 2.5.7)
+      onCollapsedChange:
+        type: "(collapsed: boolean) => void"
+        description: Controlled collapse handler
+      defaultRatio:
+        type: number
+        default: 0.5
+        description: Pane A fraction (0.2–0.8)
+      onRatioChange:
+        type: "(ratio: number) => void"
+        description: Ratio change handler
+    slots:
+      - a
+      - b
+    variants:
+      - default
+      - collapsed
+      - collapsible
+    tokens:
+      - p31.split-min-a
+      - p31.split-min-b
+      - p31.split-handle
+      - p31.accent
+      - p31.focus-ring
+    accessibility:
+      - role=separator + aria-orientation
+      - aria-valuenow/min/max on the handle
+      - ArrowLeft/Right, Home/End
+      - Enter/Space collapse toggle (data-collapsible)
+      - Double-click collapse — single-pointer alternative (WCAG 2.5.7)
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Field:
+    description: Canon v2 field wrapper — label / control / hint / error as one grid; data-width="form" caps it at the form width.
+    css_class: '[data-p31="field"]'
+    tool: renderField
+    category: action
+    aiGuidance:
+      useWhen:
+        - Wrapping every Input/Textarea/Select
+        - Any labelled control group
+      avoidWhen:
+        - Bare controls without labels
+      examples:
+        - <Field label="Name" error="Required"><Input …/></Field>
+    props:
+      label:
+        type: ReactNode
+        description: Field label
+      hideLabel:
+        type: boolean
+        default: false
+        description: Screen-reader-only label
+      hint:
+        type: string
+        description: Helper text
+      error:
+        type: string
+        description: Validation message (role=alert)
+      width:
+        type: "'form' | 'full'"
+        default: full
+        description: Form-width cap
+      children:
+        type: ReactNode
+        required: true
+        description: The control
+    slots:
+      - label
+      - default
+      - error
+    variants:
+      - default
+      - form
+    tokens:
+      - p31.form-max
+      - p31.gap-xs
+      - p31.text-sm
+      - p31.text-xs
+      - p31.status-error
+    accessibility:
+      - Label htmlFor wiring
+      - error → role=alert + aria-describedby
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Input:
+    description: Canon v2 text input — the raw element carries data-p31-control FIRST (raw-control gate). 44px control height, max 64px, surface2 + glass border, focus ring, aria-invalid error border.
+    css_class: "[data-p31-control]"
+    tool: renderInput
+    category: action
+    aiGuidance:
+      useWhen:
+        - Every text entry
+        - Search/filter inputs
+      avoidWhen:
+        - Raw <input> outside canon (forbidden)
+        - Multi-line entry (use Textarea)
+      examples:
+        - <Input label="Search" placeholder="Filter servers…" />
+    props:
+      label:
+        type: ReactNode
+        description: Field label
+      hideLabel:
+        type: boolean
+        default: false
+        description: Screen-reader-only label
+      hint:
+        type: string
+        description: Helper text
+      error:
+        type: string
+        description: Validation message
+      width:
+        type: "'form' | 'full'"
+        description: Field width cap
+    slots:
+      []
+    variants:
+      - default
+      - invalid
+      - disabled
+    tokens:
+      - p31.control-h
+      - p31.control-h-max
+      - p31.control-pad-x
+      - p31.control-radius
+      - p31.surface2
+      - p31.focus-ring
+      - p31.focus-offset
+      - p31.status-error
+    accessibility:
+      - aria-invalid + aria-describedby wiring
+      - Visible label (or sr-only)
+      - Focus ring from the control contract
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Textarea:
+    description: Canon v2 multiline control — min-height 2× the control height, resize vertical only.
+    css_class: "[data-p31-control]"
+    tool: renderTextarea
+    category: action
+    aiGuidance:
+      useWhen:
+        - Multi-line entry
+        - Descriptions, messages, bodies
+      avoidWhen:
+        - Single-line entry (use Input)
+        - Resizing past the control contract (resize is vertical only)
+      examples:
+        - <Textarea label="Description" rows={3} />
+    props:
+      label:
+        type: ReactNode
+        description: Field label
+      hint:
+        type: string
+        description: Helper text
+      error:
+        type: string
+        description: Validation message
+    slots:
+      []
+    variants:
+      - default
+      - invalid
+      - disabled
+    tokens:
+      - p31.control-h
+      - p31.control-pad-x
+      - p31.control-radius
+      - p31.surface2
+      - p31.focus-ring
+      - p31.focus-offset
+      - p31.status-error
+    accessibility:
+      - aria-invalid + aria-describedby wiring
+      - Visible label (or sr-only)
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Select:
+    description: Canon v2 native select — styled by the control contract, keyboard/mobile behavior intact. data-p31-control FIRST so the raw-select gate passes.
+    css_class: "[data-p31-control]"
+    tool: renderSelect
+    category: action
+    aiGuidance:
+      useWhen:
+        - Option pickers
+        - Filter controls
+        - Form selects
+      avoidWhen:
+        - Raw <select> outside canon (forbidden)
+        - Multi-select trees
+      examples:
+        - <Select label="Region" options={regions} />
+    props:
+      label:
+        type: ReactNode
+        description: Field label
+      options:
+        type: SelectOption[]
+        required: true
+        description: "{ value, label } options"
+      hint:
+        type: string
+        description: Helper text
+      error:
+        type: string
+        description: Validation message
+    slots:
+      []
+    variants:
+      - default
+      - invalid
+      - disabled
+    tokens:
+      - p31.control-h
+      - p31.control-h-max
+      - p31.control-pad-x
+      - p31.control-radius
+      - p31.surface2
+      - p31.focus-ring
+      - p31.focus-offset
+      - p31.status-error
+    accessibility:
+      - Label htmlFor wiring
+      - Native keyboard/mobile behavior
+      - aria-invalid + aria-describedby
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Tabs:
+    description: Canon v2 tablist — roving tabindex, aria-selected accent underline, keyboard reachable.
+    css_class: '[data-p31="tabs"]'
+    tool: renderTabs
+    category: navigation
+    aiGuidance:
+      useWhen:
+        - Section switching within a face
+        - Filter modes
+      avoidWhen:
+        - Primary app navigation (use SidebarNav/BottomNav)
+        - Wizard steps (use Wizard)
+      examples:
+        - <Tabs items={tabs} activeId={active} onSelect={setActive} />
+    props:
+      items:
+        type: TabItem[]
+        required: true
+        description: "{ id, label } tabs"
+      activeId:
+        type: string
+        description: Active tab id
+      onSelect:
+        type: "(id: string) => void"
+        description: Selection handler
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.accent
+      - p31.gap-xs
+      - p31.text-secondary
+      - p31.focus-ring
+    accessibility:
+      - role=tablist/tab
+      - aria-selected on the active tab
+      - Roving tabindex
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Menu:
+    description: Canon v2 vertical action list — role=menu / menuitem, surface2 + glass border, hover accent tint.
+    css_class: '[data-p31="menu"]'
+    tool: renderMenu
+    category: navigation
+    aiGuidance:
+      useWhen:
+        - Context menus
+        - Account/dropdown action lists
+      avoidWhen:
+        - Primary navigation
+        - Long forms
+      examples:
+        - <Menu items={actions} onSelect={run} />
+    props:
+      items:
+        type: MenuItem[]
+        required: true
+        description: "{ id, label, icon? } items"
+      onSelect:
+        type: "(id: string) => void"
+        description: Selection handler
+    slots:
+      []
+    variants:
+      - default
+    tokens:
+      - p31.surface2
+      - p31.glass-border
+      - p31.radius-md
+      - p31.accent-faint
+      - p31.focus-ring
+    accessibility:
+      - role=menu/menuitem
+      - Keyboard reachable buttons
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Dialog:
+    description: Canon v2 modal — centered panel, scrim, Escape closes, focus lands on the panel.
+    css_class: '[data-p31="dialog"]'
+    tool: renderDialog
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Confirmations and focused tasks
+        - Modal forms
+      avoidWhen:
+        - Non-modal side content (use Sheet)
+        - Nested dialogs
+      examples:
+        - <Dialog open={open} onClose={close} title="Confirm">…</Dialog>
+    props:
+      open:
+        type: boolean
+        required: true
+        description: Controlled open state
+      onClose:
+        type: () => void
+        required: true
+        description: Close handler
+      title:
+        type: ReactNode
+        required: true
+        description: Dialog title
+      children:
+        type: ReactNode
+        description: Dialog body
+    slots:
+      - title
+      - default
+    variants:
+      - default
+    tokens:
+      - p31.z-modal
+      - p31.void
+      - p31.surface
+      - p31.glass-border
+      - p31.radius-lg
+      - p31.form-max
+    accessibility:
+      - role=dialog + aria-modal
+      - Escape closes
+      - Initial focus on the panel
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Sheet:
+    description: Canon v2 side panel — start/end sides, Escape closes. The drawer companion to Dialog.
+    css_class: '[data-p31="sheet"]'
+    tool: renderSheet
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Side drawers
+        - Filters/inspectors that slide in
+      avoidWhen:
+        - Centered confirmations (use Dialog)
+        - Content that needs the full width
+      examples:
+        - <Sheet open={open} onClose={close} side="end" title="Filters">…</Sheet>
+    props:
+      open:
+        type: boolean
+        required: true
+        description: Controlled open state
+      onClose:
+        type: () => void
+        required: true
+        description: Close handler
+      title:
+        type: ReactNode
+        required: true
+        description: Sheet title
+      side:
+        type: "'start' | 'end'"
+        default: end
+        description: Dock side
+      children:
+        type: ReactNode
+        description: Sheet body
+    slots:
+      - title
+      - default
+    variants:
+      - start
+      - end
+    tokens:
+      - p31.z-modal
+      - p31.surface
+      - p31.glass-border
+      - p31.radius-lg
+    accessibility:
+      - role=dialog + aria-modal
+      - Escape closes
+      - Focus moves into the sheet
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  EmptyState:
+    description: Canon v2 "nothing here" state — dashed surface, title/description, optional canon action.
+    css_class: '[data-p31="empty-state"]'
+    tool: renderEmptyState
+    category: feedback
+    aiGuidance:
+      useWhen:
+        - Empty lists/grids/search results
+        - First-run states
+      avoidWhen:
+        - Errors (use ErrorState)
+        - Loading (use Skeleton)
+      examples:
+        - <EmptyState title="No servers yet" description="…" action={<Button>New</Button>} />
+    props:
+      title:
+        type: ReactNode
+        required: true
+        description: State title
+      description:
+        type: ReactNode
+        description: State description
+      action:
+        type: ReactNode
+        description: Canon action
+    slots:
+      - title
+      - description
+      - action
+    variants:
+      - default
+    tokens:
+      - p31.glass-border-strong
+      - p31.radius-lg
+      - p31.prose-max
+      - p31.text
+      - p31.text-secondary
+    accessibility:
+      - Title announced
+      - Action is keyboard reachable
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  ErrorState:
+    description: Canon v2 error state — solid error border, role=alert, optional recovery action.
+    css_class: '[data-p31="error-state"]'
+    tool: renderErrorState
+    category: feedback
+    aiGuidance:
+      useWhen:
+        - Load failures
+        - Unrecoverable form errors
+      avoidWhen:
+        - Empty results (use EmptyState)
+        - Transient loading (use Skeleton)
+      examples:
+        - <ErrorState title="Could not load" description="…" action={<Button>Retry</Button>} />
+    props:
+      title:
+        type: ReactNode
+        required: true
+        description: State title
+      description:
+        type: ReactNode
+        description: State description
+      action:
+        type: ReactNode
+        description: Recovery action
+    slots:
+      - title
+      - description
+      - action
+    variants:
+      - default
+    tokens:
+      - p31.status-error
+      - p31.radius-lg
+      - p31.prose-max
+      - p31.text
+      - p31.text-secondary
+    accessibility:
+      - role=alert announces the failure
+      - Recovery action is keyboard reachable
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Skeleton:
+    description: Canon v2 loading placeholder — shimmer bars (+ block shape); animation off under prefers-reduced-motion.
+    css_class: '[data-p31="skeleton"]'
+    tool: renderSkeleton
+    category: feedback
+    aiGuidance:
+      useWhen:
+        - Loading lists, cards, and metrics
+      avoidWhen:
+        - Loaded content
+        - Spoons=0 (motion discipline zeroes the shimmer anyway)
+      examples:
+        - <Skeleton lines={4} block />
+    props:
+      lines:
+        type: number
+        default: 3
+        description: Shimmer bar count
+      block:
+        type: boolean
+        default: false
+        description: Last bar as a block shape
+    slots:
+      []
+    variants:
+      - bar
+      - block
+    tokens:
+      - p31.surface2
+      - p31.accent-faint
+      - p31.radius-sm
+      - p31.duration-slow
+      - p31.scale-sm
+    accessibility:
+      - aria-hidden on the placeholder
+      - "Reduced-motion: animation off"
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  ListingShell:
+    description: Canon v2 pattern — search/filter row + card grid + empty state (the Discover pattern). A pattern is more than the sum of its parts; it ships WITH canon, never as a face fork.
+    css_class: '[data-p31="listing-shell"]'
+    tool: renderListingShell
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Discover/search/list faces
+        - Any search → grid → empty flow
+      avoidWhen:
+        - Single-card detail views (use DetailShell)
+        - Wizards (use Wizard)
+      examples:
+        - <ListingShell controls={<><Input label="Search"/>…</>}>{cards}</ListingShell>
+    props:
+      controls:
+        type: ReactNode
+        description: Search + filter row
+      children:
+        type: ReactNode
+        required: true
+        description: Card grid children
+      empty:
+        type: ReactNode
+        description: Empty state override
+      emptyTitle:
+        type: ReactNode
+        default: Nothing here yet
+        description: Fallback empty title
+      emptyDescription:
+        type: ReactNode
+        description: Fallback empty description
+    slots:
+      - controls
+      - default
+      - empty
+    variants:
+      - default
+      - empty
+    tokens:
+      - p31.grid-min-sm
+      - p31.gap-md
+      - p31.gap-sm
+    accessibility:
+      - Empty state announced when the grid is empty
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  DetailShell:
+    description: "Canon v2 pattern — two-column detail: summary column + focus region + action row (the Server pattern). Collapses to one column under 47.99rem."
+    css_class: '[data-p31="detail-shell"]'
+    tool: renderDetailShell
+    category: surface
+    aiGuidance:
+      useWhen:
+        - Server/detail faces
+        - Summary + focus + actions layouts
+      avoidWhen:
+        - Listing faces (use ListingShell)
+        - Step flows (use Wizard)
+      examples:
+        - <DetailShell summary={<Stack>…</Stack>} focus={<Markdown/>} actions={<Button/>} />
+    props:
+      summary:
+        type: ReactNode
+        required: true
+        description: Left summary column
+      focus:
+        type: ReactNode
+        required: true
+        description: Right focus region
+      actions:
+        type: ReactNode
+        description: Action row under the summary
+    slots:
+      - summary
+      - focus
+      - actions
+    variants:
+      - default
+    tokens:
+      - p31.split-min-a
+      - p31.split-min-b
+      - p31.gap-md
+      - p31.gap-sm
+    accessibility:
+      - Semantic sections per region
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"
+  Wizard:
+    description: Canon v2 pattern — "Step N of M" indicator + one question group per step + back/next (finish on the last step). The Publish pattern; actions compose canon Buttons.
+    css_class: '[data-p31="wizard"]'
+    tool: renderWizard
+    category: navigation
+    aiGuidance:
+      useWhen:
+        - Publish/onboarding step flows
+        - One question group per step
+      avoidWhen:
+        - Free-form forms (use Field stack)
+        - Tabbed content (use Tabs)
+      examples:
+        - <Wizard steps={steps} activeIndex={i} onBack={back} onNext={next} onFinish={finish}>…</Wizard>
+    props:
+      steps:
+        type: WizardStep[]
+        required: true
+        description: "{ id, title } steps"
+      activeIndex:
+        type: number
+        required: true
+        description: Active step index
+      onBack:
+        type: () => void
+        required: true
+        description: Back handler
+      onNext:
+        type: () => void
+        required: true
+        description: Next handler
+      onFinish:
+        type: () => void
+        required: true
+        description: Finish handler (last step)
+      children:
+        type: ReactNode
+        required: true
+        description: The active question group
+    slots:
+      - default
+    variants:
+      - default
+    tokens:
+      - p31.form-max
+      - p31.font-mono
+      - p31.gap-md
+      - p31.gap-sm
+    accessibility:
+      - Step indicator is a live region
+      - Back disabled on the first step
+      - role=group per step
+    status: beta
+    tier: experimental
+    version: 2.0.0
+    importPath: "@p31ca/design-core/canon-v2"

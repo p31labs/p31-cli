@@ -1,0 +1,57 @@
+name: p31-cli CI
+
+'on':
+  pull_request:
+    paths:
+      - '**'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test & Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/setup-node@1d0ff469b7b2f02069e5e1777b7c29a401f1b885
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@65c4c4a0dee724c66bf7e6e9d4ba2c4406d8fe6b
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: test
+    if: false # G4 gate (v10.0 L10-A): disabled on main push; owner must enable deliberately
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/setup-node@1d0ff469b7b2f02069e5e1777b7c29a401f1b885
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm install -g npm@^11.5.1
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish --access public --provenance
+        # OIDC trusted publishing — no NPM_TOKEN needed (requires npm >= 11.5.1)
+        # Configure trusted publisher on npmjs.com: Package Settings → Trusted Publisher
+        # Organization: p31labs, Repository: p31-cli, Workflow: ci.yml

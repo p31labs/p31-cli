@@ -1,0 +1,450 @@
+version: "1.0"
+pilots:
+  - id: did:key:6MkgVHyz8J1DPER9c12EXcgYbzXen4G7Tg8MTYSCaJsWsqy
+    name: did:key:6MkgVHyz8J1DPER9c12EXcgYbzXen4G7Tg8MTYSCaJsWsqy
+    email: null
+    status: active
+    onboardedAt: 1783816754781
+    createdAt: 2026-08-08T08:19:15.069Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:6MkvYfJfpsjuNjFjRDRyHKq33vESyXXrdW7BisUbhMyjywq
+    name: did:key:6MkvYfJfpsjuNjFjRDRyHKq33vESyXXrdW7BisUbhMyjywq
+    email: null
+    status: active
+    onboardedAt: 1783816754781
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6MkiNhUG7bNCiKKXJU7fgy58hjTcEoFmfpp9TQHEY4tXXom
+    name: did:key:z6MkiNhUG7bNCiKKXJU7fgy58hjTcEoFmfpp9TQHEY4tXXom
+    email: null
+    status: active
+    onboardedAt: 1783816754781
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6Mkm2nAVvysKzJGz33F3tRHf6CwsnyMPGFCAQweLLKVHCzK
+    name: did:key:z6Mkm2nAVvysKzJGz33F3tRHf6CwsnyMPGFCAQweLLKVHCzK
+    email: null
+    status: active
+    onboardedAt: 1783816754781
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6MknqhHk353NdUVPoRKYNnDnVBtQCY16AMz9MQbYDmTjWkB
+    name: did:key:z6MknqhHk353NdUVPoRKYNnDnVBtQCY16AMz9MQbYDmTjWkB
+    email: null
+    status: active
+    onboardedAt: 1783816754781
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6MkoA4KZfGsLnYAAsRhdyYsag1BiigizAbCd7BTQWe2ZQ2c
+    name: did:key:z6MkoA4KZfGsLnYAAsRhdyYsag1BiigizAbCd7BTQWe2ZQ2c
+    email: null
+    status: active
+    onboardedAt: 1783816754781
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6MkogbvpfTV6aqf3FbYXv4WJfihhfM8EszY1q18j5pNotLt
+    name: did:key:z6MkogbvpfTV6aqf3FbYXv4WJfihhfM8EszY1q18j5pNotLt
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6MkoiW7o3CFwd2JvoF2Rtc5gv9bLPE94M2mmxDNc9WULmJi
+    name: did:key:z6MkoiW7o3CFwd2JvoF2Rtc5gv9bLPE94M2mmxDNc9WULmJi
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6MkooBKT2GL84ZqyVnir9hdgDqsWMyyHQkj85obDWUzJ1MW
+    name: did:key:z6MkooBKT2GL84ZqyVnir9hdgDqsWMyyHQkj85obDWUzJ1MW
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6MkqWY8XaTPsXNJ3rGviQFNk3ux4EAa7oFDfUm3PgkdhsHm
+    name: did:key:z6MkqWY8XaTPsXNJ3rGviQFNk3ux4EAa7oFDfUm3PgkdhsHm
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6MkrZz9KWXcGNVVY6R31YisHbthSXbf6XxCZ1Wfm3hdUzZv
+    name: did:key:z6MkrZz9KWXcGNVVY6R31YisHbthSXbf6XxCZ1Wfm3hdUzZv
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6Mkt6qtKc8gL4tRBjTSnyvywPN4sitLZSaMZ5zjLAn26V5b
+    name: did:key:z6Mkt6qtKc8gL4tRBjTSnyvywPN4sitLZSaMZ5zjLAn26V5b
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:z6MkvU9vZZ4BRP6XupcdA5CXabn4XXMkBBRKQRzfq2VHanPx
+    name: did:key:z6MkvU9vZZ4BRP6XupcdA5CXabn4XXMkBBRKQRzfq2VHanPx
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:zed018iQD9pWoXPfWBZpBfTCgs8szLAUQVnxsR2aM3Ut5AMV6
+    name: did:key:zed018iQD9pWoXPfWBZpBfTCgs8szLAUQVnxsR2aM3Ut5AMV6
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:zed01DaV4P2cGBAmLRMSZvo67kzouba4qvpwFaygrYC4zey5f
+    name: did:key:zed01DaV4P2cGBAmLRMSZvo67kzouba4qvpwFaygrYC4zey5f
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:key:ztest
+    name: did:key:ztest
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: did:test:cbs-smoke
+    name: did:test:cbs-smoke
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: system:genesis
+    name: system:genesis
+    email: null
+    status: active
+    onboardedAt: 1783816884667
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: synthetic
+  - id: P31-20260722-8dbd0b39
+    name: Live Test Family 2
+    email: live2-test-1784761638@example.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-d6e2f2c0
+    name: Agent Test
+    email: agent-test-1784761657@example.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-45f082ca
+    name: Agent Test
+    email: agent-test@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-3c0cbbc6
+    name: Dupe
+    email: dupe@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-9d72d87b
+    name: Agent Test
+    email: agent-json@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-17c14b52
+    name: Agent Test Debug
+    email: agent-test-debug@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-e3b3f9ff
+    name: Original
+    email: dup@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-ebd030f2
+    name: List Human
+    email: list-human@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-5e0c7bc4
+    name: List JSON
+    email: list-json@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-b98d5609
+    name: Status ID
+    email: status-id@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-4bd073ed
+    name: Status Email
+    email: status-email@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-5d6bc6be
+    name: Precedence
+    email: precedence@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-b00afa96
+    name: Agent Status
+    email: agent-status@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260722-66e1e7c4
+    name: Fresh Verify
+    email: fresh-verify@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260723-9d72d87b
+    name: Agent Test
+    email: agent-json@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260723-e3b3f9ff
+    name: Original
+    email: dup@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260723-ebd030f2
+    name: List Human
+    email: list-human@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260723-5e0c7bc4
+    name: List JSON
+    email: list-json@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260723-b98d5609
+    name: Status ID
+    email: status-id@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260723-4bd073ed
+    name: Status Email
+    email: status-email@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260723-5d6bc6be
+    name: Precedence
+    email: precedence@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260723-b00afa96
+    name: Agent Status
+    email: agent-status@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: test
+  - id: P31-20260807-9d72d87b
+    name: Agent Test
+    email: agent-json@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260807-e3b3f9ff
+    name: Original
+    email: dup@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260807-ebd030f2
+    name: List Human
+    email: list-human@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260807-5e0c7bc4
+    name: List JSON
+    email: list-json@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260807-b98d5609
+    name: Status ID
+    email: status-id@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260807-4bd073ed
+    name: Status Email
+    email: status-email@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260807-5d6bc6be
+    name: Precedence
+    email: precedence@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260807-b00afa96
+    name: Agent Status
+    email: agent-status@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260808-9d72d87b
+    name: Agent Test
+    email: agent-json@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260808-e3b3f9ff
+    name: Original
+    email: dup@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260808-ebd030f2
+    name: List Human
+    email: list-human@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260808-5e0c7bc4
+    name: List JSON
+    email: list-json@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260808-b98d5609
+    name: Status ID
+    email: status-id@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260808-4bd073ed
+    name: Status Email
+    email: status-email@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260808-5d6bc6be
+    name: Precedence
+    email: precedence@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli
+  - id: P31-20260808-b00afa96
+    name: Agent Status
+    email: agent-status@test.com
+    status: invited
+    onboardedAt: null
+    createdAt: 2026-08-08T08:19:15.087Z
+    loveAddress: null
+    source: cli

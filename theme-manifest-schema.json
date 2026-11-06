@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "version": { "type": "string" },
+    "tokens": {
+      "type": "object",
+      "properties": {
+        "accent": { "type": "string", "format": "color" },
+        "background": { "type": "string", "format": "color" },
+        "foreground": { "type": "string", "format": "color" },
+        "surface": { "type": "string", "format": "color" },
+        "border": { "type": "string", "format": "color" },
+        "muted": { "type": "string", "format": "color" },
+        "error": { "type": "string", "format": "color" },
+        "success": { "type": "string", "format": "color" },
+        "warning": { "type": "string", "format": "color" }
+      }
+    },
+    "contrastTargets": {
+      "type": "object",
+      "properties": {
+        "textBackground": { "enum": ["AA", "AA-large", "AAA"] },
+        "uiComponents": { "enum": ["AA", "AA-large", "AAA"] }
+      }
+    },
+    "environmentSignals": {
+      "type": "object",
+      "properties": {
+        "production": { "type": "string", "format": "color" },
+        "staging": { "type": "string", "format": "color" },
+        "regulated": { "type": "string", "format": "color" },
+        "crisis": { "type": "string", "format": "color" }
+      }
+    }
+  },
+  "required": ["name", "version", "tokens", "contrastTargets", "environmentSignals"]
+}

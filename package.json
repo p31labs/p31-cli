@@ -1,0 +1,137 @@
+{
+  "name": "@p31ca/cli",
+  "version": "3.1.3",
+  "description": "Sovereign AI agent for neurodivergent families \u2014 OpenCode face, P31 guts",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./mcp-bridge": {
+      "import": {
+        "types": "./dist/mcp-bridge.d.ts",
+        "default": "./dist/mcp-bridge.js"
+      },
+      "require": {
+        "types": "./dist/mcp-bridge.d.cts",
+        "default": "./dist/mcp-bridge.cjs"
+      }
+    },
+    "./mcp-http": {
+      "import": {
+        "types": "./dist/mcp-http.d.ts",
+        "default": "./dist/mcp-http.js"
+      },
+      "require": {
+        "types": "./dist/mcp-http.d.cts",
+        "default": "./dist/mcp-http.cjs"
+      }
+    },
+    "./stream-server": {
+      "import": {
+        "types": "./dist/stream-server.d.ts",
+        "default": "./dist/stream-server.js"
+      },
+      "require": {
+        "types": "./dist/stream-server.d.cts",
+        "default": "./dist/stream-server.cjs"
+      }
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bin": {
+    "p31": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "tokens",
+    "docs",
+    "skills",
+    "server.json"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "build:web": "cd web && vite build",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "mcp": "node dist/mcp-bridge.js",
+    "mcp:http": "node dist/mcp-http.js",
+    "stream": "node dist/stream-server.js",
+    "prepublish": "npm run build",
+    "skills:extract": "npm-skills extract --skip-production --override",
+    "prepare": "skills-npm",
+    "skills:setup": "npx skills-npm setup"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@opencode-ai/plugin": "^1.0.0",
+    "@opencode-ai/sdk": "^1.0.0",
+    "better-sqlite3": "^11.5.0",
+    "boxen": "^8.0.0",
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "dotenv": "^16.4.0",
+    "drizzle-orm": "^0.36.0",
+    "hono": "^4.6.0",
+    "ink": "^5.0.0",
+    "node-pty": "^1.0.0",
+    "open": "^10.1.0",
+    "uuid": "^10.0.0",
+    "ws": "^8.18.0",
+    "yaml": "^2.6.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/uuid": "^10.0.0",
+    "@types/ws": "^8.5.13",
+    "@vitejs/plugin-react": "^4.3.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "@xterm/xterm": "^5.5.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vite": "^5.4.0",
+    "vitest": "^2.1.0",
+    "npm-skills": "^0.5.1",
+    "skills-npm": "^4.1.0"
+  },
+  "keywords": [
+    "p31",
+    "sovereign",
+    "ai",
+    "cli",
+    "mcp",
+    "opencode",
+    "neurodivergent"
+  ],
+  "author": "P31 Labs",
+  "license": "MIT",
+  "mcpName": "com.p31ca/governed-agent-cli"
+}

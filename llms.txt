@@ -1,0 +1,24 @@
+# P31 Oasis CLI — Agent Skill
+
+Sovereign, agent-native CLI for the P31 ecosystem — Oasis TUI, MCP server, and --agent JSON mode for AI agents and CI/CD.
+
+## Surfaces
+
+- **Sovereign Chat** (`p31 chat`) — Spoon-aware AI for daily use
+- **Oasis TUI** (`andromeda`) — Governance, provenance, cost, MCP
+- **Node Zero** — Identity, state, vault, bond primitives
+- **LOVE Ledger** — Economic layer for the mesh
+- **PHOS Forge** — 26+ cognitive tools
+
+## Install
+
+```bash
+npm install -g andromeda-cli
+andromeda --agent
+```
+
+## Docs
+
+- p31ca.org/cli
+- p31ca.org/docs
+- phosphorus31.org/technology

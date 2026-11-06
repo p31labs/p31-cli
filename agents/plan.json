@@ -1,0 +1,13 @@
+{
+  "agentId": "plan",
+  "capabilities": ["deep-reasoning", "structured-json", "code-generation"],
+  "bucket": "deep-reasoning",
+  "constraints": {
+    "maxLatencyMs": 8000,
+    "requireToolCalling": false,
+    "minContextWindow": 200000,
+    "maxCostTier": "standard"
+  },
+  "toolPermissions": ["read", "write", "edit", "glob", "grep"],
+  "mcpAllowlist": ["design-parity", "ground-truth"]
+}

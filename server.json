@@ -1,0 +1,142 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.p31ca/governed-agent-cli",
+  "title": "P31 Governed Agent CLI",
+  "description": "Capability-routed CLI/MCP: signed provenance exports, WCAG-validated themes, sovereign deploy modes.",
+  "repository": {
+    "url": "https://github.com/p31labs/p31-cli",
+    "source": "github"
+  },
+  "version": "3.1.3",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@p31ca/cli",
+      "version": "3.1.3",
+      "fileSha256": "87402b0b1b90f177a07620caa651a8bd33f1575361397b72288061f1b4c5f1c7",
+      "transport": {
+        "type": "stdio"
+      }
+    },
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/p31labs/p31-cli/releases/download/mcp-v3.1.3/p31-mcp-governed-agent-cli-3.1.3.mcpb",
+      "version": "3.1.3",
+      "fileSha256": "87402b0b1b90f177a07620caa651a8bd33f1575361397b72288061f1b4c5f1c7",
+      "transport": {
+        "type": "stdio"
+      },
+      "x-p31-status": "draft release pending G4; fileSha256 matches local artifact (REBUILD-2 v2, verify fix, 2026-11-05)"
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.p31ca.org/mcp"
+    }
+  ],
+  "tags": [
+    "safety",
+    "governance",
+    "provenance",
+    "audit",
+    "mcp",
+    "cli",
+    "capability-routing",
+    "failover",
+    "wcag",
+    "theming",
+    "sovereign-deployable",
+    "scitt-adapter",
+    "offline-verifiable"
+  ],
+  "x-p31": {
+    "status": "frozen",
+    "freeze": {
+      "gate": "G5",
+      "date": "2026-11-06",
+      "version": "3.1.3",
+      "evidence": "DOCS/evidence/L6/g5-claim-crosscheck.md",
+      "policy": "No post-freeze capability additions without re-versioning."
+    },
+    "capabilities": {
+      "routing": {
+        "buckets": [
+          "fast-code",
+          "deep-reasoning",
+          "structured-json",
+          "summarize",
+          "vision",
+          "local-sovereign"
+        ],
+        "cooldowns": {
+          "429": "30s",
+          "timeout": "15m",
+          "quota": "1h",
+          "401_403": "6h",
+          "repeat": "exponential"
+        },
+        "healthProbe": true
+      },
+      "provenance": {
+        "dimensions": [
+          "action",
+          "model",
+          "context"
+        ],
+        "hashChain": "sha256",
+        "signatures": "ed25519",
+        "merkleRoot": true,
+        "exports": [
+          "jsonl",
+          "prov-jsonld",
+          "scitt-adapter(json,ed25519)",
+          "permit-adapter",
+          "cose-planned"
+        ],
+        "offlineVerify": true,
+        "offlineVerifyScopes": {
+          "jsonl": "full hash chain + Ed25519 signature",
+          "scitt-adapter": "statement signatures (adapter-level; not SCITT registry registration)",
+          "permit-adapter": "permit signatures with bundled public key",
+          "prov-jsonld": "Merkle root only; hash-chain replay is lossy because the export is a projection (see L2/L5/L6 evidence)"
+        },
+        "standardsAlignment": {
+          "aat": "draft-aligned-adapter (field mapping; not certified)",
+          "scitt": "draft-aligned-adapter (JSON+Ed25519; COSE_Sign1 packaging planned in L5-H; not SCITT registration)",
+          "prov": "W3C PROV-JSONLD export"
+        }
+      },
+      "theming": {
+        "wcag": "2.2-AA",
+        "wcagScope": "theme token color contrast; not a full product conformance claim",
+        "themeCount": 12,
+        "environmentSignals": [
+          "production",
+          "staging",
+          "regulated",
+          "crisis"
+        ]
+      },
+      "deployment": {
+        "modes": [
+          "airgap",
+          "onprem",
+          "hybrid"
+        ],
+        "localBucket": "local-sovereign",
+        "hardEvidence": "hard egress isolation demonstrated 2026-11-06 (unshare -Urn + docker --network=none: egress denied, local inference LOCAL-OK) \u2014 DOCS/evidence/L8/airgap-hard-evidence.txt"
+      }
+    },
+    "nonClaims": [
+      "SOC2",
+      "HIPAA",
+      "FedRAMP",
+      "ISO27001",
+      "formal-certification"
+    ],
+    "frozenAt": "2026-11-06",
+    "frozenBy": "Wave 2 L6-H (G5 review)"
+  }
+}

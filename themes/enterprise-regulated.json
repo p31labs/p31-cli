@@ -1,0 +1,37 @@
+{
+  "name": "enterprise-regulated",
+  "version": "1.0.0",
+  "tokens": {
+    "accent": "#2563eb",
+    "background": "#0b1220",
+    "foreground": "#f8fafc",
+    "surface": "#111827",
+    "border": "#334155",
+    "muted": "#9ca3af",
+    "error": "#ef4444",
+    "success": "#10b981",
+    "warning": "#f59e0b"
+  },
+  "contrastTargets": {
+    "textBackground": "AA",
+    "uiComponents": "AA"
+  },
+  "environmentSignals": {
+    "production": "#dc2626",
+    "staging": "#f59e0b",
+    "regulated": "#2563eb",
+    "crisis": "#d946ef"
+  },
+  "colors": {
+    "bg": "#0b1220",
+    "fg": "#f8fafc",
+    "accent": "#2563eb",
+    "accentDim": "#9ca3af",
+    "surface": "#111827",
+    "border": "#334155",
+    "muted": "#9ca3af",
+    "error": "#ef4444",
+    "success": "#10b981",
+    "warning": "#f59e0b"
+  }
+}

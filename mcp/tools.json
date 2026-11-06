@@ -1,0 +1,2341 @@
+{
+  "tools": [
+    {
+      "name": "oasis_status",
+      "description": "Get current CLI session state, design tokens, and capabilities. Equivalent to `p31 --agent`.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "oasis_save",
+      "description": "Persist the current session state (theme, todos, log, mode) to ~/.p31/cli-session.json. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "oasis_theme",
+      "description": "Switch the CLI theme. Persists to session. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "cyberpunk",
+              "nord",
+              "dracula",
+              "catppuccin",
+              "warm"
+            ],
+            "description": "Theme name"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "oasis_mode",
+      "description": "Set the CLI working mode. Persists to session. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "BUILD",
+              "PLAN",
+              "REVIEW",
+              "DEBUG"
+            ],
+            "description": "Mode name (auto-uppercased)"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "oasis_clear",
+      "description": "Clear the in-memory log buffer. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "oasis_export_log",
+      "description": "Export the session log to a timestamped text file in the current directory. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "oasis_sandbox_clear",
+      "description": "Clear the sandbox pane content (in-memory). Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "oasis_notify",
+      "description": "Queue a test notification message. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Notification text"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "info",
+              "ok",
+              "warn",
+              "err"
+            ],
+            "description": "Notification severity"
+          }
+        }
+      }
+    },
+    {
+      "name": "oasis_add_todo",
+      "description": "Add a todo item to the session. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Todo description"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "oasis_toggle_todo",
+      "description": "Toggle a todo item's done state by index (0-based). Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "number",
+            "description": "0-based index of the todo to toggle"
+          }
+        },
+        "required": [
+          "index"
+        ]
+      }
+    },
+    {
+      "name": "oasis_execute",
+      "description": "Execute a shell command in the session sandbox directory. Returns stdout, stderr, and exit code.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Shell command to execute"
+          },
+          "timeout": {
+            "type": "number",
+            "description": "Timeout in milliseconds (default: 30000)"
+          }
+        },
+        "required": [
+          "command"
+        ]
+      }
+    },
+    {
+      "name": "love_status",
+      "description": "Get LOVE ledger status — total LOVE, care_score, pools, vesting",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "DID key or device ID"
+          }
+        }
+      }
+    },
+    {
+      "name": "love_balance",
+      "description": "Get LOVE balance for a user Use this tool to retrieve the requested information.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The userId parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "love_sync",
+      "description": "Sync local LOVE state with the cloud ledger Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The userId parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "love_anchor",
+      "description": "Anchor a LOVE ledger entry hash on-chain via P31TransparencyAnchor (Base Sepolia). Returns the broadcast tx hash.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "entryHash": {
+            "type": "string",
+            "description": "0x-prefixed 32-byte hash of the ledger entry"
+          },
+          "uri": {
+            "type": "string",
+            "description": "Manifest URI"
+          }
+        },
+        "required": [
+          "entryHash"
+        ]
+      }
+    },
+    {
+      "name": "time_estimate",
+      "description": "Estimate minutes to complete a task from complexity and current spoon level. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "type": "string",
+            "description": "The task parameter"
+          },
+          "complexity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "description": "The complexity parameter"
+          },
+          "spoons": {
+            "type": "number",
+            "description": "The spoons parameter"
+          }
+        },
+        "required": [
+          "task"
+        ]
+      }
+    },
+    {
+      "name": "schedule_chunk",
+      "description": "Break a total time budget into spoon-aware chunks with rest breaks. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "total_minutes": {
+            "type": "number",
+            "description": "The total_minutes parameter"
+          },
+          "spoons": {
+            "type": "number",
+            "description": "The spoons parameter"
+          },
+          "label": {
+            "type": "string",
+            "description": "The label parameter"
+          }
+        },
+        "required": [
+          "total_minutes"
+        ]
+      }
+    },
+    {
+      "name": "task_breakdown",
+      "description": "Decompose a goal into an ordered list of subtasks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "goal": {
+            "type": "string",
+            "description": "The goal parameter"
+          },
+          "max_subtasks": {
+            "type": "number",
+            "description": "The max_subtasks parameter"
+          }
+        },
+        "required": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "name": "prioritize",
+      "description": "Rank tasks by urgency, importance, and energy cost. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "tasks": {
+            "type": "array",
+            "description": "The tasks parameter"
+          }
+        },
+        "required": [
+          "tasks"
+        ]
+      }
+    },
+    {
+      "name": "decision_tree",
+      "description": "Generate a structured decision aid for a hard choice. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "The question parameter"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The options parameter"
+          }
+        },
+        "required": [
+          "question"
+        ]
+      }
+    },
+    {
+      "name": "motion_reduce",
+      "description": "Return CSS + data-spoons guidance to reduce UI motion.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "spoons": {
+            "type": "number",
+            "description": "The spoons parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "contrast_scale",
+      "description": "Check WCAG contrast between bg/fg and suggest AAA-safe adjustments. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "bg": {
+            "type": "string",
+            "description": "The bg parameter"
+          },
+          "fg": {
+            "type": "string",
+            "description": "The fg parameter"
+          }
+        },
+        "required": [
+          "bg"
+        ]
+      }
+    },
+    {
+      "name": "summarize",
+      "description": "Extractive summary: reduce a long text to the N most salient sentences. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text parameter"
+          },
+          "points": {
+            "type": "number",
+            "description": "The points parameter"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "chunk_text",
+      "description": "Split a long text into cognitively digestible chunks. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text parameter"
+          },
+          "max_words": {
+            "type": "number",
+            "description": "The max_words parameter"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "crisis_check",
+      "description": "Scan a message for rumination, hyperfocus, or distress signals. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "The message parameter"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      }
+    },
+    {
+      "name": "deadline_guard",
+      "description": "Flag clustered or overlapping deadlines. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deadlines": {
+            "type": "array",
+            "description": "The deadlines parameter"
+          }
+        },
+        "required": [
+          "deadlines"
+        ]
+      }
+    },
+    {
+      "name": "timebox",
+      "description": "Define a focused work block with a hard stop and break. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "type": "string",
+            "description": "The task parameter"
+          },
+          "minutes": {
+            "type": "number",
+            "description": "The minutes parameter"
+          }
+        },
+        "required": [
+          "task"
+        ]
+      }
+    },
+    {
+      "name": "rhythm_detect",
+      "description": "From a productivity log, suggest your best-focus hours. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "log": {
+            "type": "array",
+            "description": "The log parameter"
+          }
+        },
+        "required": [
+          "log"
+        ]
+      }
+    },
+    {
+      "name": "wait_estimate",
+      "description": "Estimate how long until a reply or approval arrives. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "avg_reply_hours": {
+            "type": "number",
+            "description": "The avg_reply_hours parameter"
+          }
+        },
+        "required": [
+          "avg_reply_hours"
+        ]
+      }
+    },
+    {
+      "name": "next_action",
+      "description": "Pick the single best next action from a list.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The tasks parameter"
+          }
+        },
+        "required": [
+          "tasks"
+        ]
+      }
+    },
+    {
+      "name": "dependency_map",
+      "description": "Order items respecting their dependencies. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The items parameter"
+          }
+        },
+        "required": [
+          "items"
+        ]
+      }
+    },
+    {
+      "name": "energy_match",
+      "description": "Match a task to your current spoon/energy level. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "tasks": {
+            "type": "array",
+            "description": "The tasks parameter"
+          },
+          "spoons": {
+            "type": "number",
+            "description": "The spoons parameter"
+          }
+        },
+        "required": [
+          "tasks"
+        ]
+      }
+    },
+    {
+      "name": "habit_stack",
+      "description": "Attach a new habit to an existing anchor routine. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "habit": {
+            "type": "string",
+            "description": "The habit parameter"
+          },
+          "anchor": {
+            "type": "string",
+            "description": "The anchor parameter"
+          }
+        },
+        "required": [
+          "habit",
+          "anchor"
+        ]
+      }
+    },
+    {
+      "name": "stall_diagnose",
+      "description": "Name why a task is stuck and suggest a nudge. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "stuck_on": {
+            "type": "string",
+            "description": "The stuck_on parameter"
+          }
+        },
+        "required": [
+          "stuck_on"
+        ]
+      }
+    },
+    {
+      "name": "font_tune",
+      "description": "Recommend readable font settings for a spoon level. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "spoons": {
+            "type": "number",
+            "description": "The spoons parameter"
+          },
+          "dyslexia": {
+            "type": "boolean",
+            "description": "The dyslexia parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "noise_profile",
+      "description": "Suggest a focus-sound profile for a task type. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "task_type": {
+            "type": "string",
+            "enum": [
+              "deep",
+              "admin",
+              "creative",
+              "rest"
+            ],
+            "description": "The task_type parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "light_advice",
+      "description": "Suggest lighting for a time of day and spoon level. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "spoons": {
+            "type": "number",
+            "description": "The spoons parameter"
+          },
+          "time_of_day": {
+            "type": "string",
+            "enum": [
+              "morning",
+              "midday",
+              "evening",
+              "night"
+            ],
+            "description": "The time_of_day parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "density_scale",
+      "description": "Recommend UI information density for a spoon level. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "spoons": {
+            "type": "number",
+            "description": "The spoons parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "simplify",
+      "description": "Rewrite dense text into plainer language. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text parameter"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "outline",
+      "description": "Extract the heading/section structure from text. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text parameter"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "glossary",
+      "description": "Surface likely jargon terms to define. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text parameter"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "progress_track",
+      "description": "Report progress percentage with encouragement.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "done": {
+            "type": "number",
+            "description": "The done parameter"
+          },
+          "total": {
+            "type": "number",
+            "description": "The total parameter"
+          }
+        },
+        "required": [
+          "done",
+          "total"
+        ]
+      }
+    },
+    {
+      "name": "question_reframe",
+      "description": "Turn a vague question into a sharper, answerable one. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "The question parameter"
+          }
+        },
+        "required": [
+          "question"
+        ]
+      }
+    },
+    {
+      "name": "tone_shift",
+      "description": "Suggest tone adjustments for a message. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text parameter"
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "calm",
+              "firm",
+              "warm",
+              "neutral"
+            ],
+            "description": "The target parameter"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "draft_reply",
+      "description": "Draft a reply template from a received message. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "The message parameter"
+          },
+          "stance": {
+            "type": "string",
+            "enum": [
+              "accept",
+              "decline",
+              "clarify",
+              "thank"
+            ],
+            "description": "The stance parameter"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      }
+    },
+    {
+      "name": "meeting_notes",
+      "description": "Structure a transcript into decisions and actions. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "transcript": {
+            "type": "string",
+            "description": "The transcript parameter"
+          }
+        },
+        "required": [
+          "transcript"
+        ]
+      }
+    },
+    {
+      "name": "assertive_reframe",
+      "description": "Reframe an over-apologetic sentence. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "sentence": {
+            "type": "string",
+            "description": "The sentence parameter"
+          }
+        },
+        "required": [
+          "sentence"
+        ]
+      }
+    },
+    {
+      "name": "status_update",
+      "description": "Compose a concise status update. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "done": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The done parameter"
+          },
+          "blockers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The blockers parameter"
+          }
+        },
+        "required": [
+          "done"
+        ]
+      }
+    },
+    {
+      "name": "meltdown_plan",
+      "description": "Build a pre-emptive de-escalation plan. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The triggers parameter"
+          },
+          "comforts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The comforts parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "shutdown_routine",
+      "description": "Suggest a wind-down routine scaled to spoons. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "spoons": {
+            "type": "number",
+            "description": "The spoons parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "grounding_54321",
+      "description": "Lead the 5-4-3-2-1 grounding exercise. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "support_ping",
+      "description": "Draft a message to a supporter. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "who": {
+            "type": "string",
+            "description": "The who parameter"
+          },
+          "why": {
+            "type": "string",
+            "description": "The why parameter"
+          }
+        },
+        "required": [
+          "who"
+        ]
+      }
+    },
+    {
+      "name": "spaced_repetition",
+      "description": "Schedule spaced-review intervals. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "fact": {
+            "type": "string",
+            "description": "The fact parameter"
+          },
+          "difficulty": {
+            "type": "number",
+            "description": "The difficulty parameter"
+          }
+        },
+        "required": [
+          "fact"
+        ]
+      }
+    },
+    {
+      "name": "note_retrieve",
+      "description": "Find saved notes by keyword overlap. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "array",
+            "description": "The notes parameter"
+          },
+          "query": {
+            "type": "string",
+            "description": "The query parameter"
+          }
+        },
+        "required": [
+          "notes",
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "memory_remind",
+      "description": "Compute a due date for a future reminder. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The label parameter"
+          },
+          "in_days": {
+            "type": "number",
+            "description": "The in_days parameter"
+          }
+        },
+        "required": [
+          "label"
+        ]
+      }
+    },
+    {
+      "name": "recall_prompt",
+      "description": "Generate a self-test prompt. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "The topic parameter"
+          },
+          "facts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The facts parameter"
+          }
+        },
+        "required": [
+          "topic"
+        ]
+      }
+    },
+    {
+      "name": "external_memory",
+      "description": "Store a note in an in-process memory stub. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The key parameter"
+          },
+          "value": {
+            "type": "string",
+            "description": "The value parameter"
+          }
+        },
+        "required": [
+          "key",
+          "value"
+        ]
+      }
+    },
+    {
+      "name": "chunk_recall",
+      "description": "Split a list into smaller memorization chunks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The items parameter"
+          },
+          "per_chunk": {
+            "type": "number",
+            "description": "The per_chunk parameter"
+          }
+        },
+        "required": [
+          "items"
+        ]
+      }
+    },
+    {
+      "name": "memory_encoding",
+      "description": "Suggest a mnemonic strategy. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "fact": {
+            "type": "string",
+            "description": "The fact parameter"
+          },
+          "strategy": {
+            "type": "string",
+            "enum": [
+              "acronym",
+              "imagery",
+              "story",
+              "rhyme"
+            ],
+            "description": "The strategy parameter"
+          }
+        },
+        "required": [
+          "fact"
+        ]
+      }
+    },
+    {
+      "name": "retrieval_practice",
+      "description": "Generate a quiz question. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "snippet": {
+            "type": "string",
+            "description": "The snippet parameter"
+          }
+        },
+        "required": [
+          "snippet"
+        ]
+      }
+    },
+    {
+      "name": "memory_cue",
+      "description": "Suggest a sensory cue. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "routine": {
+            "type": "string",
+            "description": "The routine parameter"
+          },
+          "cue_type": {
+            "type": "string",
+            "enum": [
+              "sight",
+              "sound",
+              "place",
+              "smell"
+            ],
+            "description": "The cue_type parameter"
+          }
+        },
+        "required": [
+          "routine"
+        ]
+      }
+    },
+    {
+      "name": "forget_track",
+      "description": "Flag reminders not reviewed in 30+ days. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The items parameter"
+          }
+        },
+        "required": [
+          "items"
+        ]
+      }
+    },
+    {
+      "name": "duna_status",
+      "description": "Get DUNA readiness: member count vs target, progress bar, readiness label, and active ships.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "system_health",
+      "description": "Get system health: coherence, spoons, engagement, docked ports, and mesh status.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "dome_structure",
+      "description": "Get the docking-dome geometry facts: layers, mode, radius, outer edges, ports, NeoPixel segments.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "neo_pixel_control",
+      "description": "Set the NeoPixel LED controller state (mode, speed, color, brightness). Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "rainbow",
+              "chase",
+              "solid",
+              "breath",
+              "gradient",
+              "dual-chase",
+              "off"
+            ],
+            "description": "The mode parameter"
+          },
+          "speed": {
+            "type": "number",
+            "description": "The speed parameter"
+          },
+          "color": {
+            "type": "string",
+            "description": "The color parameter"
+          },
+          "brightness": {
+            "type": "number",
+            "description": "The brightness parameter"
+          },
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "truth_lookup",
+      "description": "Look up a verified fact by key. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The key parameter"
+          }
+        },
+        "required": [
+          "key"
+        ]
+      }
+    },
+    {
+      "name": "truth_file_map",
+      "description": "Return the canonical file map.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "truth_invariants",
+      "description": "Return the canonical toolchain invariants.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "truth_design_tokens",
+      "description": "Return the verified design tokens.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "truth_layout_gates",
+      "description": "Return the verified layout gates.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "truth_care_score",
+      "description": "Return the verified care-score formula.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "truth_mcp_inventory",
+      "description": "Return the MCP server inventory.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "truth_manifest",
+      "description": "Return the crew manifest. Use this tool to retrieve the requested information.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "includeCompetence": {
+            "type": "boolean",
+            "description": "The includeCompetence parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "truth_verify_baseline",
+      "description": "Return the verify-suite baseline.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "truth_register_fact",
+      "description": "Register a new verified fact. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The key parameter"
+          },
+          "claim": {
+            "type": "string",
+            "description": "The claim parameter"
+          },
+          "evidence": {
+            "type": "string",
+            "description": "The evidence parameter"
+          },
+          "citation": {
+            "type": "string",
+            "description": "The citation parameter"
+          },
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        },
+        "required": [
+          "key",
+          "claim",
+          "evidence",
+          "citation"
+        ]
+      }
+    },
+    {
+      "name": "truth_facts",
+      "description": "List all verified facts. Use this tool to retrieve the requested information.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "verifiedOnly": {
+            "type": "boolean",
+            "description": "The verifiedOnly parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "truth_paths",
+      "description": "Return the canonical root paths.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "truth_evidence",
+      "description": "Return the OQE evidence categories.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "truth_health",
+      "description": "Registry health check. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "design_expert_audit_surface",
+      "description": "Audit a surface file against all 33 design rules. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      }
+    },
+    {
+      "name": "design_expert_generate_report",
+      "description": "Audit multiple surfaces and generate an aggregate compliance report.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "surfaces": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The surfaces parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "design_expert_check_tokens",
+      "description": "Validate that a component uses design tokens. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      }
+    },
+    {
+      "name": "design_expert_check_glass",
+      "description": "Validate glassmorphism implementation. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      }
+    },
+    {
+      "name": "design_expert_check_spoons",
+      "description": "Validate spoon-state handling. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      }
+    },
+    {
+      "name": "design_expert_check_wcag",
+      "description": "Validate WCAG 2.2 accessibility rules. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      }
+    },
+    {
+      "name": "design_expert_check_accent",
+      "description": "Validate accent-color usage. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      }
+    },
+    {
+      "name": "design_expert_check_contrast",
+      "description": "Compute WCAG contrast ratio. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "foreground": {
+            "type": "string",
+            "description": "The foreground parameter"
+          },
+          "background": {
+            "type": "string",
+            "description": "The background parameter"
+          }
+        },
+        "required": [
+          "foreground",
+          "background"
+        ]
+      }
+    },
+    {
+      "name": "design_expert_suggest_fix",
+      "description": "Suggest a fix for a specific violation. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          },
+          "rule": {
+            "type": "string",
+            "description": "The rule parameter"
+          },
+          "line": {
+            "type": "number",
+            "description": "The line parameter"
+          }
+        },
+        "required": [
+          "file",
+          "rule"
+        ]
+      }
+    },
+    {
+      "name": "design_expert_ephemeralize",
+      "description": "Apply all fixable violations (dry-run by default). Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          },
+          "dryRun": {
+            "type": "boolean",
+            "description": "The dryRun parameter"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      }
+    },
+    {
+      "name": "design_expert_batch_ephemeralize",
+      "description": "Apply fixes to multiple files. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The files parameter"
+          },
+          "dryRun": {
+            "type": "boolean",
+            "description": "The dryRun parameter"
+          }
+        },
+        "required": [
+          "files"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_tagout",
+      "description": "Evaluate a task against the competence boundary. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "type": "string",
+            "description": "The task parameter"
+          },
+          "surface": {
+            "type": "string",
+            "description": "The surface parameter"
+          },
+          "agent": {
+            "type": "string",
+            "description": "The agent parameter"
+          }
+        },
+        "required": [
+          "task"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_redboard_detect",
+      "description": "Run Red Board diagnostics. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text parameter"
+          },
+          "signals": {
+            "type": "object",
+            "description": "The signals parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "soulsafe_zero_work",
+      "description": "Classify a statement as a zero-work hazard. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "The statement parameter"
+          }
+        },
+        "required": [
+          "statement"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_oqe_classify",
+      "description": "Classify a claim into an OQE category. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "claim": {
+            "type": "string",
+            "description": "The claim parameter"
+          }
+        },
+        "required": [
+          "claim"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_severity",
+      "description": "Grade a finding by severity. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "finding": {
+            "type": "string",
+            "description": "The finding parameter"
+          },
+          "details": {
+            "type": "string",
+            "description": "The details parameter"
+          }
+        },
+        "required": [
+          "finding"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_policy",
+      "description": "Look up a SOULSAFE protocol section. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "section": {
+            "type": "string",
+            "description": "The section parameter"
+          }
+        },
+        "required": [
+          "section"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_gate1_self_review",
+      "description": "Gate 1 — self-review checklist. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "change": {
+            "type": "string",
+            "description": "The change parameter"
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The claims parameter"
+          }
+        },
+        "required": [
+          "change"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_gate2_cross_review",
+      "description": "Gate 2 — cross-review with information barrier. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "change": {
+            "type": "string",
+            "description": "The change parameter"
+          },
+          "reviewer": {
+            "type": "string",
+            "description": "The reviewer parameter"
+          }
+        },
+        "required": [
+          "change"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_gate3_full",
+      "description": "Gate 3 — architect verification. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "change": {
+            "type": "string",
+            "description": "The change parameter"
+          }
+        },
+        "required": [
+          "change"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_run_protocol",
+      "description": "Run the full SOULSAFE 3-gate protocol. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "change": {
+            "type": "string",
+            "description": "The change parameter"
+          },
+          "surface": {
+            "type": "string",
+            "description": "The surface parameter"
+          }
+        },
+        "required": [
+          "change"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_manifest",
+      "description": "List the crew agents. Use this tool to retrieve the requested information.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "includeCompetence": {
+            "type": "boolean",
+            "description": "The includeCompetence parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "soulsafe_competence_check",
+      "description": "Check whether a surface falls inside a given agent's competence. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agent": {
+            "type": "string",
+            "description": "The agent parameter"
+          },
+          "surface": {
+            "type": "string",
+            "description": "The surface parameter"
+          }
+        },
+        "required": [
+          "agent",
+          "surface"
+        ]
+      }
+    },
+    {
+      "name": "soulsafe_verify_invariants",
+      "description": "Report the canonical toolchain invariants.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "soulsafe_protocol_info",
+      "description": "Report server and protocol metadata.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "structural_entropy_audit",
+      "description": "Compute structural entropy, coupling, cohesion, and detect cycles. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "workers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The workers parameter"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "warning",
+              "hard-fail"
+            ],
+            "description": "The severity parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "service_call_graph_visualise",
+      "description": "Generate a Mermaid/DOT visualisation of the service call graph. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string",
+            "enum": [
+              "mermaid",
+              "dot"
+            ],
+            "description": "The format parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "schema_drift_detect",
+      "description": "Detect schema drift between D1 migrations and codebase data models. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "database": {
+            "type": "string",
+            "description": "The database parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "contract_surface_audit",
+      "description": "Audit all MCP server tool definitions for consistency. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "servers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The servers parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "state_machine_validate",
+      "description": "Validate state machine definitions against implementation. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "state_machine": {
+            "type": "string",
+            "description": "The state_machine parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "configuration_topology_audit",
+      "description": "Audit wrangler.toml files for configuration drift. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "structural_suggest_fix",
+      "description": "Suggest a fix for a structural violation. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "violation_id": {
+            "type": "string",
+            "description": "The violation_id parameter"
+          },
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          }
+        },
+        "required": [
+          "violation_id"
+        ]
+      }
+    },
+    {
+      "name": "structural_reshape",
+      "description": "Apply structural fixes (dry-run by default). Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file parameter"
+          },
+          "dryRun": {
+            "type": "boolean",
+            "description": "The dryRun parameter"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      }
+    },
+    {
+      "name": "dependency_bump_detect",
+      "description": "Detect outdated dependencies across workers. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "package": {
+            "type": "string",
+            "description": "The package parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "structural_report_generate",
+      "description": "Generate a comprehensive structural health report.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string",
+            "enum": [
+              "markdown",
+              "json"
+            ],
+            "description": "The format parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "component_list",
+      "description": "List all components in the registry.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "The category parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "component_get",
+      "description": "Get a specific component by name.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name parameter"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "component_props",
+      "description": "Get the props for a specific component.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name parameter"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "component_tokens",
+      "description": "Get the design tokens used by a specific component.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name parameter"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "component_search",
+      "description": "Search components by keyword. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "The query parameter"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "token_resolve",
+      "description": "Resolve a DTCG token path to its computed value. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "The path parameter"
+          }
+        },
+        "required": [
+          "path"
+        ]
+      }
+    },
+    {
+      "name": "component_schema",
+      "description": "Get the full schema for a component.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name parameter"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "component_usage",
+      "description": "Find which sovereign HTML pages use a given component. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "token_list",
+      "description": "List all available token paths with their values and types.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "prefix": {
+            "type": "string",
+            "description": "The prefix parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "layout_generate",
+      "description": "Generate sovereign HTML layout from a JSON description. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "hero",
+              "tetra-grid",
+              "card-grid",
+              "section",
+              "cta"
+            ],
+            "description": "The type parameter"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "html",
+              "a2ui"
+            ],
+            "description": "The format parameter"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      }
+    },
+    {
+      "name": "validate_component",
+      "description": "Validate a component or template code against P31 spatial rules. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The code parameter"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "component",
+              "template"
+            ],
+            "description": "The type parameter"
+          }
+        },
+        "required": [
+          "code",
+          "type"
+        ]
+      }
+    },
+    {
+      "name": "audit_tokens",
+      "description": "Audit the design token tree for orphans, dead references, and missing values. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "tokensPath": {
+            "type": "string",
+            "description": "The tokensPath parameter"
+          }
+        }
+      }
+    },
+    {
+      "name": "suggest_fix",
+      "description": "Suggest a fix for a common design-system violation. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "violation": {
+            "type": "string",
+            "description": "The violation parameter"
+          },
+          "code": {
+            "type": "string",
+            "description": "The code parameter"
+          }
+        },
+        "required": [
+          "violation",
+          "code"
+        ]
+      }
+    },
+    {
+      "name": "validate_output",
+      "description": "Fail-closed validation of generated code. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The code parameter"
+          },
+          "component": {
+            "type": "string",
+            "description": "The component parameter"
+          }
+        },
+        "required": [
+          "code"
+        ]
+      }
+    },
+    {
+      "name": "scaffold_component",
+      "description": "Return a contract-conformant scaffold for a known component.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name parameter"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "propose_page",
+      "description": "Propose a sovereign page composed from canon components. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title parameter"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "hero",
+              "tetra-grid",
+              "card-grid",
+              "section",
+              "cta"
+            ],
+            "description": "The type parameter"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The components parameter"
+          }
+        },
+        "required": [
+          "type",
+          "components"
+        ]
+      }
+    },
+    {
+      "name": "search_tools",
+      "description": "Search available P31 tools by natural-language query. Returns tool names and one-line descriptions only. Use this first when you are unsure which tool to call.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Natural-language description of the task"
+          },
+          "category": {
+            "type": "string",
+            "description": "Optional category filter (oasis, cognitive, soulsafe, love, spaceship, ground-truth, marge, bob, component, design)"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "get_tool_details",
+      "description": "Fetch the full input schema and output schema for a single P31 tool. Use after search_tools to inspect a candidate before calling it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Exact tool name from search_tools"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "assess_capacity",
+      "description": "Combines spoon state, time estimation, and crisis-signal scanning into a single capacity verdict. Returns a recommended work mode (full, reduced, or rest) with a time box. Use instead of calling oasis_status, time_estimate, and crisis_check separately.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "type": "string",
+            "description": "What you are about to work on"
+          },
+          "complexity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "description": "Task complexity"
+          }
+        },
+        "required": [
+          "task"
+        ]
+      }
+    },
+    {
+      "name": "plan_next_block",
+      "description": "Plans the next work block by combining next_action, time_estimate, and schedule_chunk into a single time-boxed recommendation. Use instead of chaining those three tools. Returns the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of pending tasks"
+          },
+          "complexity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "description": "Task complexity"
+          }
+        },
+        "required": [
+          "tasks"
+        ]
+      }
+    }
+  ]
+}

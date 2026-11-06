@@ -1,104 +1,93 @@
-# P31 CLI — Sovereign AI for Neurodivergent Families
+# P31 Sovereign CLI
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Go](https://img.shields.io/badge/Go-1.25.5-00ADD8?logo=go)](https://go.dev)
-[![MCP](https://img.shields.io/badge/MCP-%E2%9C%93-2dd4bf)](https://modelcontextprotocol.io)
-[![GitHub release](https://img.shields.io/github/v/release/p31labs/p31-cli)](https://github.com/p31labs/p31-cli/releases)
-[![CI](https://github.com/p31labs/p31-cli/actions/workflows/ci.yaml/badge.svg)](https://github.com/p31labs/p31-cli/actions/workflows/ci.yaml)
-[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-30363D?logo=github)](https://github.com/sponsors/p31labs)
+**Sovereign AI agent for neurodivergent families. OpenCode face, P31 guts.**
 
-**p31 chat** is a local-first, post-quantum, spoon-aware AI terminal interface.
-It routes through your own proxy, connects to MCP servers (PHOS Forge, Google Workspace),
-and adapts to your cognitive load.
-
----
-
-## Features
-
-- **Spoon-aware AI** — adapts interface and token usage based on your current spoon level
-- **K₄ family mesh** — complete graph topology for family connection
-- **Post-quantum identity** — ML-DSA-65 signatures, Ed25519 passports, SHA-512 telemetry
-- **MCP native** — 26+ tools from PHOS Forge, Google Workspace integration
-- **Offline-first** — no cloud dependency; runs via your own router proxy
-- **Beautiful TUI** — Bubble Tea, command palette (Ctrl+P), fuzzy search, status bar
-
----
-
-## Quick Install
+## Install
 
 ```bash
-curl -fsSL https://p31-cli.pages.dev/install | bash
+curl -fsSL https://cli.p31ca.org/install | bash
 ```
 
-Or via npm:
+Or from source:
 
 ```bash
-npm install -g @p31/cli
+git clone https://github.com/p31labs/p31-cli.git
+cd p31-cli
+npm install
+npm run build
+npm link
 ```
 
----
-
-## Usage
+## Quick Start
 
 ```bash
-p31 chat           # Start the interactive TUI
-p31 spoon          # Show current spoon level
-p31 mesh status    # View K₄ family mesh
-p31 doctor         # Run system diagnostics
-p31 help           # List all commands
+p31                    # Interactive TUI
+p31 chat              # One-shot chat
+p31 agent             # Autonomous agent mode
+p31 mcp               # MCP stdio server (133 tools)
+p31 mcp:http          # MCP HTTP server
+p31 tui               # Ink TUI with themes
+p31 phos              # PHOS forge commands
+p31 spoons            # Spoon level management
+p31 session           # Session management
+p31 sync              # Cross-app sync
 ```
 
----
+## Architecture
 
-## Dependencies
-
-- Go 1.25.5+
-- Node.js 18+ (for MCP servers)
-- A running p31-router proxy on port 4001
-
----
+- **TypeScript** (ESM, Node.js >= 22)
+- **MCP Protocol** — 133 tools across 10 categories
+- **OpenCode Plugins** — 6 sovereign plugins
+- **3 LLM Providers** — Anthropic, Google Gemini, OpenRouter
+- **SQLite Sessions** — Per-session-tree sharding
+- **Ink TUI** — 3 themes, spoon-aware adaptive UI
+- **React Web UI** — xterm.js terminal viewer
 
 ## MCP Servers
 
-| Server | Tools |
-|--------|-------|
-| **PHOS Forge** | 26 tools: file adoption, deploy, logbook, brain-dump, jitterbug, cognitive-state, self-healer, etc. |
-| **Google Workspace** | Calendar, Gmail, Drive, Docs, Sheets, Contacts |
-
----
+| Category | Tools | Description |
+|----------|-------|-------------|
+| oasis | 11 | CLI session state |
+| love | 4 | LOVE ledger |
+| cognitive | 47 | Neurodivergent support |
+| spaceship | 4 | DUNA / dome |
+| ground-truth | 14 | Verified facts |
+| marge | 12 | Design compliance |
+| soulsafe | 15 | 3-gate verification |
+| bob | 10 | Building ontology |
+| component | 5 | Component registry |
+| design | 11 | Design tokens |
+| **Total** | **133** | |
 
 ## Configuration
 
-Edit `~/.p31/config.yaml`:
-
-```yaml
-proxy_url: http://localhost:4001/v1
-proxy_model: flash
+```jsonc
+// opencode.json
+{
+  "mcp": {
+    "phos-forge": { "type": "local", "command": ["node", "/path/to/mcp-server.mjs"] },
+    "p31-crypto": { "type": "remote", "url": "https://p31-crypto-mcp.trimtab-signal.workers.dev/mcp" }
+  },
+  "plugin": ["spoon-monitor", "sovereign-id", "care-attest", "pqc-tools", "mesh-visualize", "honest-label"]
+}
 ```
 
----
+## Design System
 
-## Development
+- **Tokens:** `tokens/tokens.yml`
+- **Components:** `tokens/components.yml`
+- **Themes:** p31ca, phosphorus31, crisis
+- **Accessibility:** Atkinson Hyperlegible, 48px touch targets, WCAG AAA
 
-```bash
-git clone https://github.com/p31labs/p31-cli
-cd p31-cli
-go mod download
-go build -o p31 .
-./p31 help
-```
+## Environment Variables
 
----
+| Variable | Description |
+|----------|-------------|
+| `LOVE_LEDGER_URL` | LOVE ledger endpoint |
+| `LEDGER_BRIDGE_URL` | Ledger bridge endpoint |
+| `P31_USER_ID` | Default user ID |
+| `OPENCODE_CONFIG` | Custom OpenCode config path |
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
-
----
-
-## Links
-
-- [Website](https://cli.p31ca.org)
-- [GitHub](https://github.com/p31labs/p31-cli)
-- [Documentation](https://cli.p31ca.org/docs)
-- [Spatial Oasis](https://cli.p31ca.org/docs/spatial-oasis)
+MIT — P31 Labs, Inc.

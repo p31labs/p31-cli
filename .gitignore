@@ -5,6 +5,23 @@ p31-*
 *.test
 *.out
 
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
 # IDE
 .idea/
 .vscode/
@@ -17,4 +34,11 @@ Thumbs.db
 
 # Go
 vendor/
-dist/
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+.nyc_output/

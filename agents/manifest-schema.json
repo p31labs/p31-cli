@@ -1,0 +1,47 @@
+{
+  "$schema": "https://p31ca.org/schemas/capability-manifest.json",
+  "title": "P31 Agent Capability Manifest",
+  "type": "object",
+  "description": "Declares what an agent needs from a model — capability buckets, not model names. Never lock an agent to a model.",
+  "required": ["agentId", "capabilities", "bucket", "toolPermissions"],
+  "properties": {
+    "agentId": {
+      "type": "string",
+      "description": "Unique agent identifier referenced by loadInstructionSet()"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Capability labels the model must provide (e.g. tool-calling, structured-json, code-generation, deep-reasoning, vision)"
+    },
+    "bucket": {
+      "type": "string",
+      "description": "Capability bucket resolved by the L1 capability router. Not a model name. Examples: fast-code, deep-reasoning, structured-json, summarize, vision, local-sovereign"
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "maxLatencyMs": { "type": "number", "description": "Maximum acceptable end-to-end latency in ms" },
+        "requireToolCalling": { "type": "boolean", "description": "Whether tool-calling is required" },
+        "minContextWindow": { "type": "number", "description": "Minimum context window size" },
+        "maxCostTier": { "type": "string", "enum": ["free", "cheap", "standard", "premium"] }
+      },
+      "additionalProperties": false
+    },
+    "toolPermissions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Local tool names the agent may invoke"
+    },
+    "mcpAllowlist": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "MCP server names the agent may call"
+    },
+    "modelName": {
+      "not": {},
+      "description": "FORBIDDEN. Manifests reference buckets, never model names."
+    }
+  },
+  "additionalProperties": false
+}

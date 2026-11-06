@@ -1,0 +1,238 @@
+/* P31 Design System — CSS Variables (auto-generated from tokens.yml) */
+/* DO NOT EDIT — edit tokens.yml and rebuild */
+
+:root {
+  /* Base unit — all scale/spacing/typography derives from this */
+  --p31-base: {{root.base_unit}};
+
+  /* Void tiers */
+  --p31-bg: {{semantic.color.background.default}};
+  --p31-surface: {{semantic.color.background.alt}};
+  --p31-surface2: {{primitive.color.surface2}};
+
+  /* Accent colours */
+  --p31-accent: {{semantic.color.accent.default}};
+  --p31-accent-alt: {{semantic.color.accent.variant}};
+  --p31-accent-violet: {{semantic.color.accent.variant}};
+  --p31-accent-gold: {{semantic.color.accent.gold}};
+  --p31-accent-green: {{semantic.color.accent.green}};
+  --p31-accent-red: {{semantic.color.accent.red}};
+  --p31-accent-iris: {{semantic.color.accent.iris}};
+
+  /* Text */
+  --p31-text: {{semantic.color.text.primary}};
+  --p31-text-secondary: {{semantic.color.text.secondary}};
+  --p31-text-tertiary: {{semantic.color.text.tertiary}};
+
+  /* Glass tokens */
+  --p31-glass-bg: {{primitive.color.glass_surface}};
+  --p31-glass-border: {{primitive.color.glass_border}};
+  --p31-glass-border-hover: {{primitive.color.glass_border_hover}};
+  --p31-glass-shadow: {{primitive.shadow.glass}};
+  --p31-glass-blur: blur({{primitive.blur.standard}});
+
+  /* Glass tiers (shell's SIC-POVM stack) */
+  --p31-glass-bg-strong: {{primitive.color.glass_surface_strong_tier}};
+  --p31-glass-bg-overlay: {{primitive.color.glass_surface_overlay}};
+  --p31-glass-bg-light: {{primitive.color.glass_surface_light_tier}};
+  --p31-glass-border-strong: {{primitive.color.glass_border_tier}};
+  --p31-glass-border-strong-hover: {{primitive.color.glass_border_hover_tier}};
+
+  /* Glow shadow */
+  --p31-glow-cyan: {{primitive.shadow.glow_cyan}};
+
+  /* Glow presets (ship neon phosphor) */
+  --p31-glow-neon: {{primitive.shadow.glow_neon}};
+  --p31-glow-magenta: {{primitive.shadow.glow_magenta}};
+  --p31-glow-violet: {{primitive.shadow.glow_violet}};
+  --p31-glow-amber: {{primitive.shadow.glow_amber}};
+  --p31-glow-mint: {{primitive.shadow.glow_mint}};
+  --p31-glow-coral: {{primitive.shadow.glow_coral}};
+
+  /* Neon phosphor vocabulary (ship cockpit) */
+  --p31-neon: {{semantic.color.neon.base}};
+  --p31-neon-dim: {{semantic.color.neon.dim}};
+  --p31-neon-faint: {{semantic.color.neon.faint}};
+  --p31-neon-ghost: {{semantic.color.neon.ghost}};
+  --p31-neon-cyan: {{primitive.color.neon_cyan}};
+  --p31-neon-magenta: {{primitive.color.neon_magenta}};
+  --p31-neon-violet: {{primitive.color.neon_violet}};
+  --p31-neon-amber: {{primitive.color.neon_amber}};
+  --p31-neon-mint: {{primitive.color.neon_mint}};
+  --p31-neon-coral: {{primitive.color.neon_coral}};
+  --p31-neon-orange: {{primitive.color.neon_orange}};
+  --p31-neon-blue: {{primitive.color.neon_blue}};
+  --p31-neon-lavender: {{primitive.color.neon_lavender}};
+  --p31-neon-pink: {{primitive.color.neon_pink}};
+
+  /* Cockpit surface tiers (OLED-black) */
+  --p31-surface-s1: {{primitive.color.void_s1}};
+  --p31-surface-s2: {{primitive.color.void_s2}};
+  --p31-surface-s3: {{primitive.color.void_s3}};
+  --p31-surface-s4: {{primitive.color.void_s4}};
+
+  /* Semantic status aliases — never use --p31-accent-* directly for state */
+  --p31-status-online:  {{semantic.color.status.online}};
+  --p31-status-offline: {{semantic.color.status.offline}};
+  --p31-status-warning: {{semantic.color.status.warning}};
+  --p31-status-error:   {{semantic.color.status.error}};
+  --p31-status-info:    {{semantic.color.status.info}};
+
+  /* Scale progression: 16px × (4/3)^n */
+  --p31-scale-xs: {{scale.xs}};
+  --p31-scale-sm: {{scale.sm}};
+  --p31-scale-md: {{scale.md}};
+  --p31-scale-lg: {{scale.lg}};
+  --p31-scale-xl: {{scale.xl}};
+  --p31-scale-2xl: {{scale.2xl}};
+  --p31-scale-3xl: {{scale.3xl}};
+  --p31-scale-4xl: {{scale.4xl}};
+
+  /* Typography sizes (fluid clamp values) */
+  --p31-type-caption: {{typography.size.caption}};
+  --p31-type-body: {{typography.size.body}};
+  --p31-type-label: {{typography.size.label}};
+  --p31-type-h3: {{typography.size.h3}};
+  --p31-type-h2: {{typography.size.h2}};
+  --p31-type-h1: {{typography.size.h1}};
+  --p31-type-display: {{typography.size.display}};
+
+  /* Font families */
+  --p31-font-sans: {{primitive.typography.font_sans}};
+  --p31-font-mono: {{primitive.typography.font_mono}};
+  --p31-font-display: {{primitive.typography.font_sans}};
+
+  /* Animation durations */
+  --p31-duration-fast: {{animation.duration.fast}};
+  --p31-duration-normal: {{animation.duration.normal}};
+  --p31-duration-slow: {{animation.duration.slow}};
+
+  /* Animation easings */
+  --p31-easing-smooth: {{animation.easing.smooth}};
+  --p31-easing-snappy: {{animation.easing.snappy}};
+  --p31-easing-linear: {{animation.easing.linear}};
+
+  /* Speed factor — applied to all animation durations */
+  --p31-speed-factor: {{animation.speed_factor}};
+
+  /* Starfield tokens */
+  --p31-starfield-hearth: {{primitive.color.starfield_hearth}};
+  --p31-starfield-teal: {{primitive.color.starfield_teal}};
+  --p31-starfield-remembrance: {{primitive.color.starfield_remembrance}};
+  --p31-starfield-particle-teal: {{primitive.color.starfield_particle_teal}};
+  --p31-starfield-particle-coral: {{primitive.color.starfield_particle_coral}};
+
+  /* Blur tiers */
+  --p31-blur-subtle: {{primitive.blur.subtle}};
+  --p31-blur-standard: {{primitive.blur.standard}};
+  --p31-blur-strong: {{primitive.blur.strong}};
+
+  /* Spacing */
+  --p31-space-xs: {{primitive.spacing.xs}};
+  --p31-space-sm: {{primitive.spacing.sm}};
+  --p31-space-md: {{primitive.spacing.md}};
+  --p31-space-lg: {{primitive.spacing.lg}};
+  --p31-space-xl: {{primitive.spacing.xl}};
+  --p31-space-2xl: {{primitive.spacing.xxl}};
+
+  /* Radii */
+  --p31-radius-sm: {{primitive.radius.sm}};
+  --p31-radius-md: {{primitive.radius.md}};
+  --p31-radius-lg: {{primitive.radius.lg}};
+  --p31-radius-xl: {{primitive.radius.xl}};
+  --p31-radius-full: {{primitive.radius.full}};
+
+  /* Touch targets */
+  --p31-touch-min: {{touch.min}};
+  --p31-touch-recommended: {{touch.recommended}};
+  --p31-touch-large: {{touch.large}};
+
+  /* Z-index layers */
+  --p31-z-starfield: {{z_index.starfield}};
+  --p31-z-topbar: {{z_index.topbar}};
+  --p31-z-toast: {{z_index.toast}};
+  --p31-z-crisis: {{z_index.crisis}};
+  --p31-z-skip-link: {{z_index.skip_link}};
+
+  /* Legacy space aliases (backward compat) */
+  --p31-space-3xl: 64px;
+
+  /* Brand-specific glass overrides */
+  [data-brand="p31ca"] {
+    --p31-glass-bg: oklch(14% 0.02 260 / 0.35);
+    --p31-glass-border: oklch(100% 0.01 240 / 0.12);
+    --p31-glass-border-hover: oklch(100% 0.01 240 / 0.25);
+    --p31-glass-blur: blur(24px);
+  }
+  [data-brand="phosphorus31"] {
+    --p31-glass-bg: oklch(99% 0.01 85 / 0.55);
+    --p31-glass-border: oklch(80% 0.02 75 / 0.3);
+    --p31-glass-border-hover: oklch(70% 0.03 70 / 0.4);
+    --p31-glass-blur: blur(16px);
+  }
+  [data-brand="willow"] {
+    --p31-glass-bg: rgba(255, 248, 240, 0.7);
+    --p31-glass-border: rgba(200, 180, 160, 0.25);
+    --p31-glass-blur: blur(16px);
+    --p31-text: oklch(25% 0.02 80);
+    --p31-text-secondary: oklch(55% 0.02 75);
+    --p31-accent: oklch(65% 0.18 45);
+    --p31-accent-alt: oklch(60% 0.15 200);
+    --p31-accent-gold: oklch(72% 0.14 80);
+    --p31-accent-green: oklch(70% 0.12 120);
+    --p31-accent-red: oklch(62% 0.15 10);
+    --p31-font-sans: "Comic Sans MS", "Chalkboard SE", cursive, sans-serif;
+    --p31-font-display: "Comic Sans MS", "Chalkboard SE", cursive;
+    --p31-radius-sm: 12px;
+    --p31-radius-md: 20px;
+    --p31-radius-lg: 28px;
+    --p31-radius-xl: 40px;
+    --p31-radius-full: 9999px;
+    --p31-space-xs: 0.5rem;
+    --p31-space-sm: 0.75rem;
+    --p31-space-md: 1.25rem;
+    --p31-space-lg: 2rem;
+    --p31-space-xl: 2.5rem;
+    --p31-space-2xl: 4rem;
+    --p31-duration-fast: 200ms;
+    --p31-duration-normal: 400ms;
+    --p31-duration-slow: 600ms;
+    --p31-easing-smooth: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --p31-easing-snappy: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --p31-touch-min: 56px;
+    --p31-touch-recommended: 64px;
+  }
+}
+
+/* Spoon-aware speed factor */
+[data-spoons="0"] { --p31-speed-factor: 0; --p31-glass-blur: none; }
+[data-spoons="1"] { --p31-speed-factor: 0; --p31-glass-blur: none; }
+[data-spoons="2"] { --p31-speed-factor: 0.25; --p31-glass-blur: blur(8px); }
+[data-spoons="3"] { --p31-speed-factor: 0.5; --p31-glass-blur: blur({{primitive.blur.standard}}); }
+[data-spoons="4"] { --p31-speed-factor: 0.75; }
+[data-spoons="5"] { --p31-speed-factor: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --p31-speed-factor: 0; }
+}
+
+/* Dark mode overrides */
+[data-dark-mode="true"] {
+  --p31-glass-bg: rgba(30, 28, 26, 0.8);
+  --p31-glass-border: rgba(80, 75, 70, 0.3);
+  --p31-text: oklch(90% 0.01 80);
+  --p31-text-secondary: oklch(65% 0.02 80);
+}
+
+/* Light theme overrides */
+[data-theme="light"] {
+  --p31-bg: {{theme.light.background.default}};
+  --p31-surface: {{theme.light.background.alt}};
+  --p31-surface2: #F1F5F9;
+  --p31-text: {{theme.light.text.primary}};
+  --p31-text-secondary: {{theme.light.text.secondary}};
+  --p31-text-tertiary: {{theme.light.text.tertiary}};
+  --p31-glass-bg: {{theme.light.glass_surface}};
+  --p31-glass-border: {{theme.light.glass_border}};
+  --p31-glass-border-hover: {{theme.light.glass_border_hover}};
+}
