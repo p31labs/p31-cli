@@ -2,6 +2,10 @@
   "name": "@p31ca/cli",
   "version": "3.1.6",
   "mcpName": "org.p31ca/governed-agent-cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/p31labs/p31-cli.git"
+  },
   "description": "Sovereign AI agent for neurodivergent families \u2014 OpenCode face, P31 guts",
   "type": "module",
   "main": "dist/index.js",
