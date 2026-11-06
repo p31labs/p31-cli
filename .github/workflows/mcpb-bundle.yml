@@ -1,0 +1,198 @@
+name: MCPB Bundle (L6-H, publish disabled)
+
+# L6-H: build the frozen .mcpb, verify it, and keep publishing hard-disabled.
+# Do NOT enable publish until: G5 freeze (done 2026-11-06), L9 evidence bundle,
+# secret scan, clean tag, mpak scan report, and explicit human approval.
+# mpak target: L3+; this workflow claims NO level. L6-L attested Level 2
+# (16 passed / 0 failed) for artifact fea9a2e1… ONLY, via pinned
+# mpak-scanner==0.2.2 run locally (persistent /home/p31/.p31/scanner-venv,
+# GRYPE_DB_CACHE_DIR=/home/p31/.p31/grype-db). Attestations are
+# artifact-scoped and do NOT transfer to any rebuilt artifact. See
+# DOCS/evidence/L6/mpak-scan-status.md. Never present the scan step as a pass.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Build/scan only; no publish'
+        required: false
+        default: 'true'
+        type: choice
+        options: ['true', 'false']
+
+permissions:
+  contents: read
+  # L10-B: OIDC/attestation grants moved to job-level `publish-oidc` permissions (scoped containment; enabled jobs no longer inherit OIDC write)
+
+env:
+  NODE_VERSION: '22'
+  PACKAGE_NAME: '@p31ca/cli'
+
+jobs:
+  build-bundle:
+    name: Build, verify, package (.mcpb)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # commit linkage
+
+      - name: Setup Node (OIDC-ready)
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install (lockfile-aware)
+        run: |
+          set -euo pipefail
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            echo "::warning::package-lock.json is not tracked; falling back to npm install."
+            echo "::warning::Reproducibility is degraded until the lockfile is committed (see DOCS/evidence/L6/reproducibility.md)."
+            npm install --no-audit --no-fund
+          fi
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify source anchors (frozen manifest)
+        run: node dist/index.js verify --manifest bundle/manifest.json
+
+      - name: Build .mcpb (deterministic staging)
+        run: node bundle/build.mjs
+
+      - name: Pre-publish gate — verify extracted bundle
+        run: |
+          set -euo pipefail
+          ARTIFACT=$(ls bundle/dist/p31-mcp-governed-agent-cli-*.mcpb)
+          rm -rf .bundle-verify
+          mkdir -p .bundle-verify
+          unzip -q "$ARTIFACT" -d .bundle-verify
+          node dist/index.js verify --bundle .bundle-verify | tee .bundle-verify/verify.log
+          echo "Pre-publish gate passed: every shipped artifact matches the embedded manifest."
+
+      - name: Packaging reproducibility check (two runs)
+        run: |
+          set -euo pipefail
+          ARTIFACT=$(ls bundle/dist/p31-mcp-governed-agent-cli-*.mcpb)
+          H1=$(sha256sum "$ARTIFACT" | cut -d' ' -f1)
+          node bundle/build.mjs
+          H2=$(sha256sum "$ARTIFACT" | cut -d' ' -f1)
+          echo "build 1: $H1"
+          echo "build 2: $H2"
+          test "$H1" = "$H2" || { echo "::error::.mcpb packaging is not reproducible"; exit 1; }
+          echo "$H1  $(basename "$ARTIFACT")" > bundle/dist/REPRODUCIBILITY.txt
+
+      - name: Upload bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcpb-bundle
+          path: |
+            bundle/dist/*.mcpb
+            bundle/dist/*.mcpb.sha256
+            bundle/dist/build-info.json
+            bundle/dist/dist.sha256sum
+            bundle/dist/REPRODUCIBILITY.txt
+            .bundle-verify/verify.log
+
+  mpak-scan:
+    name: mpak / MTF scan (scaffold; pinned mpak-scanner==0.2.2)
+    runs-on: ubuntu-latest
+    needs: build-bundle
+    steps:
+      - name: Download bundle artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mcpb-bundle
+
+      # Scanner scaffold — NOT a passing gate and NOT a level claim.
+      # L6-L ran the pinned scanner locally: mpak-scanner==0.2.2 (pip),
+      # tools under persistent paths /home/p31/.p31/scanner-venv (scanner)
+      # and /home/p31/.p31/grype-db (GRYPE_DB_CACHE_DIR, persistent
+      # process-level cache). GRYPE_DB_CACHE_DIR must point at a
+      # persistent/cached directory when the scan is run, never at a
+      # throwaway /tmp location. Any rebuilt artifact must be rescanned;
+      # prior attestations do not transfer.
+      - name: Scanner scaffold (pinned mpak-scanner==0.2.2; honest status)
+        run: |
+          set -euo pipefail
+          if command -v mpak-scanner >/dev/null 2>&1; then
+            export GRYPE_DB_CACHE_DIR="${GRYPE_DB_CACHE_DIR:-$HOME/.cache/p31-grype-db}"
+            echo "Pinned scanner found on PATH; GRYPE_DB_CACHE_DIR=$GRYPE_DB_CACHE_DIR (persistent path required when run)."
+            mpak-scanner scan bundle/dist/p31-mcp-governed-agent-cli-*.mcpb --output mpak-scan-report.json
+          else
+            {
+              echo "STATUS: NOT RUN"
+              echo "Reason: mpak-scanner is not preinstalled on ubuntu-latest runners."
+              echo "Expected pin: mpak-scanner==0.2.2 (pip install). Persistent process-level cache when run:"
+              echo "GRYPE_DB_CACHE_DIR=/home/p31/.p31/grype-db (L6-L local pattern) or a cached CI path."
+              echo "No trust level is achieved or claimed by this job. See DOCS/evidence/L6/mpak-scan-status.md."
+            } | tee mpak-scan-status.txt
+            echo "::warning::mpak scan NOT RUN - pinned scanner not installed on this runner. Do not describe this job as a pass."
+          fi
+
+      - name: Upload scan report or status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mpak-scan-evidence
+          path: |
+            mpak-scan-report.json
+            mpak-scan-status.txt
+          if-no-files-found: warn
+
+  publish-oidc:
+    name: Publish via OIDC (DISABLED)
+    runs-on: ubuntu-latest
+    needs: [build-bundle, mpak-scan]
+    # Hard-disabled. Flip only after L9 (G4) evidence + human approval.
+    if: ${{ false }}
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    environment: release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download bundle artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mcpb-bundle
+
+      - name: Install
+        run: |
+          set -euo pipefail
+          if [ -f package-lock.json ]; then npm ci; else npm install --no-audit --no-fund; fi
+          npm run build
+
+      - name: Pre-publish gate — p31 verify --bundle
+        run: |
+          set -euo pipefail
+          ARTIFACT=$(ls bundle/dist/p31-mcp-governed-agent-cli-*.mcpb)
+          rm -rf .bundle-verify && mkdir -p .bundle-verify
+          unzip -q "$ARTIFACT" -d .bundle-verify
+          node dist/index.js verify --bundle .bundle-verify
+          test -f mpak-scan-report.json || { echo "::error::mpak scan report missing; refusing to publish"; exit 1; }
+
+      - name: Publish gate (still documentation only)
+        run: |
+          echo "PUBLISH REMAINS DISABLED."
+          echo "Enabling requires: G5 freeze, L9/G4 evidence, secret scan, clean tag,"
+          echo "mpak scan report, and explicit human approval."
+          echo "npm OIDC: npm publish --provenance --access public (trusted publisher configured)."
+          echo "mpak: publish .mcpb via the registry's OIDC/trusted workflow and attach the scan report."
+          exit 1
