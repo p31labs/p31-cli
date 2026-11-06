@@ -6,8 +6,6 @@
 
 ```bash
 # Install
-curl -fsSL https://cli.p31ca.org/install | bash
-
 # Or from source
 git clone https://github.com/p31labs/p31-cli.git
 cd p31-cli
@@ -36,6 +34,48 @@ p31 sync              # Cross-app sync
 - **SQLite Sessions** — Per-session-tree sharding
 - **Ink TUI** — 3 themes, spoon-aware adaptive UI
 - **React Web UI** — xterm.js terminal viewer
+
+## Agent Capability Manifests
+
+**Core principle:** Agents declare *what* they need (capability bucket, latency ceiling, context window, structured-output requirement). They never name a model. The capability router resolves to a concrete model from the pool. This is the technical translation of "never lock an agent to a certain role."
+
+**Location:** `/home/p31/p31-cli/agents/`
+
+**Manifest schema:** `agents/manifest-schema.json` (referenced in `src/types.ts`)
+
+**Available manifests:**
+
+- `agents/build.json` – bucket `fast-code`
+- `agents/plan.json` – bucket `deep-reasoning`
+- `agents/scout.json` – bucket `fast-code`
+
+**Template:**
+
+```json
+{
+  "agentId": "build",
+  "capabilities": ["tool-calling", "structured-json", "code-generation"],
+  "bucket": "fast-code",
+  "constraints": {
+    "maxLatencyMs": 2000,
+    "requireToolCalling": true,
+    "minContextWindow": 128000,
+    Pele: "free"
+  },
+  "toolPermissions": ["read", "write", "shell"],
+  "mcpAllowlist": ["bob", "design-parity", "ground-truth"]
+}
+```
+
+**Behavior under model churn:**
+
+Two agents with identical `bucket` declarations (e.g., `build` and `scout`, both `bucket: "fast-code" and matching capabilities/constraints) resolve to the same routing decision. Changing the concrete model in the pool (e.g., swapping `deepseek-v4-flash` for `claude-opus-4`) does **not** require any change to the agent definition. Their instruction hash (via `loadInstructionSet`) remains the same, so they behave identically.
+
+**Notes:**
+
+- Manifests are **not** static agent roles. They are capabilities declarations that can be dynamically re-evaluated.
+- The `bucket` field is the key routing abstraction used by Lane L1's capability router (see `src/routing/` in L1).
+- No manifest references a model name – models are selected exclusively by the bucket router at runtime.
 
 ## MCP Servers
 

@@ -9,7 +9,7 @@ The MCP ecosystem has a documented security crisis:
 - **42,753 servers** in the MCP Registry as of October 2026, but **zero governance-category servers approved** (issue #978 still open)
 - The A2A Registry specification stalled in August 2026; development redirected to the Agent Registry Definition (ARD)
 
-P31's execution guard, SHA-256 tool fingerprinting, and hash-chained audit trail are direct countermeasures to these documented failure modes.
+P31's execution guard and hash-chained audit trail are runtime countermeasures to these documented failure modes. Tool/skill description fingerprinting exists only as unwired primitives (see §1–2); tool-description governance in 3.1.3 is record-and-flag (heuristic), not enforcement.
 
 ## What Provenance Does (and Does Not) Prove
 
@@ -25,24 +25,23 @@ It does NOT prove:
 
 ## Complementary Trust Artifacts
 
-### 1. Tool Description Fingerprinting (OWASP MCP03 Defense)
+### 1. Tool Description Fingerprinting (OWASP MCP03 — primitives only, not enforced in 3.1.3)
 
-OWASP MCP Top 10 entered Phase 3 (Beta) in 2026. MCP03 Tool Poisoning is the dedicated entry for inference-time poisoning originating from tool definitions. The recommended defenses — schema quarantine, SHA-256 tool pinning at first approval, and rejection of any hash change — are implemented in `computeFingerprint()` and `verifyFingerprints()`.
+OWASP MCP Top 10 entered Phase 3 (Beta) in 2026. MCP03 Tool Poisoning is the dedicated entry for inference-time poisoning originating from tool definitions. The recommended defenses — schema quarantine, SHA-256 tool pinning at first approval, and rejection of any hash change — are **not implemented as an enforced control in P31 3.1.3**. P31 ships fingerprinting *primitives* only:
+
+- `computeFingerprint()` / `verifyFingerprints()` (`src/safety/tool-fingerprint.ts`) hash a tool's canonical `{name, description, inputSchema}` with SHA-256 and return `{ valid, drifted[] }`. **Nothing calls them automatically: they are not wired into startup or tool registration, no fingerprint manifest is generated at build time, and no manifest is committed to the repository. No tool is refused on description drift.**
+- Separately, the L7 runtime path records `descriptionHash` (SHA-256 of the tool description) and a heuristic `descriptionPoisoningRisk` flag (`none`/`suspicious`/`high`) on audit records via `markRetrievedSources()`. This is a **signal for audit, not an enforcement gate**: P31 does **not** reject a session or tool on hash change, and a `suspicious` or `high` flag does not change the guard verdict. Enforcement remains at the execution-guard elicitation boundary (§3).
 
 The 84.2% attack success rate (Invariant Labs, 2026) applies specifically to MCP-connected agents with auto-approval enabled. P31 eliminates auto-approval entirely: every mutating tool call passes through the execution guard before execution.
-Every tool's canonical `{name, description, inputSchema}` is hashed with SHA-256.
-The manifest is committed to the repository and verified at startup. Any drift
-in a tool description is detected before the agent acts on it.
 
-- Implementation: `src/safety/tool-fingerprint.ts`
-- Manifest: Generated at build time, included in `dist/`
-- Verification: `verifyFingerprints()` returns `{ valid, drifted[] }`
+- Implementation (primitives, unwired): `src/safety/tool-fingerprint.ts`
+- Runtime description governance (record-only): `src/mcp-servers/index.ts` `buildToolAttribution()`, `src/safety/guard-audit.ts` `markRetrievedSources()`
+- Verification: `verifyFingerprints()` returns `{ valid, drifted[] }` when called manually; **no automatic check runs in 3.1.3**
 
 ### 2. Skill Instruction Fingerprinting
-SKILL.md files shipped in the `skills/` directory are also fingerprinted.
-A poisoned skill instruction is detected before the agent loads it.
+SKILL.md files shipped in the `skills/` directory can be fingerprinted with `computeSkillFingerprint()` / `generateSkillFingerprints()`. **These helpers are not wired into skill loading; no poisoned-skill detection currently runs before an agent loads a skill.**
 
-- Implementation: `computeSkillFingerprint()` in `src/safety/tool-fingerprint.ts`
+- Implementation (primitives, unwired): `computeSkillFingerprint()` in `src/safety/tool-fingerprint.ts`
 
 ### 3. Execution Guard (Runtime Safety)
 Mutating tool calls are intercepted before execution. The guard evaluates
@@ -84,13 +83,13 @@ All clear (1 server scanned in 16ms)
 ```
 
 Tool-poisoning attack success rates in the wild (2026): ~84.2% (Invariant Labs, Cisco mcp-scanner).
-P31's fingerprint manifest + mcp-scan clean result places it above the baseline.
+P31's execution-guard boundary and the reported mcp-scan clean result are relevant signals; P31 does not claim an enforced tool-description-integrity control in 3.1.3.
 
 ### 7. Evidence Artifacts
 | Artifact | Location | Verification |
 |----------|----------|-------------|
-| Tool fingerprint manifest | `dist/` (generated at build) | `verifyFingerprints()` → `{ valid, drifted[] }` |
-| Skill fingerprints | `src/safety/tool-fingerprint.ts` | `computeSkillFingerprint()` per SKILL.md |
+| Tool fingerprint manifest | **Not generated/committed in 3.1.3** | `verifyFingerprints()` → `{ valid, drifted[] }` (manual call only) |
+| Skill fingerprints | `src/safety/tool-fingerprint.ts` (unwired) | `computeSkillFingerprint()` per SKILL.md (manual only) |
 | Guard audit chain | `~/.p31/guard-audit.jsonl` | `verifyGuardChain()` — Ed25519 + SHA-256 |
 | mcp-scan results | This document | `npx mcp-scan scan --config mcp-config.json` |
 | Guard policy schema | `src/safety/guard-policy.json` | JSON Schema validation |
