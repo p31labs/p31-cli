@@ -12,7 +12,7 @@ I built this because I have a shell-commanding AI agent that doesn't know when I
 
 The CLI ships 135 MCP tools across 12 categories. At spoon level 0 (crisis), only 2 tools are available. At level 1-2, 14 read-only tools. At level 3-4, 16. At level 5, all 135. That's an 89% token reduction at low capacity — the agent physically cannot see the tools it shouldn't call.
 
-Every guard decision is Ed25519-signed and SHA-256 hash-chained (genesis aligned to chainproof standard). Tool descriptions are SHA-256 fingerprinted to detect rug-pulls (OWASP MCP03). The published MCP bridge passed mcp-scan clean (0 issues).
+Every guard decision is Ed25519-signed and SHA-256 hash-chained (genesis aligned to chainproof standard). Tool descriptions are SHA-256 hashed into the audit record with a heuristic poisoning-risk flag — a recorded signal for review, not an enforcement gate; reject-on-change is not implemented. The published MCP bridge passed mcp-scan clean (0 issues).
 
 Try it: `npm install -g @p31ca/cli && p31 mcp list`
 

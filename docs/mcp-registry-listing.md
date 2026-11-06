@@ -12,12 +12,12 @@ A governed AI agent CLI that gates tool execution by cognitive capacity (spoon t
 ## Full Description
 P31 is the first AI CLI that adapts its tool surface to the user's cognitive state. Using spoon theory as a structural constraint (not a UI preference), P31 progressively unlocks tools based on available capacity — from crisis-only (2 tools) to full surface (135 tools). An execution guard intercepts every mutating tool call before it reaches the shell, blocking or escalating based on spoon level and crisis signals.
 
-Unlike general-purpose coding CLIs that compete on benchmark scores, P31 competes on governance that is structural, not advisory. The execution guard, spoon-level gating, and tool fingerprinting are all runtime-enforced, not prompt-level suggestions.
+Unlike general-purpose coding CLIs that compete on benchmark scores, P31 competes on governance that is structural, not advisory. The execution guard and spoon-level gating are runtime-enforced, not prompt-level suggestions. Tool-description governance is record-and-flag (heuristic signal in the audit record), not enforcement and not reject-on-change.
 
 ## Key Differentiators
 1. **Spoon-level tool surface gating** — tools are physically unavailable at low capacity, not just discouraged
 2. **Execution guard** — mutating tool calls intercepted before execution (blocks shell at spoon≤1, elicits on crisis signals)
-3. **Tool fingerprinting** — SHA-256 manifest detects tool description drift (OWASP MCP03 defense)
+3. **Tool description governance** — SHA-256 `descriptionHash` recorded per tool call with a heuristic poisoning-risk flag (`none`/`suspicious`/`high`) in the audit record — signal for review, not enforcement; no reject-on-change (OWASP MCP03-aligned posture, partial)
 4. **135 hardened tools** — full schema audit (descriptions, titles, annotations, inputSchema properties)
 5. **Progressive discovery** — search_tools + get_tool_details reduce context bloat per MCP spec best practices
 6. **Compound orchestrators** — programmatic tool calling collapses multi-tool chains into single calls
