@@ -37,7 +37,7 @@ jobs:
 
   publish:
     needs: test
-    if: github.ref == 'refs/heads/main'
+    if: false # G4 gate (v10.0 L10-A): disabled on main push; owner must enable deliberately
     runs-on: ubuntu-latest
     permissions:
       contents: read
