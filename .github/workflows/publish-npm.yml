@@ -45,6 +45,9 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Verify tool manifest
+        run: node scripts/verify-tool-manifest.mjs
+
       - name: Build
         run: npm run build
 
